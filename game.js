@@ -110,6 +110,25 @@ function openCalculator() {
     }
 }
 
+// 計算式の最後の入力タイプを判別
+function getLastInputType(inputValue) {
+    if (!inputValue) return null;
+    
+    const lastChar = inputValue.trim().slice(-1);
+    
+    if (!isNaN(lastChar) && lastChar !== ' ') {
+        return 'number';
+    } else if (lastChar === '(') {
+        return 'openParen';
+    } else if (lastChar === ')') {
+        return 'closeParen';
+    } else if (['+', '-', '*', '/'].includes(lastChar)) {
+        return 'operator';
+    }
+    
+    return null;
+}
+
 // 計算機ボタンの処理
 function handleCalculatorButton(e) {
     const button = e.target;
@@ -149,14 +168,22 @@ function handleCalculatorButton(e) {
                 });
             }
             
-            // lastButtonTypeをリセット
-            gameState.lastButtonType = null;
+            // 削除後の計算式の最後の文字に基づいてlastButtonTypeを設定
+            gameState.lastButtonType = getLastInputType(newValue);
+            // エラーメッセージをクリア
+            feedbackDiv.textContent = '';
+            feedbackDiv.className = 'feedback';
         }
     } else if (button.classList.contains('number-btn')) {
         // 数字ボタンの場合
         if (gameState.lastButtonType === 'number') {
             // 前回も数字ボタンだった場合、警告を表示
             showFeedback('演算子または、かっこを選択してください', 'error');
+            return;
+        }
+        if (gameState.lastButtonType === 'closeParen') {
+            // 閉じ括弧の後は数字を入力できない
+            showFeedback('演算子を選択してください', 'error');
             return;
         }
         if (!button.disabled) {
@@ -180,19 +207,51 @@ function handleCalculatorButton(e) {
             return;
         }
         
-        if (gameState.lastButtonType === 'operator') {
-            // 前回も演算子ボタンだった場合、警告を表示
-            showFeedback('数字を選択してください', 'error');
-            return;
-        }
-        answerInput.value = currentValue.slice(0, cursorPosition) + value + currentValue.slice(cursorPosition);
-        // カーソル位置を調整
-        answerInput.setSelectionRange(cursorPosition + value.length, cursorPosition + value.length);
-        gameState.lastButtonType = 'operator';
-        // エラーメッセージをクリア（数字連続のエラーのみ）
-        if (feedbackDiv.textContent === '演算子または、かっこを選択してください') {
-            feedbackDiv.textContent = '';
-            feedbackDiv.className = 'feedback';
+        // 括弧の場合
+        if (value === '(' || value === ')') {
+            // 開き括弧は最初または演算子の後のみ許可
+            if (value === '(') {
+                if (currentValue !== '' && gameState.lastButtonType !== 'operator') {
+                    showFeedback('演算子を選択してください', 'error');
+                    return;
+                }
+            }
+            answerInput.value = currentValue.slice(0, cursorPosition) + value + currentValue.slice(cursorPosition);
+            // カーソル位置を調整
+            answerInput.setSelectionRange(cursorPosition + value.length, cursorPosition + value.length);
+            // 開き括弧の後は数字のみ入力可能
+            if (value === '(') {
+                gameState.lastButtonType = 'openParen'; // 開き括弧専用の状態
+            } else {
+                // 閉じ括弧の後は演算子が必要
+                gameState.lastButtonType = 'closeParen'; // 閉じ括弧専用の状態
+            }
+            // エラーメッセージをクリア
+            if (feedbackDiv.textContent === '演算子または、かっこを選択してください') {
+                feedbackDiv.textContent = '';
+                feedbackDiv.className = 'feedback';
+            }
+        } else {
+            // 通常の演算子（+、−、×、/）の場合
+            // 開き括弧の直後は演算子を入力できない
+            if (gameState.lastButtonType === 'openParen') {
+                showFeedback('数字を選択してください', 'error');
+                return;
+            }
+            if (gameState.lastButtonType === 'operator') {
+                // 前回も演算子ボタンだった場合、警告を表示
+                showFeedback('数字を選択してください', 'error');
+                return;
+            }
+            answerInput.value = currentValue.slice(0, cursorPosition) + value + currentValue.slice(cursorPosition);
+            // カーソル位置を調整
+            answerInput.setSelectionRange(cursorPosition + value.length, cursorPosition + value.length);
+            gameState.lastButtonType = 'operator';
+            // エラーメッセージをクリア（数字連続のエラーのみ）
+            if (feedbackDiv.textContent === '演算子または、かっこを選択してください') {
+                feedbackDiv.textContent = '';
+                feedbackDiv.className = 'feedback';
+            }
         }
     }
     
