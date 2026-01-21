@@ -76,6 +76,65 @@ h1 {
     font-weight: bold;
 }
 
+.level-card {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.level-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.level-select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.dropdown-arrow {
+    font-size: 0.8em;
+    opacity: 0.9;
+    cursor: pointer;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.level-select {
+    display: block;
+    font-size: 1.2em;
+    font-weight: bold;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    width: auto;
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.level-select:hover {
+    opacity: 0.9;
+}
+
+.level-select:focus {
+    outline: none;
+}
+
+.level-select option {
+    background: #667eea;
+    color: white;
+}
+
 .numbers-container {
     display: flex;
     justify-content: center;
@@ -320,6 +379,13 @@ h1 {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-equals {
+    font-size: 1.8em;
+    font-weight: bold;
+    padding: 8px 20px;
+    min-width: 60px;
 }
 
 .btn-primary:hover {

@@ -16,16 +16,23 @@
         <div class="game-status">
             <div class="game-info">
                 <div class="info-card">
-                    <span class="label">スコア</span>
-                    <span class="value" id="score">0</span>
+                    <span class="label">正解率</span>
+                    <span class="value" id="accuracy">0%</span>
                 </div>
                 <div class="info-card">
                     <span class="label">連続正解</span>
                     <span class="value" id="streak">0</span>
                 </div>
-                <div class="info-card">
+                <div class="info-card level-card">
                     <span class="label">レベル</span>
-                    <span class="value" id="level">1</span>
+                    <div class="level-select-wrapper">
+                        <select id="levelSelect" class="level-select">
+                            <option value="1">やさしい</option>
+                            <option value="2">ふつう</option>
+                            <option value="3">むずかしい</option>
+                        </select>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,9 +41,9 @@
             <label for="answer">計算式を入力してください：</label>
             <div class="input-with-buttons">
                 <input type="text" id="answer" placeholder="例: 8 / (3 - 8/3)" autocomplete="off">
+                <button id="submitBtn" class="btn-primary btn-equals">=</button>
                 <button class="calc-btn backspace-btn" data-value="backspace">←</button>
                 <button class="calc-btn clear-btn" data-value="clear">クリア</button>
-                <button id="submitBtn" class="btn-primary">チェック</button>
             </div>
             <div class="all-buttons-row">
                 <button class="calc-btn number-btn" data-value="">1</button>
@@ -55,9 +62,9 @@
         <div id="feedback" class="feedback"></div>
 
         <div class="action-buttons">
+            <button id="calculatorBtn" class="btn-secondary">🔢 電卓</button>
             <button id="hintBtn" class="btn-secondary">💡 ヒント</button>
             <button id="solutionBtn" class="btn-secondary">📝 解答例</button>
-            <button id="calculatorBtn" class="btn-secondary">🔢 電卓</button>
             <button id="newGameBtn" class="btn-secondary">🔄 次の問題</button>
         </div>
 
