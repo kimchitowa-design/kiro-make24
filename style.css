@@ -572,13 +572,14 @@ h1 {
     .input-with-buttons input {
         width: 100%;
         margin-bottom: 10px;
-    }
-    
-    .input-with-buttons #submitBtn {
-        order: 2;
+        order: 1;
     }
     
     .input-with-buttons .backspace-btn {
+        order: 2;
+    }
+    
+    .input-with-buttons #submitBtn {
         order: 3;
     }
     
