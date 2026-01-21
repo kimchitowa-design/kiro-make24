@@ -654,15 +654,21 @@ function generateNewNumbers() {
         
         // 括弧の有無をチェック
         const hasParentheses = pattern.solution.includes('(') || pattern.solution.includes(')');
+        const hasDivision = pattern.solution.includes('/');
         
         // レベル1の場合は、括弧なしの問題のみ
         if (gameState.level === 1 && hasParentheses) {
             return false;
         }
         
-        // レベル2の場合は、必ず×を含む問題のみ
+        // レベル2の場合は、必ず×と括弧を含む問題のみ
         if (gameState.level === 2) {
-            return hasAllowedOps && pattern.solution.includes('*');
+            return hasAllowedOps && pattern.solution.includes('*') && hasParentheses;
+        }
+        
+        // レベル3の場合は、必ず括弧と÷を含む問題のみ
+        if (gameState.level === 3) {
+            return hasAllowedOps && hasParentheses && hasDivision;
         }
         
         return hasAllowedOps;
@@ -720,8 +726,15 @@ function generateNewNumbers() {
                 // レベル1: 括弧なしの解答のみ
                 filteredSolutions = testSolutions.filter(sol => !sol.includes('(') && !sol.includes(')'));
             } else if (gameState.level === 2) {
-                // レベル2: ×を含む解答のみ
-                filteredSolutions = testSolutions.filter(sol => sol.includes('*'));
+                // レベル2: ×と括弧を両方含む解答のみ
+                filteredSolutions = testSolutions.filter(sol => 
+                    sol.includes('*') && (sol.includes('(') || sol.includes(')'))
+                );
+            } else if (gameState.level === 3) {
+                // レベル3: 括弧と÷を両方含む解答のみ
+                filteredSolutions = testSolutions.filter(sol => 
+                    (sol.includes('(') || sol.includes(')')) && sol.includes('/')
+                );
             }
             
             // より多くの解答が見つかった場合、または初回の場合は更新
@@ -757,6 +770,10 @@ function generateNewNumbers() {
                     // レベル2用：×を使う問題
                     gameState.currentNumbers = [1, 2, 3, 4];
                     gameState.solutions = ['(1 + 2 + 3) * 4'];
+                } else if (gameState.level === 3) {
+                    // レベル3用：括弧と÷を使う問題
+                    gameState.currentNumbers = [1, 3, 4, 6];
+                    gameState.solutions = ['6 / (1 - 3 / 4)'];
                 } else {
                     gameState.currentNumbers = [6, 6, 6, 6];
                     gameState.solutions = ['6 + 6 + 6 + 6'];
