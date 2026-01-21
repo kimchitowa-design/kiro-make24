@@ -86,9 +86,17 @@ function openCalculator() {
         const isIOS = /iphone|ipad|ipod/.test(userAgent);
         
         if (isAndroid) {
-            // Androidの電卓を開く
-            window.location.href = 'intent://calculator/#Intent;scheme=android;package=com.android.calculator2;end';
-            showFeedback('電卓アプリを開いています...', 'info');
+            // Androidの電卓を開く（より汎用的な方法）
+            // まず一般的なIntentを試す
+            const intentUrl = 'intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_CALCULATOR;end';
+            window.location.href = intentUrl;
+            
+            // フォールバック：数秒後にメッセージを表示
+            setTimeout(() => {
+                if (document.hasFocus()) {
+                    showFeedback('電卓アプリが見つかりません。手動で電卓アプリを開いてください。', 'info');
+                }
+            }, 1000);
         } else if (isIOS) {
             // iOSの場合はメッセージを表示（iOSは外部アプリを直接開けない）
             showFeedback('ホーム画面から電卓アプリを開いてください', 'info');
