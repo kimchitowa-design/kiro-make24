@@ -37,6 +37,7 @@ const submitBtn = document.getElementById('submitBtn');
 const feedbackDiv = document.getElementById('feedback');
 const hintBtn = document.getElementById('hintBtn');
 const solutionBtn = document.getElementById('solutionBtn');
+const calculatorBtn = document.getElementById('calculatorBtn');
 const newGameBtn = document.getElementById('newGameBtn');
 const scoreSpan = document.getElementById('score');
 const streakSpan = document.getElementById('streak');
@@ -59,6 +60,7 @@ function attachEventListeners() {
     });
     hintBtn.addEventListener('click', showHint);
     solutionBtn.addEventListener('click', showSolution);
+    calculatorBtn.addEventListener('click', openCalculator);
     newGameBtn.addEventListener('click', generateNewNumbers);
     closeModal.addEventListener('click', () => {
         hintModal.style.display = 'none';
@@ -75,11 +77,34 @@ function attachEventListeners() {
     });
 }
 
+// 電卓を開く
+function openCalculator() {
+    try {
+        // Windowsの電卓を開く
+        window.open('calculator://', '_blank');
+        
+        // 代替方法：calc.exeを実行（ブラウザでは動作しない可能性があります）
+        // この機能はブラウザのセキュリティ制限により動作しない場合があります
+        showFeedback('電卓アプリを開いています...', 'info');
+        
+        // タイムアウト後にメッセージをクリア
+        setTimeout(() => {
+            if (feedbackDiv.textContent === '電卓アプリを開いています...') {
+                feedbackDiv.textContent = '';
+                feedbackDiv.className = 'feedback';
+            }
+        }, 2000);
+    } catch (error) {
+        showFeedback('電卓を開けませんでした。Windowsの電卓アプリを手動で開いてください。', 'error');
+    }
+}
+
 // 計算機ボタンの処理
 function handleCalculatorButton(e) {
     const button = e.target;
     const value = button.dataset.value;
     const currentValue = answerInput.value;
+    const cursorPosition = answerInput.selectionStart;
     
     if (value === 'clear') {
         answerInput.value = '';
@@ -92,6 +117,30 @@ function handleCalculatorButton(e) {
         // 警告メッセージをクリア
         feedbackDiv.textContent = '';
         feedbackDiv.className = 'feedback';
+    } else if (value === 'backspace') {
+        // Backspace処理：カーソル位置の左の文字を削除
+        if (cursorPosition > 0) {
+            const newValue = currentValue.slice(0, cursorPosition - 1) + currentValue.slice(cursorPosition);
+            answerInput.value = newValue;
+            // カーソル位置を調整
+            answerInput.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
+            
+            // 削除した文字が数字だった場合、そのボタンを再度有効化
+            const deletedChar = currentValue[cursorPosition - 1];
+            if (!isNaN(deletedChar) && deletedChar !== ' ') {
+                const numberButtons = document.querySelectorAll('.number-btn');
+                numberButtons.forEach(btn => {
+                    if (btn.dataset.value === deletedChar && btn.disabled) {
+                        btn.disabled = false;
+                        btn.classList.remove('disabled');
+                        return;
+                    }
+                });
+            }
+            
+            // lastButtonTypeをリセット
+            gameState.lastButtonType = null;
+        }
     } else if (button.classList.contains('number-btn')) {
         // 数字ボタンの場合
         if (gameState.lastButtonType === 'number') {
@@ -100,7 +149,9 @@ function handleCalculatorButton(e) {
             return;
         }
         if (!button.disabled) {
-            answerInput.value = currentValue + value;
+            answerInput.value = currentValue.slice(0, cursorPosition) + value + currentValue.slice(cursorPosition);
+            // カーソル位置を調整
+            answerInput.setSelectionRange(cursorPosition + value.length, cursorPosition + value.length);
             button.disabled = true;
             button.classList.add('disabled');
             gameState.lastButtonType = 'number';
@@ -123,7 +174,9 @@ function handleCalculatorButton(e) {
             showFeedback('数字を選択してください', 'error');
             return;
         }
-        answerInput.value = currentValue + value;
+        answerInput.value = currentValue.slice(0, cursorPosition) + value + currentValue.slice(cursorPosition);
+        // カーソル位置を調整
+        answerInput.setSelectionRange(cursorPosition + value.length, cursorPosition + value.length);
         gameState.lastButtonType = 'operator';
         // エラーメッセージをクリア（数字連続のエラーのみ）
         if (feedbackDiv.textContent === '演算子または、かっこを選択してください') {
@@ -164,15 +217,7 @@ function generateNewNumbers() {
 
 // 数字を表示
 function displayNumbers() {
-    numbersContainer.innerHTML = '';
-    gameState.currentNumbers.forEach(num => {
-        const card = document.createElement('div');
-        card.className = 'number-card';
-        card.textContent = num;
-        numbersContainer.appendChild(card);
-    });
-    
-    // 計算機ボタンの数字を更新
+    // 数字カードの表示は削除されたため、計算機ボタンの更新のみ
     updateCalculatorNumbers();
 }
 

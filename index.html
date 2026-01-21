@@ -28,23 +28,17 @@
                     <span class="value" id="level">1</span>
                 </div>
             </div>
-
-            <div class="numbers-container" id="numbersContainer">
-                <div class="number-card">8</div>
-                <div class="number-card">8</div>
-                <div class="number-card">3</div>
-                <div class="number-card">3</div>
-            </div>
         </div>
 
         <div class="input-section">
             <label for="answer">計算式を入力してください：</label>
-            <div class="input-with-button">
+            <div class="input-with-buttons">
                 <input type="text" id="answer" placeholder="例: 8 / (3 - 8/3)" autocomplete="off">
+                <button class="calc-btn backspace-btn" data-value="backspace">←</button>
                 <button class="calc-btn clear-btn" data-value="clear">クリア</button>
                 <button id="submitBtn" class="btn-primary">チェック</button>
             </div>
-            <div class="calculator-buttons">
+            <div class="all-buttons-row">
                 <button class="calc-btn number-btn" data-value="">1</button>
                 <button class="calc-btn number-btn" data-value="">2</button>
                 <button class="calc-btn number-btn" data-value="">3</button>
@@ -63,6 +57,7 @@
         <div class="action-buttons">
             <button id="hintBtn" class="btn-secondary">💡 ヒント</button>
             <button id="solutionBtn" class="btn-secondary">📝 解答例</button>
+            <button id="calculatorBtn" class="btn-secondary">🔢 電卓</button>
             <button id="newGameBtn" class="btn-secondary">🔄 次の問題</button>
         </div>
 
