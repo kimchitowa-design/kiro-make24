@@ -80,22 +80,33 @@ function attachEventListeners() {
 // 電卓を開く
 function openCalculator() {
     try {
-        // Windowsの電卓を開く
-        window.open('calculator://', '_blank');
+        // デバイスの種類を判定
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isAndroid = userAgent.indexOf('android') > -1;
+        const isIOS = /iphone|ipad|ipod/.test(userAgent);
         
-        // 代替方法：calc.exeを実行（ブラウザでは動作しない可能性があります）
-        // この機能はブラウザのセキュリティ制限により動作しない場合があります
-        showFeedback('電卓アプリを開いています...', 'info');
+        if (isAndroid) {
+            // Androidの電卓を開く
+            window.location.href = 'intent://calculator/#Intent;scheme=android;package=com.android.calculator2;end';
+            showFeedback('電卓アプリを開いています...', 'info');
+        } else if (isIOS) {
+            // iOSの場合はメッセージを表示（iOSは外部アプリを直接開けない）
+            showFeedback('ホーム画面から電卓アプリを開いてください', 'info');
+        } else {
+            // PCの場合はWindowsの電卓を開く
+            window.open('calculator://', '_blank');
+            showFeedback('電卓アプリを開いています...', 'info');
+        }
         
         // タイムアウト後にメッセージをクリア
         setTimeout(() => {
-            if (feedbackDiv.textContent === '電卓アプリを開いています...') {
+            if (feedbackDiv.classList.contains('info')) {
                 feedbackDiv.textContent = '';
                 feedbackDiv.className = 'feedback';
             }
-        }, 2000);
+        }, 3000);
     } catch (error) {
-        showFeedback('電卓を開けませんでした。Windowsの電卓アプリを手動で開いてください。', 'error');
+        showFeedback('電卓を開けませんでした。デバイスの電卓アプリを手動で開いてください。', 'error');
     }
 }
 
