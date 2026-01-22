@@ -4,12 +4,11 @@ let gameState = {
     level: 1,
     solutions: [],
     lastButtonType: null, // 最後に押したボタンの種類を記録
-    usedProblems: new Set(), // 出題済みの問題を記録
     // レベルごとの統計情報
     levelStats: {
-        1: { totalAttempts: 0, correctAnswers: 0, streak: 0 },
-        2: { totalAttempts: 0, correctAnswers: 0, streak: 0 },
-        3: { totalAttempts: 0, correctAnswers: 0, streak: 0 }
+        1: { totalAttempts: 0, correctAnswers: 0, streak: 0, currentProblemIndex: 0 },
+        2: { totalAttempts: 0, correctAnswers: 0, streak: 0, currentProblemIndex: 0 },
+        3: { totalAttempts: 0, correctAnswers: 0, streak: 0, currentProblemIndex: 0 }
     }
 };
 
@@ -20,27 +19,91 @@ const levelConfig = {
     3: { min: 1, max: 13, operators: ['+', '-', '*', '/', '(', ')'], requiresParentheses: true }
 };
 
+// レベル別の問題リスト
+const levelProblems = {
+    1: [], // レベル1の問題（後で設定）
+    2: [], // レベル2の問題（後で設定）
+    3: []  // レベル3の問題（後で設定）
+};
+
 // 既知の解答パターン
 const knownSolutions = [
-    { numbers: [8, 8, 3, 3], solution: '8 / (3 - 8/3)' },
-    { numbers: [1, 2, 3, 4], solution: '(1 + 2 + 3) * 4' },
-    { numbers: [2, 3, 4, 5], solution: '4 * (5 + 3 - 2)' },
-    { numbers: [6, 6, 6, 6], solution: '6 + 6 + 6 + 6' },
-    { numbers: [1, 3, 4, 6], solution: '6 / (1 - 3/4)' },
-    { numbers: [3, 3, 8, 8], solution: '8 / (3 - 8/3)' },
-    { numbers: [1, 5, 5, 5], solution: '5 * (5 - 1/5)' },
-    { numbers: [2, 2, 6, 8], solution: '(8 - 2) * (6 - 2)' },
-    { numbers: [3, 4, 5, 6], solution: '6 * (5 - 4 + 3)' },
-    // レベル1用（括弧なしで解ける問題）
-    { numbers: [1, 3, 4, 5], solution: '1 + 3 + 4 * 5' },
+    // レベル1用（括弧なしで解ける問題）- すべて手計算で検証済み
+    { numbers: [1, 2, 3, 4], solution: '1 * 2 * 3 * 4' },
+    { numbers: [1, 5, 5, 6], solution: '6 * 5 - 5 - 1' },
     { numbers: [1, 7, 8, 8], solution: '1 + 7 + 8 + 8' },
+    { numbers: [2, 2, 2, 3], solution: '2 * 2 * 2 * 3' },
+    { numbers: [2, 2, 4, 8], solution: '2 * 2 * 4 + 8' },
+    { numbers: [2, 2, 6, 6], solution: '2 * 6 + 2 * 6' },
     { numbers: [2, 6, 8, 8], solution: '2 + 6 + 8 + 8' },
+    { numbers: [3, 3, 3, 3], solution: '3 * 3 * 3 - 3' },
+    { numbers: [3, 3, 4, 4], solution: '3 * 4 + 3 * 4' },
     { numbers: [3, 5, 8, 8], solution: '3 + 5 + 8 + 8' },
+    { numbers: [3, 6, 7, 8], solution: '3 + 6 + 7 + 8' },
+    { numbers: [4, 4, 4, 4], solution: '4 + 4 + 4 * 4' },
     { numbers: [4, 4, 8, 8], solution: '4 + 4 + 8 + 8' },
-    // レベル2用（×と括弧を使う問題）
-    { numbers: [1, 2, 6, 6], solution: '(1 + 2) * 6 + 6' },
-    { numbers: [2, 4, 5, 6], solution: '(2 + 4) * 5 - 6' }
+    { numbers: [4, 5, 7, 8], solution: '4 + 5 + 7 + 8' },
+    { numbers: [5, 5, 5, 5], solution: '5 * 5 - 5 / 5' },
+    { numbers: [5, 5, 7, 7], solution: '5 * 5 - 7 / 7' },
+    { numbers: [5, 6, 6, 7], solution: '5 + 6 + 6 + 7' },
+    { numbers: [6, 6, 6, 6], solution: '6 + 6 + 6 + 6' },
+    // レベル2用（×と括弧を使う問題）- 手計算で検証済み
+    { numbers: [1, 2, 3, 4], solution: '(1 + 2 + 3) * 4' },      // 6*4 = 24
+    { numbers: [1, 2, 6, 6], solution: '(1 + 2) * 6 + 6' },      // 3*6+6 = 24
+    { numbers: [2, 2, 6, 8], solution: '(8 - 2) * (6 - 2)' },    // 6*4 = 24
+    { numbers: [2, 3, 4, 5], solution: '4 * (5 + 3 - 2)' },      // 4*6 = 24
+    { numbers: [2, 4, 5, 6], solution: '(2 + 4) * 5 - 6' },      // 6*5-6 = 24
+    { numbers: [3, 4, 5, 6], solution: '6 * (5 - 4 + 3)' },      // 6*4 = 24
+    // レベル3用（括弧と÷を使う問題）
+    { numbers: [1, 3, 4, 6], solution: '6 / (1 - 3/4)' },
+    { numbers: [8, 8, 3, 3], solution: '8 / (3 - 8/3)' },
+    { numbers: [1, 5, 5, 5], solution: '5 * (5 - 1/5)' },
+    { numbers: [1, 3, 6, 8], solution: '8 * 6 / (3 - 1)' },
+    { numbers: [2, 3, 4, 8], solution: '(2 + 4) * 8 / 2' },
+    { numbers: [2, 3, 6, 9], solution: '(2 + 6) * 9 / 3' }
 ];
+
+// 問題リストを初期化
+function initializeProblemLists() {
+    knownSolutions.forEach(problem => {
+        const hasParentheses = problem.solution.includes('(') || problem.solution.includes(')');
+        const hasDivision = problem.solution.includes('/');
+        const hasMultiplication = problem.solution.includes('*');
+        
+        // レベル1: 括弧なしの問題
+        if (!hasParentheses) {
+            levelProblems[1].push(problem);
+        }
+        // レベル3: 括弧と÷を両方含む問題（レベル2より優先）
+        else if (hasParentheses && hasDivision) {
+            levelProblems[3].push(problem);
+        }
+        // レベル2: ×と括弧を含む問題（÷を含まない）
+        else if (hasMultiplication && hasParentheses) {
+            levelProblems[2].push(problem);
+        }
+    });
+    
+    // 各レベルの問題を数字の昇順にソート
+    for (let level = 1; level <= 3; level++) {
+        levelProblems[level].sort((a, b) => {
+            const sortedA = [...a.numbers].sort((x, y) => x - y);
+            const sortedB = [...b.numbers].sort((x, y) => x - y);
+            
+            // 数字を1つずつ比較
+            for (let i = 0; i < 4; i++) {
+                if (sortedA[i] !== sortedB[i]) {
+                    return sortedA[i] - sortedB[i];
+                }
+            }
+            return 0;
+        });
+    }
+    
+    console.log('Level 1 problems:', levelProblems[1].length);
+    console.log('Level 2 problems:', levelProblems[2].length);
+    console.log('Level 3 problems:', levelProblems[3].length);
+}
 
 // 解答不可能な組み合わせ
 const impossibleCombinations = [
@@ -345,6 +408,7 @@ const levelSelect = document.getElementById('levelSelect');
 
 // 初期化
 function init() {
+    initializeProblemLists(); // 問題リストを初期化
     generateNewNumbers();
     attachEventListeners();
     updatePlaceholder(); // 初期プレースホルダーを設定
@@ -390,7 +454,7 @@ function attachEventListeners() {
     });
     hintBtn.addEventListener('click', showHint);
     solutionBtn.addEventListener('click', showSolution);
-    newGameBtn.addEventListener('click', generateNewNumbers);
+    newGameBtn.addEventListener('click', skipToNextProblem);
     levelSelect.addEventListener('change', handleLevelChange);
     
     // 計算機ボタンのイベントリスナー
@@ -399,13 +463,21 @@ function attachEventListeners() {
     });
 }
 
+// 次の問題にスキップ
+function skipToNextProblem() {
+    const stats = getCurrentStats();
+    stats.currentProblemIndex++;
+    generateNewNumbers();
+}
+
 // レベル変更時の処理
 function handleLevelChange() {
     const newLevel = parseInt(levelSelect.value);
     // レベルは1-3の範囲に制限
     gameState.level = Math.min(Math.max(newLevel, 1), 3);
-    gameState.usedProblems.clear(); // 使用済み問題をリセット
-    console.log('レベル変更：使用済み問題をリセットしました');
+    // 現在のレベルの問題インデックスをリセット
+    gameState.levelStats[gameState.level].currentProblemIndex = 0;
+    console.log('レベル変更：問題インデックスをリセットしました');
     updatePlaceholder(); // プレースホルダーを更新
     updateDisplay(); // 新しいレベルの統計を表示
     generateNewNumbers();
@@ -536,6 +608,24 @@ function handleCalculatorButton(e) {
                     return;
                 }
             }
+            
+            // 閉じ括弧の場合、開き括弧が存在するかチェック
+            if (value === ')') {
+                const openCount = (currentValue.match(/\(/g) || []).length;
+                const closeCount = (currentValue.match(/\)/g) || []).length;
+                
+                if (openCount <= closeCount) {
+                    showFeedback('開き括弧が入力されていません', 'error');
+                    return;
+                }
+                
+                // 演算子の直後は閉じ括弧を入力できない
+                if (gameState.lastButtonType === 'operator') {
+                    showFeedback('演算子の後に閉じ括弧は入力できません', 'error');
+                    return;
+                }
+            }
+            
             answerInput.value = currentValue.slice(0, cursorPosition) + value + currentValue.slice(cursorPosition);
             // カーソル位置を調整
             answerInput.setSelectionRange(cursorPosition + value.length, cursorPosition + value.length);
@@ -594,159 +684,51 @@ function getProblemKey(numbers) {
 
 // 新しい数字を生成
 function generateNewNumbers() {
-    const config = levelConfig[gameState.level] || levelConfig[1];
+    const stats = getCurrentStats();
+    const problems = levelProblems[gameState.level];
     
-    // 既知の解答パターンから70%の確率で選択（レベルに応じてフィルタリング）
-    const allowedOperators = config.operators || ['+', '-', '*', '/', '(', ')'];
-    const requiresParentheses = config.requiresParentheses !== undefined ? config.requiresParentheses : true;
-    
-    const validKnownSolutions = knownSolutions.filter(pattern => {
-        const usedOperators = pattern.solution.match(/[\+\-\*\/\(\)]/g) || [];
-        const hasAllowedOps = usedOperators.every(op => allowedOperators.includes(op));
-        
-        // 括弧の有無をチェック
-        const hasParentheses = pattern.solution.includes('(') || pattern.solution.includes(')');
-        const hasDivision = pattern.solution.includes('/');
-        
-        // レベル1の場合は、括弧なしの問題のみ
-        if (gameState.level === 1 && hasParentheses) {
-            return false;
-        }
-        
-        // レベル2の場合は、必ず×と括弧を含む問題のみ
-        if (gameState.level === 2) {
-            return hasAllowedOps && pattern.solution.includes('*') && hasParentheses;
-        }
-        
-        // レベル3の場合は、必ず括弧と÷を含む問題のみ
-        if (gameState.level === 3) {
-            return hasAllowedOps && hasParentheses && hasDivision;
-        }
-        
-        return hasAllowedOps;
-    });
-    
-    if (Math.random() < 0.7 && validKnownSolutions.length > 0) {
-        // 未使用の既知パターンを探す
-        const unusedPatterns = validKnownSolutions.filter(pattern => {
-            const key = getProblemKey(pattern.numbers);
-            return !gameState.usedProblems.has(key);
-        });
-        
-        if (unusedPatterns.length > 0) {
-            const pattern = unusedPatterns[Math.floor(Math.random() * unusedPatterns.length)];
-            gameState.currentNumbers = [...pattern.numbers];
-            gameState.solutions = [pattern.solution];
-            gameState.usedProblems.add(getProblemKey(pattern.numbers));
-        } else {
-            // すべて使い切った場合はリセット
-            gameState.usedProblems.clear();
-            const pattern = validKnownSolutions[Math.floor(Math.random() * validKnownSolutions.length)];
-            gameState.currentNumbers = [...pattern.numbers];
-            gameState.solutions = [pattern.solution];
-            gameState.usedProblems.add(getProblemKey(pattern.numbers));
-        }
-    } else {
-        // ランダム生成（複数解答が見つかる問題を優先、かつ未使用の問題）
-        let attempts = 0;
-        const maxAttempts = 50;
-        let bestNumbers = null;
-        let bestSolutions = [];
-        
-        // 複数回試行して、最も解答パターンが多い未使用の問題を選ぶ
-        for (let i = 0; i < 20; i++) {
-            const testNumbers = [];
-            for (let j = 0; j < 4; j++) {
-                testNumbers.push(
-                    Math.floor(Math.random() * (config.max - config.min + 1)) + config.min
-                );
-            }
-            
-            const key = getProblemKey(testNumbers);
-            
-            // 既に使用済みの問題はスキップ
-            if (gameState.usedProblems.has(key)) {
-                continue;
-            }
-            
-            const testSolutions = findSolutions(testNumbers);
-            
-            // レベルに応じて解答をフィルタリング
-            let filteredSolutions = testSolutions;
-            
-            if (gameState.level === 1) {
-                // レベル1: 括弧なしの解答のみ
-                filteredSolutions = testSolutions.filter(sol => !sol.includes('(') && !sol.includes(')'));
-            } else if (gameState.level === 2) {
-                // レベル2: ×と括弧を両方含む解答のみ
-                filteredSolutions = testSolutions.filter(sol => 
-                    sol.includes('*') && (sol.includes('(') || sol.includes(')'))
-                );
-            } else if (gameState.level === 3) {
-                // レベル3: 括弧と÷を両方含む解答のみ
-                filteredSolutions = testSolutions.filter(sol => 
-                    (sol.includes('(') || sol.includes(')')) && sol.includes('/')
-                );
-            }
-            
-            // より多くの解答が見つかった場合、または初回の場合は更新
-            if (filteredSolutions.length > bestSolutions.length) {
-                bestNumbers = testNumbers;
-                bestSolutions = filteredSolutions;
-            }
-            
-            // 3つ以上の解答が見つかったら十分なので終了
-            if (bestSolutions.length >= 3) {
-                break;
-            }
-        }
-        
-        // 解答が見つからなかった、または全て使い切った場合
-        if (bestSolutions.length === 0) {
-            // 使用済み問題をリセット
-            gameState.usedProblems.clear();
-            console.log('問題をリセットしました');
-            
-            if (validKnownSolutions.length > 0) {
-                const pattern = validKnownSolutions[Math.floor(Math.random() * validKnownSolutions.length)];
-                gameState.currentNumbers = [...pattern.numbers];
-                gameState.solutions = [pattern.solution];
-                gameState.usedProblems.add(getProblemKey(pattern.numbers));
-            } else {
-                // それでも見つからない場合は、レベルに応じたフォールバック
-                if (gameState.level === 1) {
-                    // レベル1用：括弧なしで解ける問題
-                    gameState.currentNumbers = [1, 2, 3, 6];
-                    gameState.solutions = ['1 + 2 + 3 * 6'];
-                } else if (gameState.level === 2) {
-                    // レベル2用：×を使う問題
-                    gameState.currentNumbers = [1, 2, 3, 4];
-                    gameState.solutions = ['(1 + 2 + 3) * 4'];
-                } else if (gameState.level === 3) {
-                    // レベル3用：括弧と÷を使う問題
-                    gameState.currentNumbers = [1, 3, 4, 6];
-                    gameState.solutions = ['6 / (1 - 3 / 4)'];
-                } else {
-                    gameState.currentNumbers = [6, 6, 6, 6];
-                    gameState.solutions = ['6 + 6 + 6 + 6'];
-                }
-                gameState.usedProblems.add(getProblemKey(gameState.currentNumbers));
-            }
-        } else {
-            gameState.currentNumbers = bestNumbers;
-            gameState.solutions = bestSolutions;
-            gameState.usedProblems.add(getProblemKey(bestNumbers));
-        }
-        
-        console.log('Generated problem with', gameState.solutions.length, 'solutions');
-        console.log('Used problems:', gameState.usedProblems.size);
+    // 問題リストが空の場合
+    if (!problems || problems.length === 0) {
+        console.error('このレベルには問題がありません');
+        showFeedback('このレベルには問題がありません', 'error');
+        return;
     }
+    
+    // すべての問題をクリアした場合、最初に戻る
+    if (stats.currentProblemIndex >= problems.length) {
+        stats.currentProblemIndex = 0;
+        showFeedback('🎉 すべての問題をクリアしました！最初から再開します', 'success');
+    }
+    
+    // 現在の問題を取得
+    const currentProblem = problems[stats.currentProblemIndex];
+    // 数字を昇順にソート
+    gameState.currentNumbers = [...currentProblem.numbers].sort((a, b) => a - b);
+    gameState.solutions = [currentProblem.solution];
+    
+    // 問題番号を更新
+    updateProblemNumber();
+    
+    console.log(`レベル${gameState.level} 問題 ${stats.currentProblemIndex + 1}/${problems.length}`);
+    console.log('Numbers:', gameState.currentNumbers);
+    console.log('Solution:', gameState.solutions[0]);
     
     displayNumbers();
     answerInput.value = '';
     feedbackDiv.textContent = '';
     feedbackDiv.className = 'feedback';
     gameState.lastButtonType = null;
+}
+
+// 問題番号を更新
+function updateProblemNumber() {
+    const stats = getCurrentStats();
+    const problems = levelProblems[gameState.level];
+    const problemNumberSpan = document.getElementById('problemNumber');
+    
+    if (problemNumberSpan && problems) {
+        problemNumberSpan.textContent = `(問題 ${stats.currentProblemIndex + 1}/${problems.length})`;
+    }
 }
 
 // 数字を表示
@@ -869,6 +851,8 @@ function handleCorrectAnswer() {
     updateDisplay();
     
     setTimeout(() => {
+        // 次の問題に進む
+        stats.currentProblemIndex++;
         generateNewNumbers();
     }, 2000);
 }
