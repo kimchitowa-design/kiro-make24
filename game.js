@@ -1,13 +1,16 @@
 // ゲーム状態
 let gameState = {
     currentNumbers: [],
-    totalAttempts: 0,
-    correctAnswers: 0,
-    streak: 0,
     level: 1,
     solutions: [],
     lastButtonType: null, // 最後に押したボタンの種類を記録
-    usedProblems: new Set() // 出題済みの問題を記録
+    usedProblems: new Set(), // 出題済みの問題を記録
+    // レベルごとの統計情報
+    levelStats: {
+        1: { totalAttempts: 0, correctAnswers: 0, streak: 0 },
+        2: { totalAttempts: 0, correctAnswers: 0, streak: 0 },
+        3: { totalAttempts: 0, correctAnswers: 0, streak: 0 }
+    }
 };
 
 // レベル別の数字生成設定
@@ -344,6 +347,7 @@ const levelSelect = document.getElementById('levelSelect');
 function init() {
     generateNewNumbers();
     attachEventListeners();
+    updatePlaceholder(); // 初期プレースホルダーを設定
     
     // レベルカード全体をクリック可能にする
     const levelCard = document.querySelector('.level-card');
@@ -400,11 +404,21 @@ function handleLevelChange() {
     const newLevel = parseInt(levelSelect.value);
     // レベルは1-3の範囲に制限
     gameState.level = Math.min(Math.max(newLevel, 1), 3);
-    gameState.streak = 0; // 連続正解をリセット
     gameState.usedProblems.clear(); // 使用済み問題をリセット
     console.log('レベル変更：使用済み問題をリセットしました');
-    updateDisplay();
+    updatePlaceholder(); // プレースホルダーを更新
+    updateDisplay(); // 新しいレベルの統計を表示
     generateNewNumbers();
+}
+
+// プレースホルダーをレベルに応じて更新
+function updatePlaceholder() {
+    const placeholders = {
+        1: '例: 1 + 3 + 4 * 5',
+        2: '例: (1 + 2) * 6 + 6',
+        3: '例: 6 / (1 - 3/4)'
+    };
+    answerInput.placeholder = placeholders[gameState.level] || '例: 8 / (3 - 8/3)';
 }
 
 // 電卓を開く
@@ -832,9 +846,10 @@ function checkAnswer() {
         if (Math.abs(result - 24) < 0.0001) {
             handleCorrectAnswer();
         } else {
-            gameState.totalAttempts++;
+            const stats = getCurrentStats();
+            stats.totalAttempts++;
             showFeedback(`残念！答えは ${result.toFixed(2)} です。24を目指しましょう！`, 'error');
-            gameState.streak = 0;
+            stats.streak = 0;
             updateDisplay();
         }
     } catch (error) {
@@ -844,9 +859,10 @@ function checkAnswer() {
 
 // 正解時の処理
 function handleCorrectAnswer() {
-    gameState.streak++;
-    gameState.correctAnswers++;
-    gameState.totalAttempts++;
+    const stats = getCurrentStats();
+    stats.streak++;
+    stats.correctAnswers++;
+    stats.totalAttempts++;
     
     showFeedback(`🎉 正解！`, 'success');
     
@@ -864,14 +880,21 @@ function showFeedback(message, type) {
 }
 
 // 表示を更新
+// 現在のレベルの統計情報を取得
+function getCurrentStats() {
+    return gameState.levelStats[gameState.level];
+}
+
 function updateDisplay() {
+    const stats = getCurrentStats();
+    
     // 正解率を計算
-    const accuracy = gameState.totalAttempts > 0 
-        ? Math.round((gameState.correctAnswers / gameState.totalAttempts) * 100)
+    const accuracy = stats.totalAttempts > 0 
+        ? Math.round((stats.correctAnswers / stats.totalAttempts) * 100)
         : 0;
     
     accuracySpan.textContent = accuracy + '%';
-    streakSpan.textContent = gameState.streak;
+    streakSpan.textContent = stats.streak;
     levelSelect.value = gameState.level;
 }
 
@@ -908,7 +931,8 @@ function showSolution() {
     }
     
     // 解答例を見ると連続正解がリセットされる
-    gameState.streak = 0;
+    const stats = getCurrentStats();
+    stats.streak = 0;
     updateDisplay();
 }
 
