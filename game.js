@@ -15,8 +15,8 @@ let gameState = {
 
 // レベル別の数字生成設定
 const levelConfig = {
-    1: { min: 1, max: 9, operators: ['+', '-', '*', '(', ')'], requiresParentheses: false },
-    2: { min: 1, max: 12, operators: ['+', '-', '*', '(', ')'], requiresParentheses: true },
+    1: { min: 1, max: 9, operators: ['+', '-', '*', '/', '(', ')'], requiresParentheses: false },
+    2: { min: 1, max: 12, operators: ['+', '-', '*', '/', '(', ')'], requiresParentheses: true },
     3: { min: 1, max: 13, operators: ['+', '-', '*', '/', '(', ')'], requiresParentheses: true }
 };
 

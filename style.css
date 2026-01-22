@@ -327,13 +327,13 @@ h1 {
 }
 
 .number-btn {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    border-color: #f5576c;
+    border-color: #667eea;
 }
 
 .number-btn:hover {
-    background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
 }
 
 .number-btn.disabled {
@@ -348,47 +348,49 @@ h1 {
 }
 
 .operator-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border-color: #667eea;
+    background: #e3f2fd;
+    color: #1976d2;
+    border-color: #90caf9;
+    font-weight: bold;
+    font-size: 1.5em;
 }
 
 .operator-btn:hover {
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    background: #bbdefb;
 }
 
 .submit-btn {
-    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    background: linear-gradient(135deg, #ff9800 0%, #ff6f00 100%);
     color: white;
-    border-color: #4CAF50;
+    border-color: #ff9800;
     font-size: 1.2em;
     font-weight: bold;
 }
 
 .submit-btn:hover {
-    background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+    background: linear-gradient(135deg, #ff6f00 0%, #ff9800 100%);
 }
 
 .clear-btn {
-    background: #ff6b6b;
-    color: white;
-    border-color: #ff6b6b;
+    background: #f0f0f0;
+    color: #333;
+    border-color: #ddd;
 }
 
 .clear-btn:hover {
-    background: #ff5252;
+    background: #e0e0e0;
 }
 
 .backspace-btn {
-    background: #ffa726;
-    color: white;
-    border-color: #ffa726;
+    background: #f0f0f0;
+    color: #333;
+    border-color: #ddd;
     min-width: 60px;
-    font-size: 1.2em;
+    font-size: 0.85em;
 }
 
 .backspace-btn:hover {
-    background: #ff9800;
+    background: #e0e0e0;
 }
 
 .btn-primary, .btn-secondary {
