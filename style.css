@@ -575,12 +575,23 @@ h1 {
 }
 
 @media (max-width: 768px) {
+    body {
+        padding: 10px;
+        align-items: flex-start;
+        padding-top: 10px;
+    }
+
     .container {
-        padding: 20px;
+        padding: 15px;
     }
 
     h1 {
-        font-size: 2em;
+        font-size: 1.8em;
+        margin-bottom: 10px;
+    }
+
+    header {
+        margin-bottom: 15px;
     }
 
     .number-card {
@@ -589,6 +600,7 @@ h1 {
 
     .game-status {
         flex-direction: column;
+        margin-bottom: 15px;
     }
 
     .input-with-buttons {
