@@ -586,6 +586,19 @@ h1 {
     .input-with-buttons input {
         width: 100%;
         margin-bottom: 10px;
+        order: 1;
+    }
+    
+    .input-with-buttons .backspace-btn {
+        order: 2;
+    }
+    
+    .input-with-buttons #submitBtn {
+        order: 3;
+    }
+    
+    .input-with-buttons .clear-btn {
+        order: 4;
     }
 
     .input-with-buttons .btn-primary {
@@ -609,7 +622,27 @@ h1 {
 
     .game-info {
         grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        gap: 8px;
+    }
+    
+    .info-card {
+        padding: 8px 5px;
+    }
+    
+    .info-card .label {
+        font-size: 0.7em;
+    }
+    
+    .info-card .value {
+        font-size: 1.2em;
+    }
+    
+    .level-select {
+        font-size: 1em;
+    }
+    
+    .dropdown-arrow {
+        font-size: 0.7em;
     }
 
     .action-buttons {
