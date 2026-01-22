@@ -357,6 +357,18 @@ h1 {
     background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
 }
 
+.submit-btn {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    border-color: #4CAF50;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+}
+
 .clear-btn {
     background: #ff6b6b;
     color: white;
@@ -413,7 +425,7 @@ h1 {
 
 .action-buttons {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     margin-bottom: 20px;
 }

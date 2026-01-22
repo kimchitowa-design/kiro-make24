@@ -29,36 +29,14 @@ const knownSolutions = [
     { numbers: [2, 2, 6, 8], solution: '(8 - 2) * (6 - 2)' },
     { numbers: [3, 4, 5, 6], solution: '6 * (5 - 4 + 3)' },
     // レベル1用（括弧なしで解ける問題）
-    { numbers: [1, 2, 3, 6], solution: '1 + 2 + 3 * 6' },
     { numbers: [1, 3, 4, 5], solution: '1 + 3 + 4 * 5' },
-    { numbers: [2, 3, 4, 4], solution: '2 + 3 * 4 + 4' },
-    { numbers: [1, 5, 6, 6], solution: '1 + 5 + 6 * 6' },
-    { numbers: [2, 4, 5, 5], solution: '2 + 4 + 5 * 5' },
-    { numbers: [3, 3, 5, 6], solution: '3 + 3 + 5 * 6' },
     { numbers: [1, 7, 8, 8], solution: '1 + 7 + 8 + 8' },
     { numbers: [2, 6, 8, 8], solution: '2 + 6 + 8 + 8' },
     { numbers: [3, 5, 8, 8], solution: '3 + 5 + 8 + 8' },
     { numbers: [4, 4, 8, 8], solution: '4 + 4 + 8 + 8' },
-    { numbers: [2, 3, 6, 7], solution: '2 * 3 + 6 + 7' },
-    { numbers: [1, 4, 5, 8], solution: '1 * 4 + 5 + 8' },
-    { numbers: [2, 5, 6, 6], solution: '2 * 5 + 6 + 6' },
-    { numbers: [3, 4, 4, 6], solution: '3 * 4 + 4 + 6' },
-    { numbers: [1, 3, 8, 8], solution: '1 + 3 + 8 + 8' },
-    { numbers: [2, 2, 9, 9], solution: '2 + 2 + 9 + 9' },
-    { numbers: [1, 1, 2, 9], solution: '1 + 1 + 2 * 9' },
-    { numbers: [2, 2, 4, 7], solution: '2 + 2 + 4 * 7' },
-    { numbers: [1, 1, 3, 8], solution: '1 + 1 + 3 * 8' },
-    // レベル2用（×を使う問題、括弧必要）
-    { numbers: [1, 2, 4, 6], solution: '(1 + 2) * 4 * 6' },
-    { numbers: [2, 2, 3, 4], solution: '2 * 3 * (2 + 4)' },
-    { numbers: [1, 3, 3, 8], solution: '(1 + 3) * 3 * 8' },
-    { numbers: [2, 3, 4, 4], solution: '(2 + 4) * 3 + 4' },
+    // レベル2用（×と括弧を使う問題）
     { numbers: [1, 2, 6, 6], solution: '(1 + 2) * 6 + 6' },
-    { numbers: [2, 3, 3, 6], solution: '(2 + 3) * 3 + 6' },
-    { numbers: [1, 4, 5, 5], solution: '(1 + 4) * 5 - 5' },
-    { numbers: [3, 3, 4, 5], solution: '(3 + 4) * 3 + 5' },
-    { numbers: [2, 4, 5, 6], solution: '(2 + 4) * 5 - 6' },
-    { numbers: [1, 3, 5, 7], solution: '(1 + 3) * 7 - 5' }
+    { numbers: [2, 4, 5, 6], solution: '(2 + 4) * 5 - 6' }
 ];
 
 // 解答不可能な組み合わせ
@@ -357,14 +335,10 @@ const submitBtn = document.getElementById('submitBtn');
 const feedbackDiv = document.getElementById('feedback');
 const hintBtn = document.getElementById('hintBtn');
 const solutionBtn = document.getElementById('solutionBtn');
-const calculatorBtn = document.getElementById('calculatorBtn');
 const newGameBtn = document.getElementById('newGameBtn');
 const accuracySpan = document.getElementById('accuracy');
 const streakSpan = document.getElementById('streak');
 const levelSelect = document.getElementById('levelSelect');
-const hintModal = document.getElementById('hintModal');
-const hintText = document.getElementById('hintText');
-const closeModal = document.querySelector('.close');
 
 // 初期化
 function init() {
@@ -375,9 +349,13 @@ function init() {
     const levelCard = document.querySelector('.level-card');
     const dropdownArrow = document.querySelector('.dropdown-arrow');
     
+    console.log('Level card found:', levelCard);
+    console.log('Dropdown arrow found:', dropdownArrow);
+    
     if (levelCard && dropdownArrow) {
         // レベルカードをクリックしたらセレクトボックスを開く
         levelCard.addEventListener('click', (e) => {
+            console.log('Level card clicked');
             // セレクトボックス自体のクリックでない場合のみ処理
             if (e.target !== levelSelect) {
                 levelSelect.focus();
@@ -395,6 +373,8 @@ function init() {
                 }
             }
         });
+    } else {
+        console.error('Level card or dropdown arrow not found!');
     }
 }
 
@@ -406,17 +386,8 @@ function attachEventListeners() {
     });
     hintBtn.addEventListener('click', showHint);
     solutionBtn.addEventListener('click', showSolution);
-    calculatorBtn.addEventListener('click', openCalculator);
     newGameBtn.addEventListener('click', generateNewNumbers);
     levelSelect.addEventListener('change', handleLevelChange);
-    closeModal.addEventListener('click', () => {
-        hintModal.style.display = 'none';
-    });
-    window.addEventListener('click', (e) => {
-        if (e.target === hintModal) {
-            hintModal.style.display = 'none';
-        }
-    });
     
     // 計算機ボタンのイベントリスナー
     document.querySelectorAll('.calc-btn').forEach(btn => {
@@ -437,46 +408,6 @@ function handleLevelChange() {
 }
 
 // 電卓を開く
-function openCalculator() {
-    try {
-        // デバイスの種類を判定
-        const userAgent = navigator.userAgent.toLowerCase();
-        const isAndroid = userAgent.indexOf('android') > -1;
-        const isIOS = /iphone|ipad|ipod/.test(userAgent);
-        
-        if (isAndroid) {
-            // Androidの電卓を開く（より汎用的な方法）
-            // まず一般的なIntentを試す
-            const intentUrl = 'intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_CALCULATOR;end';
-            window.location.href = intentUrl;
-            
-            // フォールバック：数秒後にメッセージを表示
-            setTimeout(() => {
-                if (document.hasFocus()) {
-                    showFeedback('電卓アプリが見つかりません。手動で電卓アプリを開いてください。', 'info');
-                }
-            }, 1000);
-        } else if (isIOS) {
-            // iOSの場合はメッセージを表示（iOSは外部アプリを直接開けない）
-            showFeedback('ホーム画面から電卓アプリを開いてください', 'info');
-        } else {
-            // PCの場合はWindowsの電卓を開く
-            window.open('calculator://', '_blank');
-            showFeedback('電卓アプリを開いています...', 'info');
-        }
-        
-        // タイムアウト後にメッセージをクリア
-        setTimeout(() => {
-            if (feedbackDiv.classList.contains('info')) {
-                feedbackDiv.textContent = '';
-                feedbackDiv.className = 'feedback';
-            }
-        }, 3000);
-    } catch (error) {
-        showFeedback('電卓を開けませんでした。デバイスの電卓アプリを手動で開いてください。', 'error');
-    }
-}
-
 // 計算式の最後の入力タイプを判別
 function getLastInputType(inputValue) {
     if (!inputValue) return null;
@@ -498,8 +429,14 @@ function getLastInputType(inputValue) {
 
 // 計算機ボタンの処理
 function handleCalculatorButton(e) {
-    const button = e.target;
+    const button = e.currentTarget; // e.target から e.currentTarget に変更
     const value = button.dataset.value;
+    
+    // valueが未定義の場合は処理しない
+    if (value === undefined) {
+        return;
+    }
+    
     const currentValue = answerInput.value;
     const cursorPosition = answerInput.selectionStart;
     
@@ -522,17 +459,19 @@ function handleCalculatorButton(e) {
             // カーソル位置を調整
             answerInput.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
             
-            // 削除した文字が数字だった場合、そのボタンを再度有効化
+            // 削除した文字が数字だった場合、そのボタンを1つだけ再度有効化
             const deletedChar = currentValue[cursorPosition - 1];
             if (!isNaN(deletedChar) && deletedChar !== ' ') {
                 const numberButtons = document.querySelectorAll('.number-btn');
-                numberButtons.forEach(btn => {
-                    if (btn.dataset.value === deletedChar && btn.disabled) {
+                let enabled = false;
+                for (let btn of numberButtons) {
+                    if (btn.dataset.value === deletedChar && btn.disabled && !enabled) {
                         btn.disabled = false;
                         btn.classList.remove('disabled');
-                        return;
+                        enabled = true;
+                        break; // 1つだけ有効化したら終了
                     }
-                });
+                }
             }
             
             // 削除後の計算式の最後の文字に基づいてlastButtonTypeを設定
@@ -941,11 +880,10 @@ function showHint() {
     if (gameState.solutions.length > 0) {
         const solution = gameState.solutions[0];
         const hint = generateHint(solution);
-        hintText.textContent = hint;
+        showFeedback(hint, 'info');
     } else {
-        hintText.textContent = 'この問題は少し難しいです。いろいろな組み合わせを試してみてください！大きな数を作ってから調整するか、分数を使うと解けるかもしれません。';
+        showFeedback('この問題は少し難しいです。いろいろな組み合わせを試してみてください！大きな数を作ってから調整するか、分数を使うと解けるかもしれません。', 'info');
     }
-    hintModal.style.display = 'block';
 }
 
 // ヒント生成
