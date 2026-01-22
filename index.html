@@ -10,7 +10,6 @@
     <div class="container">
         <header>
             <h1>🎯 Make 24</h1>
-            <p class="subtitle">4つの数字を使って24を作ろう！</p>
         </header>
 
         <div class="game-status">
@@ -38,12 +37,9 @@
         </div>
 
         <div class="input-section">
-            <label for="answer">計算式を入力してください：</label>
+            <label for="answer">4つの数字を使った計算式で24をつくろう</label>
             <div class="input-with-buttons">
                 <input type="text" id="answer" placeholder="例: 8 / (3 - 8/3)" autocomplete="off">
-                <button id="submitBtn" class="btn-primary btn-equals">=</button>
-                <button class="calc-btn backspace-btn" data-value="backspace">←</button>
-                <button class="calc-btn clear-btn" data-value="clear">クリア</button>
             </div>
             <div class="all-buttons-row">
                 <button class="calc-btn number-btn" data-value="">1</button>
@@ -57,6 +53,11 @@
                 <button class="calc-btn operator-btn" data-value="(">(</button>
                 <button class="calc-btn operator-btn" data-value=")">)</button>
             </div>
+            <div class="action-buttons-row">
+                <button id="submitBtn" class="calc-btn submit-btn">=</button>
+                <button class="calc-btn backspace-btn" data-value="backspace">←</button>
+                <button class="calc-btn clear-btn" data-value="clear">クリア</button>
+            </div>
         </div>
 
         <div id="feedback" class="feedback"></div>
@@ -66,16 +67,6 @@
             <button id="hintBtn" class="btn-secondary">💡 ヒント</button>
             <button id="solutionBtn" class="btn-secondary">📝 解答例</button>
             <button id="newGameBtn" class="btn-secondary">🔄 次の問題</button>
-        </div>
-
-        <div class="rules">
-            <h3>ルール</h3>
-            <ul>
-                <li>4つの数字すべてを1回ずつ使う</li>
-                <li>四則演算（+、-、*、/）と括弧が使える</li>
-                <li>答えが24になればクリア！</li>
-                <li>難易度が上がるほど高得点</li>
-            </ul>
         </div>
 
         <div id="hintModal" class="modal">

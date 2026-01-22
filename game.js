@@ -39,7 +39,6 @@ const knownSolutions = [
     { numbers: [2, 6, 8, 8], solution: '2 + 6 + 8 + 8' },
     { numbers: [3, 5, 8, 8], solution: '3 + 5 + 8 + 8' },
     { numbers: [4, 4, 8, 8], solution: '4 + 4 + 8 + 8' },
-    { numbers: [1, 2, 7, 7], solution: '1 * 2 + 7 + 7' },
     { numbers: [2, 3, 6, 7], solution: '2 * 3 + 6 + 7' },
     { numbers: [1, 4, 5, 8], solution: '1 * 4 + 5 + 8' },
     { numbers: [2, 5, 6, 6], solution: '2 * 5 + 6 + 6' },
