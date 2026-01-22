@@ -387,6 +387,7 @@ h1 {
     border-color: #ddd;
     min-width: 60px;
     font-size: 0.85em;
+    font-weight: normal;
 }
 
 .backspace-btn:hover {
