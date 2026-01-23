@@ -454,6 +454,11 @@ h1 {
     margin-bottom: 20px;
 }
 
+.action-buttons .btn-secondary {
+    font-size: 0.9em;
+    padding: 12px 8px;
+}
+
 .btn-secondary {
     background: #f0f0f0;
     color: #333;
