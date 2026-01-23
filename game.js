@@ -7,9 +7,9 @@ let gameState = {
     solutionShown: false, // 現在の問題で解答例を表示したかどうか
     // レベルごとの統計情報
     levelStats: {
-        1: { totalAttempts: 0, correctAnswers: 0, streak: 0, currentProblemIndex: 0, shownSolutions: new Set() },
-        2: { totalAttempts: 0, correctAnswers: 0, streak: 0, currentProblemIndex: 0, shownSolutions: new Set() },
-        3: { totalAttempts: 0, correctAnswers: 0, streak: 0, currentProblemIndex: 0, shownSolutions: new Set() }
+        1: { totalAttempts: 0, correctAnswers: 0, streak: 0, currentProblemIndex: 0, shownSolutions: new Set(), answerHistory: {} },
+        2: { totalAttempts: 0, correctAnswers: 0, streak: 0, currentProblemIndex: 0, shownSolutions: new Set(), answerHistory: {} },
+        3: { totalAttempts: 0, correctAnswers: 0, streak: 0, currentProblemIndex: 0, shownSolutions: new Set(), answerHistory: {} }
     }
 };
 
@@ -531,9 +531,29 @@ function getLastInputType(inputValue) {
 function handleCalculatorButton(e) {
     const button = e.currentTarget; // e.target から e.currentTarget に変更
     const value = button.dataset.value;
+    const stats = getCurrentStats();
     
     // valueが未定義の場合は処理しない
     if (value === undefined) {
+        return;
+    }
+    
+    // 回答済みの問題は入力できない
+    if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
+        showFeedback('この問題は回答済みです。採点するまで再挑戦できません', 'error');
+        
+        // 3秒後に元の結果を再表示（アニメーションなし）
+        setTimeout(() => {
+            const answer = stats.answerHistory[stats.currentProblemIndex];
+            if (answer.isCorrect) {
+                showFeedback(`✅ 正解済み: ${answer.formula}`, 'success', true);
+            } else if (answer.showedSolution) {
+                showFeedback(`解答例: ${gameState.solutions[0]}`, 'info', true);
+            } else {
+                showFeedback(`❌ 不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', true);
+            }
+        }, 3000);
+        
         return;
     }
     
@@ -737,6 +757,9 @@ function generateNewNumbers() {
     // この問題が解答例を表示済みかどうかをチェック
     gameState.solutionShown = stats.shownSolutions.has(stats.currentProblemIndex);
     
+    // この問題が回答済みかどうかをチェック
+    const hasAnswered = stats.answerHistory.hasOwnProperty(stats.currentProblemIndex);
+    
     // 問題番号を更新
     updateProblemNumber();
     
@@ -744,13 +767,24 @@ function generateNewNumbers() {
     console.log('Numbers:', gameState.currentNumbers);
     console.log('Solution:', gameState.solutions[0]);
     console.log('Solution shown:', gameState.solutionShown);
+    console.log('Has answered:', hasAnswered);
     
     displayNumbers();
     answerInput.value = '';
     
-    // 解答例を表示済みの問題の場合、解答例を表示
-    if (gameState.solutionShown) {
-        showFeedback(`解答例: ${gameState.solutions[0]}`, 'info');
+    // 回答済みの問題の場合、回答結果を表示（アニメーションなし）
+    if (hasAnswered) {
+        const answer = stats.answerHistory[stats.currentProblemIndex];
+        if (answer.isCorrect) {
+            showFeedback(`✅ 正解済み: ${answer.formula}`, 'success', true);
+        } else if (answer.showedSolution) {
+            showFeedback(`解答例: ${gameState.solutions[0]}`, 'info', true);
+        } else {
+            showFeedback(`❌ 不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', true);
+        }
+    } else if (gameState.solutionShown) {
+        // 解答例を表示済みの問題の場合、解答例を表示
+        showFeedback(`解答例: ${gameState.solutions[0]}`, 'info', true);
     } else {
         feedbackDiv.textContent = '';
         feedbackDiv.className = 'feedback';
@@ -830,6 +864,26 @@ function isValidOperatorsForLevel(expression) {
 // 答えをチェック
 function checkAnswer() {
     const userAnswer = answerInput.value.trim();
+    const stats = getCurrentStats();
+    
+    // 回答済みの問題は回答できない
+    if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
+        showFeedback('この問題は回答済みです。採点するまで再挑戦できません', 'error');
+        
+        // 3秒後に元の結果を再表示（アニメーションなし）
+        setTimeout(() => {
+            const answer = stats.answerHistory[stats.currentProblemIndex];
+            if (answer.isCorrect) {
+                showFeedback(`✅ 正解済み: ${answer.formula}`, 'success', true);
+            } else if (answer.showedSolution) {
+                showFeedback(`解答例: ${gameState.solutions[0]}`, 'info', true);
+            } else {
+                showFeedback(`❌ 不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', true);
+            }
+        }, 3000);
+        
+        return;
+    }
     
     // 解答例を表示した問題は回答できない
     if (gameState.solutionShown) {
@@ -882,6 +936,15 @@ function checkAnswer() {
             handleCorrectAnswer();
         } else {
             const stats = getCurrentStats();
+            
+            // 回答履歴を保存（不正解）
+            stats.answerHistory[stats.currentProblemIndex] = {
+                formula: userAnswer,
+                isCorrect: false,
+                result: result,
+                timestamp: new Date().toISOString()
+            };
+            
             stats.totalAttempts++;
             showFeedback(`残念！答えは ${result.toFixed(2)} です。24を目指しましょう！`, 'error');
             stats.streak = 0;
@@ -895,6 +958,15 @@ function checkAnswer() {
 // 正解時の処理
 function handleCorrectAnswer() {
     const stats = getCurrentStats();
+    const userAnswer = answerInput.value.trim();
+    
+    // 回答履歴を保存
+    stats.answerHistory[stats.currentProblemIndex] = {
+        formula: userAnswer,
+        isCorrect: true,
+        timestamp: new Date().toISOString()
+    };
+    
     stats.streak++;
     stats.correctAnswers++;
     stats.totalAttempts++;
@@ -902,18 +974,18 @@ function handleCorrectAnswer() {
     showFeedback(`🎉 正解！`, 'success');
     
     updateDisplay();
-    
-    setTimeout(() => {
-        // 次の問題に進む
-        stats.currentProblemIndex++;
-        generateNewNumbers();
-    }, 2000);
 }
 
 // フィードバック表示
-function showFeedback(message, type) {
+function showFeedback(message, type, noAnimation = false) {
     feedbackDiv.textContent = message;
-    feedbackDiv.className = `feedback ${type}`;
+    if (noAnimation) {
+        // アニメーションなしで表示
+        feedbackDiv.className = `feedback ${type} no-animation`;
+    } else {
+        // 通常のアニメーション付き表示
+        feedbackDiv.className = `feedback ${type}`;
+    }
 }
 
 // 表示を更新
@@ -940,9 +1012,42 @@ function showSolution() {
     // 現在のレベルと問題インデックスを取得
     const stats = getCurrentStats();
     
+    // 回答済みの問題の場合、解答例を表示して数秒後に元の結果に戻す
+    if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
+        const answer = stats.answerHistory[stats.currentProblemIndex];
+        
+        // 解答例を表示
+        if (gameState.solutions.length > 0) {
+            showFeedback(`解答例: ${gameState.solutions[0]}`, 'info', true);
+        } else {
+            showFeedback('この問題の解答例が見つかりません。24にならない可能性があります。AIに相談してみましょう', 'info', true);
+        }
+        
+        // 3秒後に元の回答結果に戻す
+        setTimeout(() => {
+            if (answer.isCorrect) {
+                showFeedback(`✅ 正解済み: ${answer.formula}`, 'success', true);
+            } else if (answer.showedSolution) {
+                showFeedback(`解答例: ${gameState.solutions[0]}`, 'info', true);
+            } else {
+                showFeedback(`❌ 不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', true);
+            }
+        }, 3000);
+        
+        return;
+    }
+    
     // まだ解答例を表示していない問題の場合のみ試行回数を増やす
     if (!gameState.solutionShown) {
         stats.totalAttempts++;
+        
+        // 回答履歴を保存（解答例表示）
+        stats.answerHistory[stats.currentProblemIndex] = {
+            formula: '解答例を表示',
+            isCorrect: false,
+            showedSolution: true,
+            timestamp: new Date().toISOString()
+        };
     }
     
     // 解答例を表示したフラグを立てる
@@ -1014,14 +1119,20 @@ function executeGrading() {
     stats.streak = 0;
     stats.currentProblemIndex = 0;
     stats.shownSolutions.clear();
+    stats.answerHistory = {}; // 回答履歴もリセット
     
     console.log('採点後の全レベル統計:', JSON.parse(JSON.stringify(gameState.levelStats)));
     
     updateDisplay();
     generateNewNumbers();
     
+    // 半角数字を全角数字に変換
+    const toFullWidth = (num) => {
+        return String(num).replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) + 0xFEE0));
+    };
+    
     // 採点結果をフィードバックエリアに表示（generateNewNumbers後に表示）
-    const message = `【${levelName}レベル 採点結果】 正解数: ${correctAnswers}/${totalProblems}問 / 正解率: ${accuracy}%`;
+    const message = `【採点結果　レベル：${levelName}】\n正解数${toFullWidth(correctAnswers)}問（全${toFullWidth(totalProblems)}問）｜　正解率${toFullWidth(accuracy)}％`;
     showFeedback(message, 'success');
     
     // フィードバックエリア以外をクリックしたら採点結果を消す
