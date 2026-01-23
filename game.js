@@ -492,9 +492,6 @@ function handleLevelChange() {
     const newLevel = parseInt(levelSelect.value);
     // レベルは1-3の範囲に制限
     gameState.level = Math.min(Math.max(newLevel, 1), 3);
-    // 現在のレベルの問題インデックスをリセット
-    gameState.levelStats[gameState.level].currentProblemIndex = 0;
-    console.log('レベル変更：問題インデックスをリセットしました');
     updatePlaceholder(); // プレースホルダーを更新
     updateDisplay(); // 新しいレベルの統計を表示
     generateNewNumbers();
@@ -966,11 +963,40 @@ function showSolution() {
 
 // 採点を表示
 function showGrading() {
-    // 採点確認
-    if (!confirm('採点しますか？')) {
-        return;
-    }
+    // カスタム確認ダイアログを表示
+    const dialog = document.getElementById('customConfirmDialog');
+    dialog.classList.add('show');
     
+    // はいボタンのイベントリスナー（一度だけ実行）
+    const yesBtn = document.getElementById('confirmYes');
+    const noBtn = document.getElementById('confirmNo');
+    
+    const handleYes = () => {
+        dialog.classList.remove('show');
+        executeGrading();
+        yesBtn.removeEventListener('click', handleYes);
+        noBtn.removeEventListener('click', handleNo);
+    };
+    
+    const handleNo = () => {
+        dialog.classList.remove('show');
+        yesBtn.removeEventListener('click', handleYes);
+        noBtn.removeEventListener('click', handleNo);
+    };
+    
+    yesBtn.addEventListener('click', handleYes);
+    noBtn.addEventListener('click', handleNo);
+    
+    // 背景クリックで閉じる
+    dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+            handleNo();
+        }
+    });
+}
+
+// 採点を実行
+function executeGrading() {
     const stats = getCurrentStats();
     const problems = levelProblems[gameState.level];
     const totalProblems = problems.length;

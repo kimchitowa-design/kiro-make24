@@ -51,8 +51,8 @@
 
         <div class="action-buttons">
             <button id="prevBtn" class="btn-secondary">⬅️ 前の問題</button>
-            <button id="solutionBtn" class="btn-secondary">📝 解答例</button>
             <button id="newGameBtn" class="btn-secondary">➡️ 次の問題</button>
+            <button id="solutionBtn" class="btn-secondary">📝 解答例</button>
             <button id="gradeBtn" class="btn-secondary">📊 採点</button>
         </div>
 
@@ -77,6 +77,17 @@
                         <span class="dropdown-arrow">▼</span>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- カスタム確認ダイアログ -->
+    <div id="customConfirmDialog" class="custom-dialog">
+        <div class="custom-dialog-content">
+            <p id="customConfirmMessage">採点しますか？</p>
+            <div class="custom-dialog-buttons">
+                <button id="confirmYes" class="btn-confirm-yes">はい</button>
+                <button id="confirmNo" class="btn-confirm-no">いいえ</button>
             </div>
         </div>
     </div>

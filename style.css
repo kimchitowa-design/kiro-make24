@@ -458,6 +458,8 @@ h1 {
     background: #f0f0f0;
     color: #333;
     white-space: nowrap;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .btn-secondary:hover {
@@ -722,12 +724,12 @@ h1 {
     }
 
     .action-buttons {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 5px;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 3px;
     }
     
     .action-buttons .btn-secondary {
-        font-size: 0.85em;
+        font-size: 0.8em;
         padding: 10px 5px;
         white-space: nowrap;
     }
@@ -749,4 +751,79 @@ h1 {
     .input-with-button .btn-primary {
         width: 100%;
     }
+}
+
+/* カスタム確認ダイアログ */
+.custom-dialog {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s;
+}
+
+.custom-dialog.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-dialog-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s;
+    text-align: center;
+    min-width: 300px;
+}
+
+.custom-dialog-content p {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.custom-dialog-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-confirm-yes,
+.btn-confirm-no {
+    padding: 12px 30px;
+    font-size: 1em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+    min-width: 100px;
+}
+
+.btn-confirm-yes {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-confirm-yes:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-confirm-no {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.btn-confirm-no:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
 }
