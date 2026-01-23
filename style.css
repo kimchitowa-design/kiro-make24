@@ -180,7 +180,9 @@ h1 {
 .problem-number {
     color: #667eea;
     font-weight: bold;
-    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1em;
+    white-space: nowrap;
 }
 
 .subtitle-inline {
@@ -637,11 +639,16 @@ h1 {
     }
 
     .input-with-buttons {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+    }
+
+    .input-with-buttons .problem-number {
+        flex-shrink: 0;
+        font-size: 0.9em;
     }
 
     .input-with-buttons input {
-        width: 100%;
+        flex: 1;
         margin-bottom: 10px;
         order: 1;
     }

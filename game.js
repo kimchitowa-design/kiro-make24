@@ -727,7 +727,7 @@ function updateProblemNumber() {
     const problemNumberSpan = document.getElementById('problemNumber');
     
     if (problemNumberSpan && problems) {
-        problemNumberSpan.textContent = `(問題 ${stats.currentProblemIndex + 1}/${problems.length})`;
+        problemNumberSpan.textContent = `問題 ${stats.currentProblemIndex + 1}/${problems.length}`;
     }
 }
 
