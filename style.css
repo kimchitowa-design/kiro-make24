@@ -480,11 +480,11 @@ h1 {
     font-weight: 600;
     font-size: 1em;
     min-height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     transition: all 0.3s;
     white-space: pre-line;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .feedback.success {
@@ -749,9 +749,11 @@ h1 {
     }
 
     .feedback {
-        font-size: 0.9em;
-        padding: 10px;
-        line-height: 1.5;
+        font-size: 0.85em;
+        padding: 10px 8px;
+        line-height: 1.6;
+        max-width: 100%;
+        box-sizing: border-box;
     }
     .calculator-buttons {
         grid-template-columns: repeat(3, 1fr);
