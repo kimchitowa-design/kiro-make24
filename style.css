@@ -479,7 +479,7 @@ h1 {
     text-align: center;
     font-weight: 600;
     font-size: 1em;
-    min-height: 45px;
+    min-height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -748,6 +748,11 @@ h1 {
         white-space: nowrap;
     }
 
+    .feedback {
+        font-size: 0.9em;
+        padding: 10px;
+        line-height: 1.5;
+    }
     .calculator-buttons {
         grid-template-columns: repeat(3, 1fr);
         gap: 6px;
