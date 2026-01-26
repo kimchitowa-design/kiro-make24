@@ -748,10 +748,24 @@ h1 {
         padding: 10px 3px;
         font-size: 1.4em;
     }
+    
+    .action-buttons-row {
+        gap: 5px;
+    }
+    
+    .action-buttons-row .calc-btn {
+        padding: 8px 3px;
+        font-size: 0.75em;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
     .submit-btn {
-        font-size: 2.2em;
-        padding: 10px 5px;
+        font-size: 1.8em;
+        padding: 8px 5px;
+        min-height: 50px;
     }
 
     .calculator-number-buttons {
