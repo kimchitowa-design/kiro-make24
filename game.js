@@ -6,6 +6,10 @@ let gameState = {
     lastButtonType: null, // 最後に押したボタンの種類を記録
     solutionShown: false, // 現在の問題で解答例を表示したかどうか
     feedbackTimer: null, // フィードバック表示のタイマーID
+    // タイマー関連
+    startTime: null, // ゲーム開始時刻
+    timerInterval: null, // タイマー更新用のインターバルID
+    timerPaused: true, // タイマーが一時停止中かどうか
     // レベルごとの統計情報
     levelStats: {
         1: { totalAttempts: 0, correctAnswers: 0, streak: 0, currentProblemIndex: 0, shownSolutions: new Set(), answerHistory: {} },
@@ -408,6 +412,7 @@ const levelSelect = document.getElementById('levelSelect');
 // 初期化
 function init() {
     initializeProblemLists(); // 問題リストを初期化
+    resetTimer(); // タイマーを初期化（一時停止状態）
     generateNewNumbers();
     attachEventListeners();
     updatePlaceholder(); // 初期プレースホルダーを設定
@@ -436,6 +441,53 @@ function init() {
                 }
             }
         });
+    }
+}
+
+// タイマー機能
+function startTimer() {
+    gameState.startTime = Date.now();
+    gameState.timerPaused = false;
+    updateTimerDisplay();
+    
+    // 1秒ごとにタイマーを更新
+    if (gameState.timerInterval) {
+        clearInterval(gameState.timerInterval);
+    }
+    gameState.timerInterval = setInterval(updateTimerDisplay, 1000);
+}
+
+function updateTimerDisplay() {
+    if (!gameState.startTime || gameState.timerPaused) {
+        const timerDisplay = document.getElementById('timerDisplay');
+        if (timerDisplay) {
+            timerDisplay.textContent = '00:00';
+        }
+        return;
+    }
+    
+    const elapsed = Math.floor((Date.now() - gameState.startTime) / 1000);
+    const minutes = Math.floor(elapsed / 60);
+    const seconds = elapsed % 60;
+    
+    const timerDisplay = document.getElementById('timerDisplay');
+    if (timerDisplay) {
+        timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+}
+
+function resetTimer() {
+    if (gameState.timerInterval) {
+        clearInterval(gameState.timerInterval);
+    }
+    gameState.startTime = null;
+    gameState.timerPaused = true;
+    updateTimerDisplay();
+}
+
+function resumeTimer() {
+    if (gameState.timerPaused) {
+        startTimer();
     }
 }
 
@@ -523,6 +575,9 @@ function resetGame() {
         feedbackDiv.textContent = '';
         feedbackDiv.className = 'feedback';
         
+        // タイマーをリセット
+        resetTimer();
+        
         // 表示を更新
         updateDisplay();
         generateNewNumbers();
@@ -541,7 +596,6 @@ function resetGame() {
     
     const handleNo = () => {
         dialog.classList.remove('show');
-        message.textContent = '採点しますか？';
         yesBtn.removeEventListener('click', handleYes);
         noBtn.removeEventListener('click', handleNo);
     };
@@ -614,6 +668,9 @@ function handleCalculatorButton(e) {
     if (value === undefined) {
         return;
     }
+    
+    // 最初のボタン押下でタイマーを開始
+    resumeTimer();
     
     // 回答済みの問題は入力できない
     if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
@@ -1182,6 +1239,8 @@ function showSolution() {
 function showGrading() {
     // カスタム確認ダイアログを表示
     const dialog = document.getElementById('customConfirmDialog');
+    const message = document.getElementById('customConfirmMessage');
+    message.textContent = '採点しますか？';
     dialog.classList.add('show');
     
     // はいボタンのイベントリスナー（一度だけ実行）
@@ -1223,6 +1282,20 @@ function executeGrading() {
     const levelNames = { 1: 'ふつう', 2: 'むずかしい', 3: '鬼' };
     const levelName = levelNames[gameState.level];
     
+    // 半角数字を全角数字に変換
+    const toFullWidth = (num) => {
+        return String(num).replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) + 0xFEE0));
+    };
+    
+    // 経過時間を計算
+    let timeText = '００：００';
+    if (gameState.startTime && !gameState.timerPaused) {
+        const elapsedTime = Math.floor((Date.now() - gameState.startTime) / 1000);
+        const minutes = Math.floor(elapsedTime / 60);
+        const seconds = elapsedTime % 60;
+        timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}：${toFullWidth(String(seconds).padStart(2, '0'))}`;
+    }
+    
     // 統計情報をリセット（現在のレベルのみ）
     stats.totalAttempts = 0;
     stats.correctAnswers = 0;
@@ -1231,13 +1304,11 @@ function executeGrading() {
     stats.shownSolutions.clear();
     stats.answerHistory = {}; // 回答履歴もリセット
     
+    // タイマーをリセット
+    resetTimer();
+    
     updateDisplay();
     generateNewNumbers();
-    
-    // 半角数字を全角数字に変換
-    const toFullWidth = (num) => {
-        return String(num).replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) + 0xFEE0));
-    };
     
     // 正解率に応じたメッセージ
     let resultMessage = '';
@@ -1288,7 +1359,7 @@ function executeGrading() {
     }
     
     // 採点結果をフィードバックエリアに表示（generateNewNumbers後に表示）
-    const message = `【採点結果　レベル：${levelName}】\n正解数${toFullWidth(correctAnswers)}問（全${toFullWidth(totalProblems)}問）\n正解率${toFullWidth(accuracy)}％\n${resultMessage}`;
+    const message = `【採点結果　レベル：${levelName}】\n正解数　${toFullWidth(correctAnswers)}問（全${toFullWidth(totalProblems)}問）\n正解率　${toFullWidth(accuracy)}％\nタイム　${timeText}\n${resultMessage}`;
     showFeedback(message, 'success');
     
     // フィードバックエリア以外をクリックしたら採点結果を消す

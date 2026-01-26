@@ -12,6 +12,31 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    position: relative;
+}
+
+/* タイマー表示 */
+.game-timer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 12px 20px;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #667eea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+#timerDisplay {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+    font-size: 1.3em;
 }
 
 .container {
@@ -530,7 +555,7 @@ h1 {
     margin-bottom: 15px;
     padding: 12px;
     border-radius: 10px;
-    text-align: center;
+    text-align: left;
     font-weight: 600;
     font-size: 1em;
     min-height: 52px;
@@ -542,6 +567,13 @@ h1 {
     word-wrap: break-word;
     overflow-wrap: break-word;
     box-sizing: border-box;
+}
+
+.feedback > * {
+    text-align: left;
+    width: 100%;
+    max-width: fit-content;
+    margin: 0 auto;
 }
 
 .feedback.success {
@@ -677,6 +709,20 @@ h1 {
         align-items: flex-start;
         padding-top: 5px;
         min-height: 100vh;
+    }
+    
+    /* スマホ表示時はタイマーを下部に配置 */
+    .game-timer {
+        top: auto;
+        bottom: 20px;
+        right: 50%;
+        transform: translateX(50%);
+        font-size: 1em;
+        padding: 10px 16px;
+    }
+    
+    #timerDisplay {
+        font-size: 1.2em;
     }
 
     .container {
