@@ -1362,7 +1362,7 @@ function executeGrading() {
     const correctAnswers = stats.correctAnswers;
     const accuracy = totalProblems > 0 ? Math.round((correctAnswers / totalProblems) * 100) : 0;
     
-    const levelNames = { 1: 'ふつう', 2: 'むずかしい', 3: '鬼' };
+    const levelNames = { 1: 'ふつう', 2: '難しい', 3: '鬼' };
     const levelName = levelNames[gameState.level];
     
     // 半角数字を全角数字に変換
@@ -1421,7 +1421,7 @@ function executeGrading() {
         };
         resultMessage = messages[correctAnswers] || messages[6];
     } else if (gameState.level === 2) {
-        // むずかしいレベルの場合は正解数に応じた専用メッセージ
+        // 難しいレベルの場合は正解数に応じた専用メッセージ
         const messages = {
             0: '💭 世の中って\nオレより頭のいい人のほうが多いんだ。',
             1: '🛤️ 「ゴールは遠いなぁ」と、\nがっかりするのも道のりです。',
