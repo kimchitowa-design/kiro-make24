@@ -5,6 +5,7 @@ let gameState = {
     solutions: [],
     lastButtonType: null, // 最後に押したボタンの種類を記録
     solutionShown: false, // 現在の問題で解答例を表示したかどうか
+    feedbackTimer: null, // フィードバック表示のタイマーID
     // レベルごとの統計情報
     levelStats: {
         1: { totalAttempts: 0, correctAnswers: 0, streak: 0, currentProblemIndex: 0, shownSolutions: new Set(), answerHistory: {} },
@@ -100,10 +101,6 @@ function initializeProblemLists() {
             return 0;
         });
     }
-    
-    console.log('Level 1 problems:', levelProblems[1].length);
-    console.log('Level 2 problems:', levelProblems[2].length);
-    console.log('Level 3 problems:', levelProblems[3].length);
 }
 
 // 解答不可能な組み合わせ
@@ -400,12 +397,12 @@ const numbersContainer = document.getElementById('numbersContainer');
 const answerInput = document.getElementById('answer');
 const submitBtn = document.getElementById('submitBtn');
 const feedbackDiv = document.getElementById('feedback');
+const resetBtn = document.getElementById('resetBtn');
 const prevBtn = document.getElementById('prevBtn');
 const solutionBtn = document.getElementById('solutionBtn');
 const newGameBtn = document.getElementById('newGameBtn');
 const gradeBtn = document.getElementById('gradeBtn');
 const accuracySpan = document.getElementById('accuracy');
-const streakSpan = document.getElementById('streak');
 const levelSelect = document.getElementById('levelSelect');
 
 // 初期化
@@ -419,13 +416,9 @@ function init() {
     const levelCard = document.querySelector('.level-card');
     const dropdownArrow = document.querySelector('.dropdown-arrow');
     
-    console.log('Level card found:', levelCard);
-    console.log('Dropdown arrow found:', dropdownArrow);
-    
     if (levelCard && dropdownArrow) {
         // レベルカードをクリックしたらセレクトボックスを開く
         levelCard.addEventListener('click', (e) => {
-            console.log('Level card clicked');
             // セレクトボックス自体のクリックでない場合のみ処理
             if (e.target !== levelSelect) {
                 levelSelect.focus();
@@ -443,25 +436,28 @@ function init() {
                 }
             }
         });
-    } else {
-        console.error('Level card or dropdown arrow not found!');
     }
 }
 
 // イベントリスナー
 function attachEventListeners() {
-    submitBtn.addEventListener('click', checkAnswer);
+    submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        checkAnswer();
+    });
     answerInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') checkAnswer();
     });
+    resetBtn.addEventListener('click', resetGame);
     prevBtn.addEventListener('click', goToPreviousProblem);
     solutionBtn.addEventListener('click', showSolution);
     newGameBtn.addEventListener('click', skipToNextProblem);
     gradeBtn.addEventListener('click', showGrading);
     levelSelect.addEventListener('change', handleLevelChange);
     
-    // 計算機ボタンのイベントリスナー
-    document.querySelectorAll('.calc-btn').forEach(btn => {
+    // 計算機ボタンのイベントリスナー（=ボタンは除外）
+    document.querySelectorAll('.calc-btn:not(#submitBtn)').forEach(btn => {
         btn.addEventListener('click', handleCalculatorButton);
     });
 }
@@ -478,6 +474,87 @@ function goToPreviousProblem() {
         stats.currentProblemIndex = problems.length - 1;
     }
     generateNewNumbers();
+}
+
+// リセット機能
+function resetGame() {
+    // 確認ダイアログを表示
+    const dialog = document.getElementById('customConfirmDialog');
+    const message = document.getElementById('customConfirmMessage');
+    message.textContent = 'リセットしますか？（第１問からやり直します）';
+    dialog.classList.add('show');
+    
+    const yesBtn = document.getElementById('confirmYes');
+    const noBtn = document.getElementById('confirmNo');
+    
+    const handleYes = () => {
+        dialog.classList.remove('show');
+        
+        // 現在のレベルを保持
+        const currentLevel = gameState.level;
+        
+        // 全レベルの統計情報をリセット
+        for (let level = 1; level <= 3; level++) {
+            gameState.levelStats[level] = {
+                totalAttempts: 0,
+                correctAnswers: 0,
+                streak: 0,
+                currentProblemIndex: 0,
+                shownSolutions: new Set(),
+                answerHistory: {}
+            };
+        }
+        
+        // レベルを元に戻す
+        gameState.level = currentLevel;
+        gameState.solutionShown = false;
+        gameState.lastButtonType = null;
+        
+        // 入力フィールドをクリア
+        answerInput.value = '';
+        
+        // 数字ボタンを再度有効化
+        document.querySelectorAll('.number-btn').forEach(btn => {
+            btn.disabled = false;
+            btn.classList.remove('disabled');
+        });
+        
+        // フィードバックをクリア
+        feedbackDiv.textContent = '';
+        feedbackDiv.className = 'feedback';
+        
+        // 表示を更新
+        updateDisplay();
+        generateNewNumbers();
+        
+        showFeedback('リセットしました', 'success');
+        
+        // 2秒後にメッセージを消す
+        setTimeout(() => {
+            feedbackDiv.textContent = '';
+            feedbackDiv.className = 'feedback';
+        }, 2000);
+        
+        yesBtn.removeEventListener('click', handleYes);
+        noBtn.removeEventListener('click', handleNo);
+    };
+    
+    const handleNo = () => {
+        dialog.classList.remove('show');
+        message.textContent = '採点しますか？';
+        yesBtn.removeEventListener('click', handleYes);
+        noBtn.removeEventListener('click', handleNo);
+    };
+    
+    yesBtn.addEventListener('click', handleYes);
+    noBtn.addEventListener('click', handleNo);
+    
+    // 背景クリックで閉じる
+    dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+            handleNo();
+        }
+    });
 }
 
 // 次の問題にスキップ
@@ -542,8 +619,13 @@ function handleCalculatorButton(e) {
     if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
         showFeedback('この問題は回答済みです。採点するまで再挑戦できません', 'error');
         
+        // 既存のタイマーをクリア
+        if (gameState.feedbackTimer) {
+            clearTimeout(gameState.feedbackTimer);
+        }
+        
         // 3秒後に元の結果を再表示（アニメーションなし）
-        setTimeout(() => {
+        gameState.feedbackTimer = setTimeout(() => {
             const answer = stats.answerHistory[stats.currentProblemIndex];
             if (answer.isCorrect) {
                 showFeedback(`✅ 正解済み: ${answer.formula}`, 'success', true);
@@ -552,6 +634,7 @@ function handleCalculatorButton(e) {
             } else {
                 showFeedback(`❌ 不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', true);
             }
+            gameState.feedbackTimer = null;
         }, 3000);
         
         return;
@@ -561,11 +644,17 @@ function handleCalculatorButton(e) {
     if (gameState.solutionShown) {
         showFeedback('解答例を表示した問題は回答できません', 'error');
         
+        // 既存のタイマーをクリア
+        if (gameState.feedbackTimer) {
+            clearTimeout(gameState.feedbackTimer);
+        }
+        
         // 3秒後に解答例を表示
-        setTimeout(() => {
+        gameState.feedbackTimer = setTimeout(() => {
             if (gameState.solutions.length > 0) {
                 showFeedback(`解答例: ${gameState.solutions[0]}`, 'info');
             }
+            gameState.feedbackTimer = null;
         }, 3000);
         
         return;
@@ -732,6 +821,12 @@ function getProblemKey(numbers) {
 
 // 新しい数字を生成
 function generateNewNumbers() {
+    // 既存のタイマーをクリア
+    if (gameState.feedbackTimer) {
+        clearTimeout(gameState.feedbackTimer);
+        gameState.feedbackTimer = null;
+    }
+    
     const stats = getCurrentStats();
     const problems = levelProblems[gameState.level];
     
@@ -762,12 +857,6 @@ function generateNewNumbers() {
     
     // 問題番号を更新
     updateProblemNumber();
-    
-    console.log(`レベル${gameState.level} 問題 ${stats.currentProblemIndex + 1}/${problems.length}`);
-    console.log('Numbers:', gameState.currentNumbers);
-    console.log('Solution:', gameState.solutions[0]);
-    console.log('Solution shown:', gameState.solutionShown);
-    console.log('Has answered:', hasAnswered);
     
     displayNumbers();
     answerInput.value = '';
@@ -864,14 +953,25 @@ function isValidOperatorsForLevel(expression) {
 // 答えをチェック
 function checkAnswer() {
     const userAnswer = answerInput.value.trim();
+    
+    // 空の入力は無視（早期リターン）
+    if (!userAnswer) {
+        return;
+    }
+    
     const stats = getCurrentStats();
     
     // 回答済みの問題は回答できない
     if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
         showFeedback('この問題は回答済みです。採点するまで再挑戦できません', 'error');
         
+        // 既存のタイマーをクリア
+        if (gameState.feedbackTimer) {
+            clearTimeout(gameState.feedbackTimer);
+        }
+        
         // 3秒後に元の結果を再表示（アニメーションなし）
-        setTimeout(() => {
+        gameState.feedbackTimer = setTimeout(() => {
             const answer = stats.answerHistory[stats.currentProblemIndex];
             if (answer.isCorrect) {
                 showFeedback(`✅ 正解済み: ${answer.formula}`, 'success', true);
@@ -880,6 +980,7 @@ function checkAnswer() {
             } else {
                 showFeedback(`❌ 不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', true);
             }
+            gameState.feedbackTimer = null;
         }, 3000);
         
         return;
@@ -889,11 +990,17 @@ function checkAnswer() {
     if (gameState.solutionShown) {
         showFeedback('解答例を表示した問題は回答できません', 'error');
         
+        // 既存のタイマーをクリア
+        if (gameState.feedbackTimer) {
+            clearTimeout(gameState.feedbackTimer);
+        }
+        
         // 3秒後に解答例を表示
-        setTimeout(() => {
+        gameState.feedbackTimer = setTimeout(() => {
             if (gameState.solutions.length > 0) {
                 showFeedback(`解答例: ${gameState.solutions[0]}`, 'info');
             }
+            gameState.feedbackTimer = null;
         }, 3000);
         
         return;
@@ -1003,7 +1110,6 @@ function updateDisplay() {
         : 0;
     
     accuracySpan.textContent = accuracy + '%';
-    streakSpan.textContent = stats.streak;
     levelSelect.value = gameState.level;
 }
 
@@ -1023,8 +1129,13 @@ function showSolution() {
             showFeedback('この問題の解答例が見つかりません。24にならない可能性があります。AIに相談してみましょう', 'info', true);
         }
         
+        // 既存のタイマーをクリア
+        if (gameState.feedbackTimer) {
+            clearTimeout(gameState.feedbackTimer);
+        }
+        
         // 3秒後に元の回答結果に戻す
-        setTimeout(() => {
+        gameState.feedbackTimer = setTimeout(() => {
             if (answer.isCorrect) {
                 showFeedback(`✅ 正解済み: ${answer.formula}`, 'success', true);
             } else if (answer.showedSolution) {
@@ -1032,6 +1143,7 @@ function showSolution() {
             } else {
                 showFeedback(`❌ 不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', true);
             }
+            gameState.feedbackTimer = null;
         }, 3000);
         
         return;
@@ -1111,8 +1223,6 @@ function executeGrading() {
     const levelNames = { 1: 'ふつう', 2: 'むずかしい', 3: '鬼' };
     const levelName = levelNames[gameState.level];
     
-    console.log('採点前の全レベル統計:', JSON.parse(JSON.stringify(gameState.levelStats)));
-    
     // 統計情報をリセット（現在のレベルのみ）
     stats.totalAttempts = 0;
     stats.correctAnswers = 0;
@@ -1120,8 +1230,6 @@ function executeGrading() {
     stats.currentProblemIndex = 0;
     stats.shownSolutions.clear();
     stats.answerHistory = {}; // 回答履歴もリセット
-    
-    console.log('採点後の全レベル統計:', JSON.parse(JSON.stringify(gameState.levelStats)));
     
     updateDisplay();
     generateNewNumbers();

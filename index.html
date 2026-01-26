@@ -9,6 +9,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Make 24">
     <title>Make 24 ゲーム - 計算パズル</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/svg+xml" href="icon.svg">
     <link rel="apple-touch-icon" href="icon.svg">
@@ -41,19 +44,19 @@
                 <button class="calc-btn operator-btn" data-value=")">)</button>
             </div>
             <div class="action-buttons-row">
-                <button class="calc-btn clear-btn" data-value="clear">クリア</button>
-                <button class="calc-btn backspace-btn" data-value="backspace">BackSpace</button>
-                <button id="submitBtn" class="calc-btn submit-btn">=</button>
+                <button class="calc-btn clear-btn" data-value="clear">オールクリア</button>
+                <button class="calc-btn backspace-btn" data-value="backspace">クリア</button>
+                <button id="submitBtn" class="submit-btn">=</button>
             </div>
         </div>
 
         <div id="feedback" class="feedback"></div>
 
         <div class="action-buttons">
+            <button id="resetBtn" class="btn-secondary">🔄 リセット</button>
+            <button id="solutionBtn" class="btn-secondary btn-giveup">ギブアップ</button>
             <button id="prevBtn" class="btn-secondary">⬅️ 前の問題</button>
             <button id="newGameBtn" class="btn-secondary">➡️ 次の問題</button>
-            <button id="solutionBtn" class="btn-secondary">📝 解答一例</button>
-            <button id="gradeBtn" class="btn-secondary">📊 採点する</button>
         </div>
 
         <div class="game-status">
@@ -62,9 +65,8 @@
                     <span class="label">正解率</span>
                     <span class="value" id="accuracy">0%</span>
                 </div>
-                <div class="info-card">
-                    <span class="label">連続正解</span>
-                    <span class="value" id="streak">0</span>
+                <div class="info-card grade-card">
+                    <button id="gradeBtn" class="btn-grade">📊 採点する</button>
                 </div>
                 <div class="info-card level-card">
                     <span class="label">レベル</span>
