@@ -44,7 +44,7 @@
                 <button class="calc-btn operator-btn" data-value=")">)</button>
             </div>
             <div class="action-buttons-row">
-                <button class="calc-btn clear-btn" data-value="clear">オールクリア</button>
+                <button class="calc-btn clear-btn" data-value="clear">オール<br>クリア</button>
                 <button class="calc-btn backspace-btn" data-value="backspace">クリア</button>
                 <button id="submitBtn" class="submit-btn">=</button>
             </div>
@@ -53,10 +53,10 @@
         <div id="feedback" class="feedback"></div>
 
         <div class="action-buttons">
-            <button id="resetBtn" class="btn-secondary">🔄 リセット</button>
-            <button id="solutionBtn" class="btn-secondary btn-giveup">ギブアップ</button>
-            <button id="prevBtn" class="btn-secondary">⬅️ 前の問題</button>
-            <button id="newGameBtn" class="btn-secondary">➡️ 次の問題</button>
+            <button id="resetBtn" class="btn-secondary"><span class="btn-icon"></span>🔄</span><br>リセット</button>
+            <button id="solutionBtn" class="btn-secondary btn-giveup"><span class="btn-icon">🏳️</span><br>ギブアップ</button>
+            <button id="prevBtn" class="btn-secondary"><span class="btn-icon">⬅️</span><br>前の問題</button>
+            <button id="newGameBtn" class="btn-secondary"><span class="btn-icon">➡️</span><br>次の問題</button>
         </div>
 
         <div class="game-status">

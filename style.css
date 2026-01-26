@@ -521,21 +521,9 @@ h1 {
     transform: translateY(-2px);
 }
 
-.btn-giveup {
-    position: relative;
-}
-
-.btn-giveup::before {
-    content: '🏳️';
-    font-size: 1.3em;
-    position: absolute;
-    left: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.btn-giveup {
-    padding-left: 35px;
+.btn-icon {
+    font-size: 1.5em;
+    display: inline-block;
 }
 
 .feedback {
@@ -812,16 +800,8 @@ h1 {
     .action-buttons .btn-secondary {
         font-size: 0.7em;
         padding: 10px 2px;
-        white-space: nowrap;
-    }
-    
-    .btn-giveup {
-        padding-left: 24px;
-    }
-    
-    .btn-giveup::before {
-        font-size: 1.1em;
-        left: 3px;
+        white-space: normal;
+        line-height: 1.3;
     }
 
     .feedback {
