@@ -825,35 +825,40 @@ h1 {
 
     .game-info {
         grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
+        gap: 4px;
     }
     
     .info-card {
-        padding: 6px 4px;
+        padding: 4px 2px;
     }
     
     .info-card .label {
-        font-size: 0.65em;
+        font-size: 0.55em;
     }
     
     .info-card .value {
-        font-size: 1em;
+        font-size: 0.85em;
     }
     
     .level-card {
-        padding: 8px 5px;
+        padding: 6px 3px;
     }
     
     .level-card .value {
-        font-size: 1.2em;
-    }
-    
-    .level-select {
         font-size: 1em;
     }
     
+    .level-select {
+        font-size: 0.85em;
+    }
+    
     .dropdown-arrow {
-        font-size: 0.7em;
+        font-size: 0.6em;
+    }
+    
+    .btn-grade {
+        font-size: 0.85em;
+        padding: 4px;
     }
 
     .action-buttons {
