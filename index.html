@@ -72,6 +72,10 @@
                     <span class="label">正解率</span>
                     <span class="value" id="accuracy">0%</span>
                 </div>
+                <div class="info-card">
+                    <span class="label">ベストタイム</span>
+                    <span class="value" id="bestTime">--:--</span>
+                </div>
                 <div class="info-card grade-card">
                     <button id="gradeBtn" class="btn-grade">📊 採点</button>
                 </div>
@@ -94,6 +98,12 @@
     <div id="customConfirmDialog" class="custom-dialog">
         <div class="custom-dialog-content">
             <p id="customConfirmMessage">採点しますか？</p>
+            <div id="recordClearOption" class="record-clear-option" style="display: none;">
+                <label>
+                    <input type="checkbox" id="clearRecordCheckbox">
+                    <span>ベストタイムもクリアする</span>
+                </label>
+            </div>
             <div class="custom-dialog-buttons">
                 <button id="confirmYes" class="btn-confirm-yes">はい</button>
                 <button id="confirmNo" class="btn-confirm-no">いいえ</button>

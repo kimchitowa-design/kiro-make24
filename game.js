@@ -407,12 +407,14 @@ const solutionBtn = document.getElementById('solutionBtn');
 const newGameBtn = document.getElementById('newGameBtn');
 const gradeBtn = document.getElementById('gradeBtn');
 const accuracySpan = document.getElementById('accuracy');
+const bestTimeSpan = document.getElementById('bestTime');
 const levelSelect = document.getElementById('levelSelect');
 
 // 初期化
 function init() {
     initializeProblemLists(); // 問題リストを初期化
     resetTimer(); // タイマーを初期化（一時停止状態）
+    loadBestTimes(); // ベストタイムを読み込み
     generateNewNumbers();
     attachEventListeners();
     updatePlaceholder(); // 初期プレースホルダーを設定
@@ -491,6 +493,72 @@ function resumeTimer() {
     }
 }
 
+// ベストタイム管理
+function loadBestTimes() {
+    const saved = localStorage.getItem('make24BestTimes');
+    if (saved) {
+        try {
+            const bestTimes = JSON.parse(saved);
+            // 各レベルのベストタイムを読み込み
+            for (let level = 1; level <= 3; level++) {
+                if (bestTimes[level]) {
+                    gameState.levelStats[level].bestTime = bestTimes[level];
+                }
+            }
+        } catch (e) {
+            console.error('ベストタイムの読み込みに失敗しました', e);
+        }
+    }
+    updateBestTimeDisplay();
+}
+
+function saveBestTime(level, timeInSeconds) {
+    const saved = localStorage.getItem('make24BestTimes');
+    let bestTimes = {};
+    
+    if (saved) {
+        try {
+            bestTimes = JSON.parse(saved);
+        } catch (e) {
+            console.error('ベストタイムの読み込みに失敗しました', e);
+        }
+    }
+    
+    bestTimes[level] = timeInSeconds;
+    localStorage.setItem('make24BestTimes', JSON.stringify(bestTimes));
+    gameState.levelStats[level].bestTime = timeInSeconds;
+    updateBestTimeDisplay();
+}
+
+function updateBestTimeDisplay() {
+    const stats = getCurrentStats();
+    if (stats.bestTime) {
+        const minutes = Math.floor(stats.bestTime / 60);
+        const seconds = stats.bestTime % 60;
+        bestTimeSpan.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    } else {
+        bestTimeSpan.textContent = '--:--';
+    }
+}
+
+function clearBestTime(level) {
+    const saved = localStorage.getItem('make24BestTimes');
+    let bestTimes = {};
+    
+    if (saved) {
+        try {
+            bestTimes = JSON.parse(saved);
+        } catch (e) {
+            console.error('ベストタイムの読み込みに失敗しました', e);
+        }
+    }
+    
+    delete bestTimes[level];
+    localStorage.setItem('make24BestTimes', JSON.stringify(bestTimes));
+    delete gameState.levelStats[level].bestTime;
+    updateBestTimeDisplay();
+}
+
 // イベントリスナー
 function attachEventListeners() {
     submitBtn.addEventListener('click', (e) => {
@@ -533,7 +601,12 @@ function resetGame() {
     // 確認ダイアログを表示
     const dialog = document.getElementById('customConfirmDialog');
     const message = document.getElementById('customConfirmMessage');
+    const recordClearOption = document.getElementById('recordClearOption');
+    const clearRecordCheckbox = document.getElementById('clearRecordCheckbox');
+    
     message.textContent = 'リセットしますか？\n（第１問からやり直します）';
+    recordClearOption.style.display = 'block'; // チェックボックスを表示
+    clearRecordCheckbox.checked = false; // チェックを外す
     dialog.classList.add('show');
     
     const yesBtn = document.getElementById('confirmYes');
@@ -541,6 +614,12 @@ function resetGame() {
     
     const handleYes = () => {
         dialog.classList.remove('show');
+        recordClearOption.style.display = 'none'; // チェックボックスを非表示
+        
+        // ベストタイムのクリアをチェック
+        if (clearRecordCheckbox.checked) {
+            clearBestTime(gameState.level);
+        }
         
         // 現在のレベルを保持
         const currentLevel = gameState.level;
@@ -596,6 +675,7 @@ function resetGame() {
     
     const handleNo = () => {
         dialog.classList.remove('show');
+        recordClearOption.style.display = 'none'; // チェックボックスを非表示
         yesBtn.removeEventListener('click', handleYes);
         noBtn.removeEventListener('click', handleNo);
     };
@@ -625,6 +705,7 @@ function handleLevelChange() {
     gameState.level = Math.min(Math.max(newLevel, 1), 3);
     updatePlaceholder(); // プレースホルダーを更新
     updateDisplay(); // 新しいレベルの統計を表示
+    updateBestTimeDisplay(); // ベストタイムを更新
     generateNewNumbers();
 }
 
@@ -1110,7 +1191,9 @@ function checkAnswer() {
             };
             
             stats.totalAttempts++;
-            showFeedback(`残念！答えは ${result.toFixed(2)} です。24を目指しましょう！`, 'error');
+            // 整数の場合は小数点以下を表示しない
+            const resultText = Number.isInteger(result) ? result : result.toFixed(2);
+            showFeedback(`残念！計算結果は ${resultText} です。24を目指しましょう！`, 'error');
             stats.streak = 0;
             updateDisplay();
         }
@@ -1289,11 +1372,23 @@ function executeGrading() {
     
     // 経過時間を計算
     let timeText = '００：００';
+    let elapsedTimeInSeconds = 0;
+    let isNewRecord = false;
+    
     if (gameState.startTime && !gameState.timerPaused) {
-        const elapsedTime = Math.floor((Date.now() - gameState.startTime) / 1000);
-        const minutes = Math.floor(elapsedTime / 60);
-        const seconds = elapsedTime % 60;
+        elapsedTimeInSeconds = Math.floor((Date.now() - gameState.startTime) / 1000);
+        const minutes = Math.floor(elapsedTimeInSeconds / 60);
+        const seconds = elapsedTimeInSeconds % 60;
         timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}：${toFullWidth(String(seconds).padStart(2, '0'))}`;
+        
+        // 全問正解の場合、ベストタイムをチェック
+        if (accuracy === 100) {
+            const currentBest = stats.bestTime;
+            if (!currentBest || elapsedTimeInSeconds < currentBest) {
+                saveBestTime(gameState.level, elapsedTimeInSeconds);
+                isNewRecord = true;
+            }
+        }
     }
     
     // 統計情報をリセット（現在のレベルのみ）
@@ -1354,12 +1449,13 @@ function executeGrading() {
         } else if (accuracy > 0) {
             resultMessage = '🔥 次は必ずできます！';
         } else {
-            resultMessage = '📝 解答例を参考にしてみましょう！';
+            resultMessage = '🏁 ここからがスタートだ！';
         }
     }
     
     // 採点結果をフィードバックエリアに表示（generateNewNumbers後に表示）
-    const message = `【採点結果　レベル：${levelName}】\n正解数　${toFullWidth(correctAnswers)}問（全${toFullWidth(totalProblems)}問）\n正解率　${toFullWidth(accuracy)}％\nタイム　${timeText}\n${resultMessage}`;
+    let recordMessage = isNewRecord ? '\n🏆 ベストタイム更新！' : '';
+    const message = `【採点結果　レベル：${levelName}】\n正解数　${toFullWidth(correctAnswers)}問（全${toFullWidth(totalProblems)}問）\n正解率　${toFullWidth(accuracy)}％\nタイム　${timeText}${recordMessage}\n${resultMessage}`;
     showFeedback(message, 'success');
     
     // フィードバックエリア以外をクリックしたら採点結果を消す
