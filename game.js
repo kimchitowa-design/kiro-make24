@@ -481,7 +481,7 @@ function resetGame() {
     // 確認ダイアログを表示
     const dialog = document.getElementById('customConfirmDialog');
     const message = document.getElementById('customConfirmMessage');
-    message.textContent = 'リセットしますか？（第１問からやり直します）';
+    message.textContent = 'リセットしますか？\n（第１問からやり直します）';
     dialog.classList.add('show');
     
     const yesBtn = document.getElementById('confirmYes');
