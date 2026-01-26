@@ -833,6 +833,7 @@ h1 {
         line-height: 1.6;
         max-width: 100%;
         box-sizing: border-box;
+        min-height: 48px;
     }
     .calculator-buttons {
         grid-template-columns: repeat(3, 1fr);
