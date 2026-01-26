@@ -810,18 +810,18 @@ h1 {
     }
     
     .action-buttons .btn-secondary {
-        font-size: 0.75em;
-        padding: 10px 3px;
+        font-size: 0.7em;
+        padding: 10px 2px;
         white-space: nowrap;
     }
     
     .btn-giveup {
-        padding-left: 28px;
+        padding-left: 24px;
     }
     
     .btn-giveup::before {
-        font-size: 1.2em;
-        left: 5px;
+        font-size: 1.1em;
+        left: 3px;
     }
 
     .feedback {
