@@ -923,7 +923,7 @@ h1 {
     }
     
     .btn-best-time .value {
-        font-size: 1em;
+        font-size: 0.85em;
         font-weight: bold;
     }
 
@@ -1178,4 +1178,20 @@ h1 {
     line-height: 1.6;
     text-align: center;
     margin-bottom: 10px;
+}
+
+/* スマホ表示用のベストタイムダイアログ調整 */
+@media (max-width: 768px) {
+    .best-time-content {
+        min-width: 300px;
+        max-width: 90%;
+    }
+    
+    .best-time-level p {
+        font-size: 0.85em;
+    }
+    
+    .best-time-level p br {
+        display: block;
+    }
 }

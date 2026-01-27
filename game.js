@@ -1651,12 +1651,26 @@ function showBestTimeDetails() {
         html += `<h3>レベル ${toFullWidth(level)}：${levelName}</h3>`;
         
         if (record) {
-            html += `<p>✅ 正解数：${toFullWidth(record.correctAnswers)}問 / ${toFullWidth(record.totalProblems)}問　⏱️ タイム：`;
+            // スマホ表示かどうかを判定
+            const isMobile = window.innerWidth <= 768;
             
-            const minutes = Math.floor(record.time / 60);
-            const seconds = record.time % 60;
-            const timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}：${toFullWidth(String(seconds).padStart(2, '0'))}`;
-            html += `${timeText}</p>`;
+            if (isMobile) {
+                // スマホ表示：縦並び
+                html += `<p>✅ 正解数：${toFullWidth(record.correctAnswers)}問 / ${toFullWidth(record.totalProblems)}問</p>`;
+                
+                const minutes = Math.floor(record.time / 60);
+                const seconds = record.time % 60;
+                const timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}：${toFullWidth(String(seconds).padStart(2, '0'))}`;
+                html += `<p>⏱️ タイム：${timeText}</p>`;
+            } else {
+                // PC表示：横並び
+                html += `<p>✅ 正解数：${toFullWidth(record.correctAnswers)}問 / ${toFullWidth(record.totalProblems)}問　⏱️ タイム：`;
+                
+                const minutes = Math.floor(record.time / 60);
+                const seconds = record.time % 60;
+                const timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}：${toFullWidth(String(seconds).padStart(2, '0'))}`;
+                html += `${timeText}</p>`;
+            }
             
             if (record.date) {
                 const date = new Date(record.date);
