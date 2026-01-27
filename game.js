@@ -1193,7 +1193,7 @@ function checkAnswer() {
             stats.totalAttempts++;
             // 整数の場合は小数点以下を表示しない
             const resultText = Number.isInteger(result) ? result : result.toFixed(2);
-            showFeedback(`残念！計算結果は ${resultText} です。24を目指しましょう！`, 'error');
+            showFeedback(`残念！計算結果は ${resultText} です。24を作ろう！`, 'error');
             stats.streak = 0;
             updateDisplay();
         }

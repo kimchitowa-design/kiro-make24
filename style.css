@@ -11,53 +11,57 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 10px;
     position: relative;
 }
 
 /* タイマー表示 */
 .game-timer {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 12px 20px;
-    border-radius: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    font-size: 1.2em;
+    position: absolute;
+    right: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 1em;
     font-weight: bold;
-    color: #667eea;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 #timerDisplay {
     font-family: 'Courier New', monospace;
     letter-spacing: 1px;
-    font-size: 1.3em;
+    font-size: 1.1em;
+    color: white;
 }
 
 .container {
     background: white;
     border-radius: 20px;
-    padding: 30px;
+    padding: 15px;
     max-width: 600px;
     width: 100%;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 header {
-    text-align: center;
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
 }
 
 h1 {
     font-size: 2.5em;
     color: #667eea;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .subtitle {
@@ -67,15 +71,15 @@ h1 {
 
 .game-status {
     display: flex;
-    gap: 15px;
+    gap: 8px;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 0;
 }
 
 .game-info {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 8px;
     width: 100%;
 }
 
@@ -211,7 +215,7 @@ h1 {
     justify-content: center;
     align-items: center;
     gap: 15px;
-    padding: 12px;
+    padding: 8px;
     background: #f9f9f9;
     border-radius: 15px;
     flex-shrink: 0;
@@ -225,7 +229,7 @@ h1 {
 }
 
 .input-section {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
 .input-section label {
@@ -308,8 +312,8 @@ h1 {
 .all-buttons-row {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    gap: 6px;
-    margin-bottom: 12px;
+    gap: 5px;
+    margin-bottom: 10px;
 }
 
 .all-buttons-row .calc-btn {
@@ -320,8 +324,8 @@ h1 {
 .action-buttons-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    margin-bottom: 12px;
+    gap: 5px;
+    margin-bottom: 10px;
 }
 
 .action-buttons-input {
@@ -383,7 +387,7 @@ h1 {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 6px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .calc-btn {
@@ -524,7 +528,7 @@ h1 {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
 .action-buttons .btn-secondary {
@@ -553,8 +557,8 @@ h1 {
 }
 
 .feedback {
-    margin-bottom: 15px;
-    padding: 12px;
+    margin-bottom: 12px;
+    padding: 10px;
     border-radius: 10px;
     text-align: left;
     font-weight: 600;
@@ -712,14 +716,24 @@ h1 {
         min-height: 100vh;
     }
     
-    /* スマホ表示時はタイマーを下部に配置 */
+    header {
+        justify-content: center;
+    }
+    
+    h1 {
+        font-size: 1.5em;
+    }
+    
+    /* スマホ表示時もタイマーは右側に配置 */
     .game-timer {
-        top: auto;
-        bottom: 20px;
-        right: 50%;
-        transform: translateX(50%);
+        position: absolute;
+        right: 0;
+        font-size: 0.85em;
+        padding: 6px 12px;
+    }
+    
+    #timerDisplay {
         font-size: 1em;
-        padding: 10px 16px;
     }
     
     #timerDisplay {
