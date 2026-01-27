@@ -406,6 +406,7 @@ const prevBtn = document.getElementById('prevBtn');
 const solutionBtn = document.getElementById('solutionBtn');
 const newGameBtn = document.getElementById('newGameBtn');
 const gradeBtn = document.getElementById('gradeBtn');
+const bestTimeBtn = document.getElementById('bestTimeBtn');
 const accuracySpan = document.getElementById('accuracy');
 const bestTimeSpan = document.getElementById('bestTime');
 const levelSelect = document.getElementById('levelSelect');
@@ -501,8 +502,14 @@ function loadBestTimes() {
             const bestTimes = JSON.parse(saved);
             // 各レベルのベストタイムを読み込み
             for (let level = 1; level <= 3; level++) {
-                if (bestTimes[level]) {
-                    gameState.levelStats[level].bestTime = bestTimes[level];
+                const record = bestTimes[level];
+                if (record) {
+                    // 旧形式（数値のみ）と新形式（オブジェクト）の両方に対応
+                    if (typeof record === 'number') {
+                        gameState.levelStats[level].bestTime = record;
+                    } else if (record.time) {
+                        gameState.levelStats[level].bestTime = record.time;
+                    }
                 }
             }
         } catch (e) {
@@ -524,10 +531,48 @@ function saveBestTime(level, timeInSeconds) {
         }
     }
     
-    bestTimes[level] = timeInSeconds;
+    bestTimes[level] = {
+        time: timeInSeconds,
+        date: new Date().toISOString()
+    };
     localStorage.setItem('make24BestTimes', JSON.stringify(bestTimes));
     gameState.levelStats[level].bestTime = timeInSeconds;
     updateBestTimeDisplay();
+}
+
+function getBestTime(level) {
+    const saved = localStorage.getItem('make24BestTimes');
+    if (saved) {
+        try {
+            const bestTimes = JSON.parse(saved);
+            const record = bestTimes[level];
+            // 旧形式（数値のみ）と新形式（オブジェクト）の両方に対応
+            if (typeof record === 'number') {
+                return record;
+            } else if (record && record.time) {
+                return record.time;
+            }
+        } catch (e) {
+            console.error('ベストタイムの読み込みに失敗しました', e);
+        }
+    }
+    return null;
+}
+
+function getBestTimeDate(level) {
+    const saved = localStorage.getItem('make24BestTimes');
+    if (saved) {
+        try {
+            const bestTimes = JSON.parse(saved);
+            const record = bestTimes[level];
+            if (record && record.date) {
+                return record.date;
+            }
+        } catch (e) {
+            console.error('ベストタイムの読み込みに失敗しました', e);
+        }
+    }
+    return null;
 }
 
 function updateBestTimeDisplay() {
@@ -574,6 +619,7 @@ function attachEventListeners() {
     solutionBtn.addEventListener('click', showSolution);
     newGameBtn.addEventListener('click', skipToNextProblem);
     gradeBtn.addEventListener('click', showGrading);
+    bestTimeBtn.addEventListener('click', showBestTimeDetails);
     levelSelect.addEventListener('change', handleLevelChange);
     
     // 計算機ボタンのイベントリスナー（=ボタンは除外）
@@ -1238,7 +1284,7 @@ function handleCorrectAnswer() {
     stats.correctAnswers++;
     stats.totalAttempts++;
     
-    showFeedback(`🎉 正解！`, 'success');
+    showFeedback(`🎉 正解！次の問題に進もう！`, 'success');
     
     updateDisplay();
 }
@@ -1260,8 +1306,23 @@ function showFeedback(message, type, noAnimation = false) {
         feedbackDiv.className = `feedback ${type}`;
     }
     
-    // エラーメッセージは3秒後に自動消去
-    if (type === 'error') {
+    // 入力制限のエラーメッセージのみ3秒後に自動消去
+    // 計算結果のエラー（不正解）は残す
+    const autoHideErrors = [
+        '演算子または、かっこを選択してください',
+        '演算子を選択してください',
+        '最初に数字または開き括弧を選択してください',
+        '開き括弧が入力されていません',
+        '開き括弧の後に閉じ括弧は入力できません',
+        '演算子の後に閉じ括弧は入力できません',
+        '数字を選択してください',
+        '4つの数字を全て使用済みです',
+        '採点するまで再挑戦できません',
+        '解答例を表示した問題は回答できません',
+        '無効な計算式です。もう一度試してください！'
+    ];
+    
+    if (type === 'error' && autoHideErrors.includes(message)) {
         gameState.feedbackTimer = setTimeout(() => {
             feedbackDiv.textContent = '';
             feedbackDiv.className = 'feedback';
@@ -1498,6 +1559,66 @@ function executeGrading() {
     const closeBtn = document.getElementById('gradingResultClose');
     
     messageElement.textContent = message;
+    dialog.classList.add('show');
+    
+    // 閉じるボタンのイベントリスナー
+    const handleClose = () => {
+        dialog.classList.remove('show');
+        closeBtn.removeEventListener('click', handleClose);
+    };
+    
+    closeBtn.addEventListener('click', handleClose);
+    
+    // 背景クリックで閉じる
+    dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+            handleClose();
+        }
+    });
+}
+
+// ベストタイム詳細を表示
+function showBestTimeDetails() {
+    const dialog = document.getElementById('bestTimeDialog');
+    const detailsDiv = document.getElementById('bestTimeDetails');
+    const closeBtn = document.getElementById('bestTimeClose');
+    
+    const levelNames = { 1: 'ふつう', 2: '難しい', 3: '鬼' };
+    
+    // 半角数字を全角数字に変換
+    const toFullWidth = (num) => {
+        return String(num).replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) + 0xFEE0));
+    };
+    
+    // 各レベルのベストタイムを表示
+    let html = '';
+    for (let level = 1; level <= 3; level++) {
+        const levelName = levelNames[level];
+        const bestTime = getBestTime(level);
+        const bestTimeDate = getBestTimeDate(level);
+        
+        html += `<div class="best-time-level">`;
+        html += `<h3>レベル ${toFullWidth(level)}：${levelName}</h3>`;
+        
+        if (bestTime) {
+            const minutes = Math.floor(bestTime / 60);
+            const seconds = bestTime % 60;
+            const timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}：${toFullWidth(String(seconds).padStart(2, '0'))}`;
+            html += `<p>⏱️ ベストタイム：${timeText}</p>`;
+            
+            if (bestTimeDate) {
+                const date = new Date(bestTimeDate);
+                const dateText = `${toFullWidth(date.getFullYear())}年${toFullWidth(date.getMonth() + 1)}月${toFullWidth(date.getDate())}日`;
+                html += `<p>📅 達成日：${dateText}</p>`;
+            }
+        } else {
+            html += `<p class="no-record">記録なし</p>`;
+        }
+        
+        html += `</div>`;
+    }
+    
+    detailsDiv.innerHTML = html;
     dialog.classList.add('show');
     
     // 閉じるボタンのイベントリスナー

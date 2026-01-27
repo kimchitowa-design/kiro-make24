@@ -72,12 +72,17 @@
                     <span class="label">正解率</span>
                     <span class="value" id="accuracy">0%</span>
                 </div>
-                <div class="info-card">
-                    <span class="label">ベストタイム</span>
-                    <span class="value" id="bestTime">--:--</span>
+                <div class="info-card best-time-card">
+                    <button id="bestTimeBtn" class="btn-best-time">
+                        <span class="label">ベストタイム</span>
+                        <span class="value" id="bestTime">--:--</span>
+                    </button>
                 </div>
                 <div class="info-card grade-card">
-                    <button id="gradeBtn" class="btn-grade">📊 採点</button>
+                    <button id="gradeBtn" class="btn-grade">
+                        <span class="btn-icon">📊</span>
+                        <span class="btn-text">採点</span>
+                    </button>
                 </div>
                 <div class="info-card level-card">
                     <span class="label">レベル</span>
@@ -117,6 +122,18 @@
             <p id="gradingResultMessage"></p>
             <div class="custom-dialog-buttons">
                 <button id="gradingResultClose" class="btn-confirm-yes">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ベストタイム詳細ダイアログ -->
+    <div id="bestTimeDialog" class="custom-dialog">
+        <div class="custom-dialog-content best-time-content">
+            <h2>🏆 ベストタイム記録</h2>
+            <div id="bestTimeDetails"></div>
+            <p class="best-time-note">※ 全問正解時に記録されます<br>※ リセットボタンから記録をクリアできます</p>
+            <div class="custom-dialog-buttons">
+                <button id="bestTimeClose" class="btn-confirm-yes">閉じる</button>
             </div>
         </div>
     </div>
