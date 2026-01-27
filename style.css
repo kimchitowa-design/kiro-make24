@@ -873,7 +873,7 @@ h1 {
     }
     
     .info-card .label {
-        font-size: 0.65em;
+        font-size: 0.75em;
         font-weight: 600;
     }
     
@@ -887,7 +887,7 @@ h1 {
     }
     
     .level-card .label {
-        font-size: 0.65em;
+        font-size: 0.75em;
         font-weight: 600;
     }
     
@@ -914,16 +914,16 @@ h1 {
     }
     
     .btn-grade .btn-text {
-        font-size: 0.9em;
+        font-size: 1.1em;
     }
     
     .btn-best-time .label {
-        font-size: 0.65em;
+        font-size: 0.75em;
         font-weight: 600;
     }
     
     .btn-best-time .value {
-        font-size: 0.85em;
+        font-size: 0.75em;
         font-weight: bold;
     }
 
