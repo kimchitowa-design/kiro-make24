@@ -1139,32 +1139,32 @@ h1 {
 
 .best-time-content h2 {
     color: #667eea;
-    margin-bottom: 20px;
-    font-size: 1.5em;
+    margin-bottom: 15px;
+    font-size: 1.3em;
 }
 
 #bestTimeDetails {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .best-time-level {
     background: #f9f9f9;
-    padding: 15px;
+    padding: 12px;
     border-radius: 10px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     border-left: 4px solid #667eea;
 }
 
 .best-time-level h3 {
     color: #667eea;
-    margin-bottom: 8px;
-    font-size: 1.1em;
+    margin-bottom: 6px;
+    font-size: 1em;
 }
 
 .best-time-level p {
     color: #666;
-    margin: 5px 0;
-    font-size: 0.95em;
+    margin: 4px 0;
+    font-size: 0.9em;
 }
 
 .best-time-level .no-record {
@@ -1177,5 +1177,5 @@ h1 {
     font-size: 0.85em;
     line-height: 1.6;
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }

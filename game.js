@@ -540,6 +540,42 @@ function saveBestTime(level, timeInSeconds) {
     updateBestTimeDisplay();
 }
 
+// 新しい記録保存関数（正解数とタイムを保存）
+function saveBestRecord(level, correctAnswers, totalProblems, timeInSeconds) {
+    const saved = localStorage.getItem('make24BestRecords');
+    let bestRecords = {};
+    
+    if (saved) {
+        try {
+            bestRecords = JSON.parse(saved);
+        } catch (e) {
+            console.error('ベストレコードの読み込みに失敗しました', e);
+        }
+    }
+    
+    bestRecords[level] = {
+        correctAnswers: correctAnswers,
+        totalProblems: totalProblems,
+        time: timeInSeconds,
+        date: new Date().toISOString()
+    };
+    localStorage.setItem('make24BestRecords', JSON.stringify(bestRecords));
+    updateBestTimeDisplay();
+}
+
+function getBestRecord(level) {
+    const saved = localStorage.getItem('make24BestRecords');
+    if (saved) {
+        try {
+            const bestRecords = JSON.parse(saved);
+            return bestRecords[level] || null;
+        } catch (e) {
+            console.error('ベストレコードの読み込みに失敗しました', e);
+        }
+    }
+    return null;
+}
+
 function getBestTime(level) {
     const saved = localStorage.getItem('make24BestTimes');
     if (saved) {
@@ -576,17 +612,16 @@ function getBestTimeDate(level) {
 }
 
 function updateBestTimeDisplay() {
-    const stats = getCurrentStats();
-    if (stats.bestTime) {
-        const minutes = Math.floor(stats.bestTime / 60);
-        const seconds = stats.bestTime % 60;
-        bestTimeSpan.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    const record = getBestRecord(gameState.level);
+    if (record) {
+        bestTimeSpan.textContent = `${record.correctAnswers}問正解`;
     } else {
-        bestTimeSpan.textContent = '--:--';
+        bestTimeSpan.textContent = '記録なし';
     }
 }
 
 function clearBestTime(level) {
+    // 旧形式のベストタイムをクリア
     const saved = localStorage.getItem('make24BestTimes');
     let bestTimes = {};
     
@@ -601,6 +636,22 @@ function clearBestTime(level) {
     delete bestTimes[level];
     localStorage.setItem('make24BestTimes', JSON.stringify(bestTimes));
     delete gameState.levelStats[level].bestTime;
+    
+    // 新形式のベストレコードをクリア
+    const savedRecords = localStorage.getItem('make24BestRecords');
+    let bestRecords = {};
+    
+    if (savedRecords) {
+        try {
+            bestRecords = JSON.parse(savedRecords);
+        } catch (e) {
+            console.error('ベストレコードの読み込みに失敗しました', e);
+        }
+    }
+    
+    delete bestRecords[level];
+    localStorage.setItem('make24BestRecords', JSON.stringify(bestRecords));
+    
     updateBestTimeDisplay();
 }
 
@@ -1477,13 +1528,13 @@ function executeGrading() {
         const seconds = elapsedTimeInSeconds % 60;
         timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}：${toFullWidth(String(seconds).padStart(2, '0'))}`;
         
-        // 全問正解の場合、ベストタイムをチェック
-        if (accuracy === 100) {
-            const currentBest = stats.bestTime;
-            if (!currentBest || elapsedTimeInSeconds < currentBest) {
-                saveBestTime(gameState.level, elapsedTimeInSeconds);
-                isNewRecord = true;
-            }
+        // ベストレコードをチェック（正解数が多い、または同じ正解数でタイムが早い）
+        const currentRecord = getBestRecord(gameState.level);
+        if (!currentRecord || 
+            correctAnswers > currentRecord.correctAnswers ||
+            (correctAnswers === currentRecord.correctAnswers && elapsedTimeInSeconds < currentRecord.time)) {
+            saveBestRecord(gameState.level, correctAnswers, totalProblems, elapsedTimeInSeconds);
+            isNewRecord = true;
         }
     }
     
@@ -1550,7 +1601,7 @@ function executeGrading() {
     }
     
     // 採点結果をダイアログで表示
-    let recordMessage = isNewRecord ? '\n🏆 ベストタイム更新！' : '';
+    let recordMessage = isNewRecord ? '\n🏆 記録更新！' : '';
     const message = `【採点結果　レベル：${levelName}】\n正解数　${toFullWidth(correctAnswers)}問（全${toFullWidth(totalProblems)}問）\n正解率　${toFullWidth(accuracy)}％\nタイム　${timeText}${recordMessage}\n\n${resultMessage}`;
     
     // ダイアログを表示
@@ -1590,24 +1641,25 @@ function showBestTimeDetails() {
         return String(num).replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) + 0xFEE0));
     };
     
-    // 各レベルのベストタイムを表示
+    // 各レベルのベストレコードを表示
     let html = '';
     for (let level = 1; level <= 3; level++) {
         const levelName = levelNames[level];
-        const bestTime = getBestTime(level);
-        const bestTimeDate = getBestTimeDate(level);
+        const record = getBestRecord(level);
         
         html += `<div class="best-time-level">`;
         html += `<h3>レベル ${toFullWidth(level)}：${levelName}</h3>`;
         
-        if (bestTime) {
-            const minutes = Math.floor(bestTime / 60);
-            const seconds = bestTime % 60;
-            const timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}：${toFullWidth(String(seconds).padStart(2, '0'))}`;
-            html += `<p>⏱️ ベストタイム：${timeText}</p>`;
+        if (record) {
+            html += `<p>✅ 正解数：${toFullWidth(record.correctAnswers)}問 / ${toFullWidth(record.totalProblems)}問　⏱️ タイム：`;
             
-            if (bestTimeDate) {
-                const date = new Date(bestTimeDate);
+            const minutes = Math.floor(record.time / 60);
+            const seconds = record.time % 60;
+            const timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}：${toFullWidth(String(seconds).padStart(2, '0'))}`;
+            html += `${timeText}</p>`;
+            
+            if (record.date) {
+                const date = new Date(record.date);
                 const dateText = `${toFullWidth(date.getFullYear())}年${toFullWidth(date.getMonth() + 1)}月${toFullWidth(date.getDate())}日`;
                 html += `<p>📅 達成日：${dateText}</p>`;
             }
