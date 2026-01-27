@@ -755,7 +755,7 @@ function handleCalculatorButton(e) {
     
     // 回答済みの問題は入力できない
     if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
-        showFeedback('この問題は回答済みです。採点するまで再挑戦できません', 'error');
+        showFeedback('採点するまで再挑戦できません', 'error');
         
         // 既存のタイマーをクリア
         if (gameState.feedbackTimer) {
@@ -878,6 +878,13 @@ function handleCalculatorButton(e) {
         if (value === '(' || value === ')') {
             // 開き括弧は最初または演算子の後のみ許可
             if (value === '(') {
+                // 4つの数字を全て使い切った後は開き括弧を入力できない
+                const usedNumbers = (currentValue.match(/[0-9]/g) || []).length;
+                if (usedNumbers >= 4) {
+                    showFeedback('4つの数字を全て使用済みです', 'error');
+                    return;
+                }
+                
                 if (currentValue !== '' && gameState.lastButtonType !== 'operator') {
                     showFeedback('演算子を選択してください', 'error');
                     return;
@@ -891,6 +898,12 @@ function handleCalculatorButton(e) {
                 
                 if (openCount <= closeCount) {
                     showFeedback('開き括弧が入力されていません', 'error');
+                    return;
+                }
+                
+                // 開き括弧の直後は閉じ括弧を入力できない
+                if (gameState.lastButtonType === 'openParen') {
+                    showFeedback('開き括弧の後に閉じ括弧は入力できません', 'error');
                     return;
                 }
                 
@@ -918,6 +931,13 @@ function handleCalculatorButton(e) {
             }
         } else {
             // 通常の演算子（+、−、×、/）の場合
+            // 4つの数字を全て使い切った後は演算子を入力できない
+            const usedNumbers = (currentValue.match(/[0-9]/g) || []).length;
+            if (usedNumbers >= 4) {
+                showFeedback('4つの数字を全て使用済みです', 'error');
+                return;
+            }
+            
             // 開き括弧の直後は演算子を入力できない
             if (gameState.lastButtonType === 'openParen') {
                 showFeedback('数字を選択してください', 'error');
@@ -1101,7 +1121,7 @@ function checkAnswer() {
     
     // 回答済みの問題は回答できない
     if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
-        showFeedback('この問題は回答済みです。採点するまで再挑戦できません', 'error');
+        showFeedback('採点するまで再挑戦できません', 'error');
         
         // 既存のタイマーをクリア
         if (gameState.feedbackTimer) {
@@ -1225,6 +1245,12 @@ function handleCorrectAnswer() {
 
 // フィードバック表示
 function showFeedback(message, type, noAnimation = false) {
+    // 既存のタイマーをクリア
+    if (gameState.feedbackTimer) {
+        clearTimeout(gameState.feedbackTimer);
+        gameState.feedbackTimer = null;
+    }
+    
     feedbackDiv.textContent = message;
     if (noAnimation) {
         // アニメーションなしで表示
@@ -1232,6 +1258,15 @@ function showFeedback(message, type, noAnimation = false) {
     } else {
         // 通常のアニメーション付き表示
         feedbackDiv.className = `feedback ${type}`;
+    }
+    
+    // エラーメッセージは3秒後に自動消去
+    if (type === 'error') {
+        gameState.feedbackTimer = setTimeout(() => {
+            feedbackDiv.textContent = '';
+            feedbackDiv.className = 'feedback';
+            gameState.feedbackTimer = null;
+        }, 3000);
     }
 }
 
@@ -1453,24 +1488,32 @@ function executeGrading() {
         }
     }
     
-    // 採点結果をフィードバックエリアに表示（generateNewNumbers後に表示）
+    // 採点結果をダイアログで表示
     let recordMessage = isNewRecord ? '\n🏆 ベストタイム更新！' : '';
-    const message = `【採点結果　レベル：${levelName}】\n正解数　${toFullWidth(correctAnswers)}問（全${toFullWidth(totalProblems)}問）\n正解率　${toFullWidth(accuracy)}％\nタイム　${timeText}${recordMessage}\n${resultMessage}`;
-    showFeedback(message, 'success');
+    const message = `【採点結果　レベル：${levelName}】\n正解数　${toFullWidth(correctAnswers)}問（全${toFullWidth(totalProblems)}問）\n正解率　${toFullWidth(accuracy)}％\nタイム　${timeText}${recordMessage}\n\n${resultMessage}`;
     
-    // フィードバックエリア以外をクリックしたら採点結果を消す
-    const clearGradingResult = (e) => {
-        if (e.target !== feedbackDiv && !feedbackDiv.contains(e.target)) {
-            feedbackDiv.textContent = '';
-            feedbackDiv.className = 'feedback';
-            document.removeEventListener('click', clearGradingResult);
-        }
+    // ダイアログを表示
+    const dialog = document.getElementById('gradingResultDialog');
+    const messageElement = document.getElementById('gradingResultMessage');
+    const closeBtn = document.getElementById('gradingResultClose');
+    
+    messageElement.textContent = message;
+    dialog.classList.add('show');
+    
+    // 閉じるボタンのイベントリスナー
+    const handleClose = () => {
+        dialog.classList.remove('show');
+        closeBtn.removeEventListener('click', handleClose);
     };
     
-    // 次のイベントループで登録（即座にクリアされないように）
-    setTimeout(() => {
-        document.addEventListener('click', clearGradingResult);
-    }, 100);
+    closeBtn.addEventListener('click', handleClose);
+    
+    // 背景クリックで閉じる
+    dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+            handleClose();
+        }
+    });
 }
 
 // 問題をスキップ

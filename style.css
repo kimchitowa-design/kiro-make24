@@ -1016,3 +1016,21 @@ h1 {
     background: #e0e0e0;
     transform: translateY(-2px);
 }
+
+/* 採点結果ダイアログ */
+.grading-result-content {
+    min-width: 350px;
+    max-width: 500px;
+}
+
+.grading-result-content p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    white-space: pre-line;
+    text-align: left;
+    margin: 0 auto;
+}
+
+.grading-result-content .custom-dialog-buttons {
+    margin-top: 25px;
+}

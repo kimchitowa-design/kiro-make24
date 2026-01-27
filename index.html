@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="4つの数字を使って24を作る計算パズルゲーム">
     <meta name="theme-color" content="#667eea">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Make 24">
@@ -106,6 +107,16 @@
             <div class="custom-dialog-buttons">
                 <button id="confirmYes" class="btn-confirm-yes">はい</button>
                 <button id="confirmNo" class="btn-confirm-no">いいえ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 採点結果ダイアログ -->
+    <div id="gradingResultDialog" class="custom-dialog">
+        <div class="custom-dialog-content grading-result-content">
+            <p id="gradingResultMessage"></p>
+            <div class="custom-dialog-buttons">
+                <button id="gradingResultClose" class="btn-confirm-yes">閉じる</button>
             </div>
         </div>
     </div>
