@@ -942,7 +942,17 @@ function handleCalculatorButton(e) {
         // 数字ボタンの場合
         if (gameState.lastButtonType === 'number') {
             // 前回も数字ボタンだった場合、警告を表示
-            showFeedback('演算子または、かっこを選択してください', 'error');
+            // 開きかっこの中かどうかをチェック
+            const openCount = (currentValue.match(/\(/g) || []).length;
+            const closeCount = (currentValue.match(/\)/g) || []).length;
+            
+            if (openCount > closeCount) {
+                // 開きかっこの中
+                showFeedback('演算子または、閉じかっこを選択してください', 'error');
+            } else {
+                // 開きかっこの外
+                showFeedback('演算子を選択してください', 'error');
+            }
             return;
         }
         if (gameState.lastButtonType === 'closeParen') {
@@ -982,6 +992,13 @@ function handleCalculatorButton(e) {
                     return;
                 }
                 
+                // 開き括弧の後に開き括弧は入力できない
+                if (gameState.lastButtonType === 'openParen') {
+                    showFeedback('数字を選択してください', 'error');
+                    return;
+                }
+                
+                // 開き括弧は最初または演算子の後のみ許可
                 if (currentValue !== '' && gameState.lastButtonType !== 'operator') {
                     showFeedback('演算子を選択してください', 'error');
                     return;
@@ -1022,7 +1039,8 @@ function handleCalculatorButton(e) {
                 gameState.lastButtonType = 'closeParen'; // 閉じ括弧専用の状態
             }
             // エラーメッセージをクリア
-            if (feedbackDiv.textContent === '演算子または、かっこを選択してください') {
+            const errorMsg = feedbackDiv.textContent;
+            if (errorMsg === '演算子を選択してください' || errorMsg === '演算子または、閉じかっこを選択してください') {
                 feedbackDiv.textContent = '';
                 feedbackDiv.className = 'feedback';
             }
@@ -1050,7 +1068,8 @@ function handleCalculatorButton(e) {
             answerInput.setSelectionRange(cursorPosition + value.length, cursorPosition + value.length);
             gameState.lastButtonType = 'operator';
             // エラーメッセージをクリア（数字連続のエラーのみ）
-            if (feedbackDiv.textContent === '演算子または、かっこを選択してください') {
+            const errorMsg = feedbackDiv.textContent;
+            if (errorMsg === '演算子を選択してください' || errorMsg === '演算子または、閉じかっこを選択してください') {
                 feedbackDiv.textContent = '';
                 feedbackDiv.className = 'feedback';
             }
@@ -1360,8 +1379,8 @@ function showFeedback(message, type, noAnimation = false) {
     // 入力制限のエラーメッセージのみ3秒後に自動消去
     // 計算結果のエラー（不正解）は残す
     const autoHideErrors = [
-        '演算子または、かっこを選択してください',
         '演算子を選択してください',
+        '演算子または、閉じかっこを選択してください',
         '最初に数字または開き括弧を選択してください',
         '開き括弧が入力されていません',
         '開き括弧の後に閉じ括弧は入力できません',
