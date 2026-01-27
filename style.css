@@ -864,15 +864,22 @@ h1 {
     }
     
     .info-card .label {
-        font-size: 0.55em;
+        font-size: 0.65em;
+        font-weight: 600;
     }
     
     .info-card .value {
-        font-size: 0.85em;
+        font-size: 1em;
+        font-weight: bold;
     }
     
     .level-card {
         padding: 6px 3px;
+    }
+    
+    .level-card .label {
+        font-size: 0.65em;
+        font-weight: 600;
     }
     
     .level-card .value {
@@ -880,7 +887,8 @@ h1 {
     }
     
     .level-select {
-        font-size: 0.85em;
+        font-size: 1em;
+        font-weight: bold;
     }
     
     .dropdown-arrow {
@@ -890,6 +898,24 @@ h1 {
     .btn-grade {
         font-size: 0.85em;
         padding: 4px;
+    }
+    
+    .btn-grade .btn-icon {
+        font-size: 1.2em;
+    }
+    
+    .btn-grade .btn-text {
+        font-size: 0.9em;
+    }
+    
+    .btn-best-time .label {
+        font-size: 0.65em;
+        font-weight: 600;
+    }
+    
+    .btn-best-time .value {
+        font-size: 1em;
+        font-weight: bold;
     }
 
     .action-buttons {
