@@ -614,9 +614,9 @@ function getBestTimeDate(level) {
 function updateBestTimeDisplay() {
     const record = getBestRecord(gameState.level);
     if (record) {
-        bestTimeSpan.textContent = `${record.correctAnswers}問正解`;
+        bestTimeSpan.textContent = `${record.correctAnswers}問`;
     } else {
-        bestTimeSpan.textContent = '記録なし';
+        bestTimeSpan.textContent = 'なし';
     }
 }
 
