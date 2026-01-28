@@ -419,6 +419,7 @@ const bestTimeBtn = document.getElementById('bestTimeBtn');
 const accuracySpan = document.getElementById('accuracy');
 const bestTimeSpan = document.getElementById('bestTime');
 const levelSelect = document.getElementById('levelSelect');
+const mascotContainer = document.getElementById('mascotContainer');
 const mascotCharacter = document.getElementById('mascotCharacter');
 const speechBubble = document.getElementById('speechBubble');
 const mascotMessage = document.getElementById('mascotMessage');
