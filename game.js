@@ -6,6 +6,8 @@ let gameState = {
     lastButtonType: null, // 最後に押したボタンの種類を記録
     solutionShown: false, // 現在の問題で解答例を表示したかどうか
     feedbackTimer: null, // フィードバック表示のタイマーID
+    inactivityTimer: null,
+    isSleeping: false,
     // タイマー関連
     startTime: null, // ゲーム開始時刻
     timerInterval: null, // タイマー更新用のインターバルID
@@ -427,6 +429,7 @@ function init() {
     generateNewNumbers();
     attachEventListeners();
     updatePlaceholder(); // 初期プレースホルダーを設定
+    resetInactivityTimer(); // 居眠りタイマー開始
 
     // レベルカード全体をクリック可能にする
     const levelCard = document.querySelector('.level-card');
@@ -457,14 +460,15 @@ function init() {
 
 // マスコットの更新
 function updateMascot(message, mood = '', duration = 3000) {
-    if (!mascotCharacter || !speechBubble || !mascotMessage) return;
+    if (!mascotMessage || !mascotCharacter || !speechBubble) return;
 
-    // 🦉は固定
-    mascotCharacter.textContent = '🦉';
+    mascotCharacter.textContent = '🦉'; // 🦉は固定
     mascotMessage.textContent = message;
 
-    // 感情のクラスを一度リセット
-    mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking');
+    // 既存の表情クラスを削除
+    mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking', 'mascot-sleep');
+
+    // 新しい表情クラスを追加
     if (mood) {
         mascotCharacter.classList.add(mood);
     }
@@ -476,9 +480,36 @@ function updateMascot(message, mood = '', duration = 3000) {
         if (gameState.mascotTimer) clearTimeout(gameState.mascotTimer);
         gameState.mascotTimer = setTimeout(() => {
             speechBubble.classList.remove('show');
-            mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking');
+            mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking', 'mascot-sleep');
         }, duration);
+    } else if (duration === 0) {
+        // durationが0の場合は永続表示なのでタイマーをクリア
+        if (gameState.mascotTimer) clearTimeout(gameState.mascotTimer);
     }
+}
+
+// 居眠りタイマーのリセット
+function resetInactivityTimer() {
+    if (gameState.inactivityTimer) {
+        clearTimeout(gameState.inactivityTimer);
+    }
+
+    // 寝ていた場合は起きる
+    if (gameState.isSleeping) {
+        gameState.isSleeping = false;
+        const wakeMessages = ['ハッ！寝てへんで！', 'なんや、もう一回やるか？', 'シャキッとしたわ！', 'ちゃんと見てるからな！'];
+        updateMascot(wakeMessages[Math.floor(Math.random() * wakeMessages.length)], 'mascot-thinking');
+    }
+
+    // 30秒操作がないと寝る
+    gameState.inactivityTimer = setTimeout(startMascotSleep, 30000);
+}
+
+// 居眠り開始
+function startMascotSleep() {
+    gameState.isSleeping = true;
+    const sleepTalk = ['💤... スースー...', '阪神タイガース優勝や！', 'アレが決まったわ... 💤', 'たこ焼き、もう食べられへん...', 'ムニャムニャ...'];
+    updateMascot(sleepTalk[Math.floor(Math.random() * sleepTalk.length)], 'mascot-sleep', 0); // 0は永続
 }
 
 // タイマー機能
@@ -691,11 +722,18 @@ function clearBestTime(level) {
 
 // イベントリスナー
 function attachEventListeners() {
-    submitBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        checkAnswer();
-    });
+    // ユーザー操作でタイマーリセット
+    window.addEventListener('mousedown', resetInactivityTimer);
+    window.addEventListener('keydown', resetInactivityTimer);
+    window.addEventListener('touchstart', resetInactivityTimer);
+
+    if (submitBtn) {
+        submitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            checkAnswer();
+        });
+    }
     answerInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') checkAnswer();
     });
