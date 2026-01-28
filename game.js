@@ -465,26 +465,27 @@ function updateMascot(message, mood = '', duration = 3000) {
     mascotCharacter.textContent = '🦉'; // 🦉は固定
     mascotMessage.textContent = message;
 
-    // 既存の表情クラスを削除
-    mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking', 'mascot-sleep');
+    speechBubble.classList.add('show');
 
-    // 新しい表情クラスを追加
+    // アニメーション設定がなくてもクラスは追加する
     if (mood) {
         mascotCharacter.classList.add(mood);
     }
-
-    speechBubble.classList.add('show');
 
     // 一定時間後に吹き出しを消し、アニメーションも停止
     if (duration > 0) {
         if (gameState.mascotTimer) clearTimeout(gameState.mascotTimer);
         gameState.mascotTimer = setTimeout(() => {
-            speechBubble.classList.remove('show');
-            mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking', 'mascot-sleep');
+            if (!gameState.isSleeping) {
+                speechBubble.classList.remove('show');
+                mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking', 'mascot-sleep');
+            }
         }, duration);
     } else if (duration === 0) {
         // durationが0の場合は永続表示なのでタイマーをクリア
         if (gameState.mascotTimer) clearTimeout(gameState.mascotTimer);
+        // 強制的に表示状態を維持
+        speechBubble.classList.add('show');
     }
 }
 
@@ -722,10 +723,17 @@ function clearBestTime(level) {
 
 // イベントリスナー
 function attachEventListeners() {
-    // ユーザー操作でタイマーリセット
-    window.addEventListener('mousedown', resetInactivityTimer);
-    window.addEventListener('keydown', resetInactivityTimer);
-    window.addEventListener('touchstart', resetInactivityTimer);
+    // ユーザー操作（全体的なクリックやキー入力）でタイマーリセット
+    // ただしマスコット自身のクリック等でリセットされないよう制御
+    const interactionHandler = (e) => {
+        // マスコットコンテナ内の操作は無視して居眠りを継続させる
+        if (e.target.closest('#mascotContainer')) return;
+        resetInactivityTimer();
+    };
+
+    window.addEventListener('mousedown', interactionHandler);
+    window.addEventListener('keydown', resetInactivityTimer); // キー入力は常にリセット
+    window.addEventListener('touchstart', interactionHandler);
 
     if (submitBtn) {
         submitBtn.addEventListener('click', (e) => {

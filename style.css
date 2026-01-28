@@ -1397,3 +1397,5 @@ h1 {
 /* 居眠りアニメーション */
 .mascot-sleep { animation: mascot-sleep-anim 4s ease-in-out infinite !important; }
 @keyframes mascot-sleep-anim { 0%, 100% { transform: translateY(0) scale(1.1); filter: opacity(0.8); } 50% { transform: translateY(5px) scale(1.05); filter: opacity(0.6); } }
+
+.speech-bubble.show { display: block !important; opacity: 1 !important; visibility: visible !important; }
