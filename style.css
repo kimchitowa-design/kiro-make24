@@ -977,15 +977,24 @@ h1 {
     }
 
     .action-buttons .btn-secondary {
-        font-size: 0.7em;
-        padding: 8px 2px;
-        white-space: normal;
-        line-height: 1.3;
-        min-height: 50px;
+        font-size: 0.82em;
+        /* 文字を大きく */
+        padding: 10px 2px;
+        white-space: nowrap;
+        /* 改行を防ぐ */
+        line-height: 1.2;
+        min-height: 54px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        /* 横並びに変更 */
         align-items: center;
         justify-content: center;
+        gap: 2px;
+        /* アイコンと文字の間に少し隙間 */
+    }
+
+    .action-buttons .btn-icon {
+        font-size: 1.1em;
     }
 
     .feedback {
