@@ -1370,3 +1370,26 @@ h1 {
 @keyframes mascot-jump { 0%, 100% { transform: translateY(0) scale(1.1); } 50% { transform: translateY(-20px) scale(1.1); } }
 @keyframes mascot-shake { 0%, 100% { transform: translateX(0) scale(1.1); } 25% { transform: translateX(-5px) scale(1.1); } 75% { transform: translateX(5px) scale(1.1); } }
 @keyframes mascot-tilt { 0%, 100% { transform: rotate(-5deg) scale(1.1); } 50% { transform: rotate(15deg) scale(1.1); } }
+
+/* --- v0.7.3.1 モバイルレイアウト最終修正 --- */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 5px !important;
+        min-height: 100vh !important;
+        width: 100% !important;
+        overflow-x: hidden !important;
+    }
+    main {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
