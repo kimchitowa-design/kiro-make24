@@ -8,6 +8,8 @@ let gameState = {
     feedbackTimer: null, // フィードバック表示のタイマーID
     inactivityTimer: null,
     isSleeping: false,
+    mascotPokeCount: 0,
+    pokeResetTimer: null,
     // タイマー関連
     startTime: null, // ゲーム開始時刻
     timerInterval: null, // タイマー更新用のインターバルID
@@ -506,6 +508,58 @@ function resetInactivityTimer() {
     gameState.inactivityTimer = setTimeout(startMascotSleep, 30000);
 }
 
+// マスコットをつつく反応
+function handleMascotPoke(e) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    // 居眠りタイマーをリセット（つつくのは操作とみなす）
+    resetInactivityTimer();
+
+    // 居眠り中につつかれた場合
+    if (gameState.isSleeping) {
+        gameState.isSleeping = false;
+        const wakeUpMessages = [
+            'ハッ！びっくりしたやんか！',
+            'なんや、今の「アレ」か！？',
+            'うわぁっ！ボチボチ起きるわ...',
+            '夢でタイガースが勝ってたのに...'
+        ];
+        updateMascot(wakeUpMessages[Math.floor(Math.random() * wakeUpMessages.length)], 'mascot-worried');
+        gameState.mascotPokeCount = 0; // カウンターリセット
+        return;
+    }
+
+    // 連続タップの処理
+    gameState.mascotPokeCount++;
+    if (gameState.pokeResetTimer) clearTimeout(gameState.pokeResetTimer);
+
+    // 5秒間タップがないと機嫌が直る
+    gameState.pokeResetTimer = setTimeout(() => {
+        gameState.mascotPokeCount = 0;
+    }, 5000);
+
+    let message = '';
+    let style = 'mascot-thinking';
+
+    if (gameState.mascotPokeCount <= 3) {
+        const msgs = ['なんや？', 'くすぐったいわ！', '遊んでくれるんか？', 'びっくりするやんか'];
+        message = msgs[Math.floor(Math.random() * msgs.length)];
+    } else if (gameState.mascotPokeCount <= 6) {
+        const msgs = ['しつこいなあ！', 'わかった、わかったって！', 'つつきすぎやで！', 'くすぐったいって！'];
+        message = msgs[Math.floor(Math.random() * msgs.length)];
+        style = 'mascot-joy';
+    } else {
+        const msgs = ['ええ加減にせえ！', '梟にも三分の理やで！', '堪忍袋の緒が切れるわ！', 'もう、怒るで！ホンマに！'];
+        message = msgs[Math.floor(Math.random() * msgs.length)];
+        style = 'mascot-worried';
+    }
+
+    updateMascot(message, style);
+}
+
 // 居眠り開始
 function startMascotSleep() {
     gameState.isSleeping = true;
@@ -734,6 +788,12 @@ function attachEventListeners() {
     window.addEventListener('mousedown', interactionHandler);
     window.addEventListener('keydown', resetInactivityTimer); // キー入力は常にリセット
     window.addEventListener('touchstart', interactionHandler);
+
+    // マスコット自身のクリックイベント
+    if (mascotContainer) {
+        mascotContainer.addEventListener('mousedown', handleMascotPoke);
+        mascotContainer.addEventListener('touchstart', handleMascotPoke);
+    }
 
     if (submitBtn) {
         submitBtn.addEventListener('click', (e) => {
