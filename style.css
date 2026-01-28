@@ -1278,12 +1278,3 @@ h1 {
     pointer-events: none;
     z-index: 100;
 }
-
-@media (max-width: 768px) {
-    .version-info {
-        bottom: 5px;
-        right: 10px;
-        font-size: 0.65em;
-        opacity: 0.7;
-    }
-}
