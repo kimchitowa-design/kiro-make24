@@ -1430,10 +1430,14 @@ function updateDisplay() {
 
     accuracySpan.textContent = accuracy + '%';
     levelSelect.value = gameState.level;
+    updateProblemNumber();
 }
 
 // 解答例を表示
 function showSolution() {
+    // 最初のボタン押下でタイマーを開始
+    resumeTimer();
+
     // 現在のレベルと問題インデックスを取得
     const stats = getCurrentStats();
 
