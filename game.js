@@ -456,18 +456,27 @@ function init() {
 }
 
 // マスコットの更新
-function updateMascot(emoji, message, duration = 3000) {
+function updateMascot(message, mood = '', duration = 3000) {
     if (!mascotCharacter || !speechBubble || !mascotMessage) return;
 
-    mascotCharacter.textContent = emoji;
+    // 🦉は固定
+    mascotCharacter.textContent = '🦉';
     mascotMessage.textContent = message;
+
+    // 感情のクラスを一度リセット
+    mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking');
+    if (mood) {
+        mascotCharacter.classList.add(mood);
+    }
+
     speechBubble.classList.add('show');
 
-    // 一定時間後に吹き出しを消す（durationが0なら消さない）
+    // 一定時間後に吹き出しを消し、アニメーションも停止
     if (duration > 0) {
         if (gameState.mascotTimer) clearTimeout(gameState.mascotTimer);
         gameState.mascotTimer = setTimeout(() => {
             speechBubble.classList.remove('show');
+            mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking');
         }, duration);
     }
 }
@@ -1159,7 +1168,7 @@ function generateNewNumbers() {
 
     // マスコットの挨拶
     const greetings = ['こんにちは！', '頑張って！', '24を作ろう！', '準備はいい？'];
-    updateMascot('🦉', greetings[Math.floor(Math.random() * greetings.length)]);
+    updateMascot(greetings[Math.floor(Math.random() * greetings.length)], 'mascot-thinking');
 
     displayNumbers();
     answerInput.value = '';
@@ -1362,7 +1371,7 @@ function checkAnswer() {
             stats.totalAttempts++;
             // 整数の場合は小数点以下を表示しない
             const resultText = Number.isInteger(result) ? result : result.toFixed(2);
-            updateMascot('🧐', '惜しい！もう一回計算してみて！', 4000);
+            updateMascot('惜しい！もう一回計算してみて！', 'mascot-worried', 4000);
             showFeedback(`残念！計算結果は ${resultText} です。24を作ろう！`, 'error');
             stats.streak = 0;
             updateDisplay();
@@ -1388,7 +1397,7 @@ function handleCorrectAnswer() {
     stats.correctAnswers++;
     stats.totalAttempts++;
 
-    updateMascot('🎉', 'やすごーい！正解だよ！', 5000);
+    updateMascot('やすごーい！正解だよ！', 'mascot-joy', 5000);
     showFeedback(`🎉 正解！次の問題に進もう！`, 'success');
 
     updateDisplay();
@@ -1515,7 +1524,7 @@ function showSolution() {
     gameState.solutionShown = true;
     stats.shownSolutions.add(stats.currentProblemIndex);
 
-    updateMascot('💡', '次はきっと解けるよ！応援してるね！', 5000);
+    updateMascot('次はきっと解けるよ！応援してるね！', 'mascot-thinking', 5000);
 
     // 解答例を表示
     if (gameState.solutions.length > 0) {

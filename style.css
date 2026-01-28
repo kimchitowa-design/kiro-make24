@@ -1363,3 +1363,10 @@ h1 {
         transform: translateY(-10px);
     }
 }
+/* 感情のアニメーション */
+.mascot-joy { animation: mascot-jump 0.5s ease infinite !important; }
+.mascot-worried { animation: mascot-shake 0.5s ease-in-out infinite !important; }
+.mascot-thinking { animation: mascot-tilt 2s ease-in-out infinite !important; }
+@keyframes mascot-jump { 0%, 100% { transform: translateY(0) scale(1.1); } 50% { transform: translateY(-20px) scale(1.1); } }
+@keyframes mascot-shake { 0%, 100% { transform: translateX(0) scale(1.1); } 25% { transform: translateX(-5px) scale(1.1); } 75% { transform: translateX(5px) scale(1.1); } }
+@keyframes mascot-tilt { 0%, 100% { transform: rotate(-5deg) scale(1.1); } 50% { transform: rotate(15deg) scale(1.1); } }
