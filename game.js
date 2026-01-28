@@ -25,6 +25,11 @@ const levelConfig = {
     3: { min: 1, max: 13, operators: ['+', '-', '*', '/', '(', ')'], requiresParentheses: true }
 };
 
+// 半角数字を全角数字に変換
+function toFullWidth(num) {
+    return String(num).replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) + 0xFEE0));
+}
+
 // レベル別の問題リスト
 const levelProblems = {
     1: [], // レベル1の問題（後で設定）
@@ -1163,7 +1168,11 @@ function updateProblemNumber() {
     const problemNumberSpan = document.getElementById('problemNumber');
 
     if (problemNumberSpan && problems) {
-        problemNumberSpan.textContent = `問題 ${stats.currentProblemIndex + 1}/${problems.length}`;
+        const currentNum = toFullWidth(stats.currentProblemIndex + 1);
+        const answeredCount = toFullWidth(Object.keys(stats.answerHistory).length);
+        const totalCount = toFullWidth(problems.length);
+
+        problemNumberSpan.textContent = `問題${currentNum}（回答済み${answeredCount}/${totalCount}）`;
     }
 }
 
@@ -1535,10 +1544,7 @@ function executeGrading() {
     const levelNames = { 1: 'ふつう', 2: '難しい', 3: '鬼' };
     const levelName = levelNames[gameState.level];
 
-    // 半角数字を全角数字に変換
-    const toFullWidth = (num) => {
-        return String(num).replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) + 0xFEE0));
-    };
+
 
     // 経過時間を計算
     let timeText = '００：００';
@@ -1668,10 +1674,7 @@ function showBestTimeDetails() {
 
     const levelNames = { 1: 'ふつう', 2: '難しい', 3: '鬼' };
 
-    // 半角数字を全角数字に変換
-    const toFullWidth = (num) => {
-        return String(num).replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) + 0xFEE0));
-    };
+
 
     // 各レベルのベストレコードを表示
     let html = '';
