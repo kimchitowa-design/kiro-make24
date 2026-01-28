@@ -1167,7 +1167,7 @@ function generateNewNumbers() {
     updateProblemNumber();
 
     // マスコットの挨拶
-    const greetings = ['こんにちは！', '頑張って！', '24を作ろう！', '準備はいい？'];
+    const greetings = ['こんちは！', 'きばっていこうや！！', '24作ったろか！', 'ボチボチいこか'];
     updateMascot(greetings[Math.floor(Math.random() * greetings.length)], 'mascot-thinking');
 
     displayNumbers();
@@ -1371,7 +1371,7 @@ function checkAnswer() {
             stats.totalAttempts++;
             // 整数の場合は小数点以下を表示しない
             const resultText = Number.isInteger(result) ? result : result.toFixed(2);
-            updateMascot('惜しい！もう一回計算してみて！', 'mascot-worried', 4000);
+            updateMascot('おっと！惜しいなあ。もう一回計算してみーや！', 'mascot-worried', 4000);
             showFeedback(`残念！計算結果は ${resultText} です。24を作ろう！`, 'error');
             stats.streak = 0;
             updateDisplay();
@@ -1397,7 +1397,7 @@ function handleCorrectAnswer() {
     stats.correctAnswers++;
     stats.totalAttempts++;
 
-    updateMascot('やすごーい！正解だよ！', 'mascot-joy', 5000);
+    updateMascot('やるやんか！正解やで！', 'mascot-joy', 5000);
     showFeedback(`🎉 正解！次の問題に進もう！`, 'success');
 
     updateDisplay();
@@ -1524,7 +1524,7 @@ function showSolution() {
     gameState.solutionShown = true;
     stats.shownSolutions.add(stats.currentProblemIndex);
 
-    updateMascot('次はきっと解けるよ！応援してるね！', 'mascot-thinking', 5000);
+    updateMascot('次はイケるって！応援してるからな！', 'mascot-thinking', 5000);
 
     // 解答例を表示
     if (gameState.solutions.length > 0) {
