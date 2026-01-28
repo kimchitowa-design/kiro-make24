@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', 'ヒラギノ丸ゴ ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝偵Λ繧ｮ繝惹ｸｸ繧ｴ ProN', '繝｡繧､繝ｪ繧ｪ', Meiryo, '�ｭ�ｳ �ｰ繧ｴ繧ｷ繝�け', sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
@@ -15,7 +15,7 @@ body {
     position: relative;
 }
 
-/* タイマー表示 */
+/* 繧ｿ繧､繝槭�陦ｨ遉ｺ */
 .game-timer {
     position: absolute;
     right: 0;
@@ -161,7 +161,7 @@ h1 {
     cursor: pointer;
     padding: 8px;
     transition: all 0.2s;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', 'ヒラギノ丸ゴ ProN', 'メイリオ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝偵Λ繧ｮ繝惹ｸｸ繧ｴ ProN', '繝｡繧､繝ｪ繧ｪ', Meiryo, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -431,7 +431,7 @@ h1 {
     transition: all 0.2s;
     font-weight: 600;
     background: white;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', 'ヒラギノ丸ゴ ProN', 'メイリオ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝偵Λ繧ｮ繝惹ｸｸ繧ｴ ProN', '繝｡繧､繝ｪ繧ｪ', Meiryo, sans-serif;
 }
 
 .calc-btn:hover {
@@ -532,7 +532,7 @@ h1 {
     cursor: pointer;
     transition: all 0.3s;
     font-weight: 600;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', 'ヒラギノ丸ゴ ProN', 'メイリオ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝偵Λ繧ｮ繝惹ｸｸ繧ｴ ProN', '繝｡繧､繝ｪ繧ｪ', Meiryo, sans-serif;
 }
 
 .btn-primary {
@@ -793,7 +793,7 @@ h1 {
         font-size: 1.5em;
     }
 
-    /* スマホ表示時もタイマーは右側に配置 */
+    /* 繧ｹ繝槭�陦ｨ遉ｺ譎ゅｂ繧ｿ繧､繝槭�縺ｯ蜿ｳ蛛ｴ縺ｫ驟咲ｽｮ */
     .game-timer {
         position: absolute;
         right: 0;
@@ -978,19 +978,19 @@ h1 {
 
     .action-buttons .btn-secondary {
         font-size: 0.82em;
-        /* 文字を大きく */
+        /* 譁�ｭ励ｒ螟ｧ縺阪￥ */
         padding: 10px 2px;
         white-space: nowrap;
-        /* 改行を防ぐ */
+        /* 謾ｹ陦後ｒ髦ｲ縺� */
         line-height: 1.2;
         min-height: 54px;
         display: flex;
         flex-direction: row;
-        /* 横並びに変更 */
+        /* 讓ｪ荳ｦ縺ｳ縺ｫ螟画峩 */
         align-items: center;
         justify-content: center;
         gap: 2px;
-        /* アイコンと文字の間に少し隙間 */
+        /* 繧｢繧､繧ｳ繝ｳ縺ｨ譁�ｭ励�髢薙↓蟆代＠髫咎俣 */
     }
 
     .action-buttons .btn-icon {
@@ -1025,7 +1025,7 @@ h1 {
     }
 }
 
-/* カスタム確認ダイアログ */
+/* 繧ｫ繧ｹ繧ｿ繝�遒ｺ隱阪ム繧､繧｢繝ｭ繧ｰ */
 .custom-dialog {
     display: none;
     position: fixed;
@@ -1098,7 +1098,7 @@ h1 {
     transition: all 0.3s;
     font-weight: 600;
     min-width: 100px;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', 'ヒラギノ丸ゴ ProN', 'メイリオ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝偵Λ繧ｮ繝惹ｸｸ繧ｴ ProN', '繝｡繧､繝ｪ繧ｪ', Meiryo, sans-serif;
 }
 
 .btn-confirm-yes {
@@ -1122,7 +1122,7 @@ h1 {
     transform: translateY(-2px);
 }
 
-/* 採点結果ダイアログ */
+/* 謗｡轤ｹ邨先棡繝繧､繧｢繝ｭ繧ｰ */
 .grading-result-content {
     min-width: 350px;
     max-width: 500px;
@@ -1140,7 +1140,7 @@ h1 {
     margin-top: 25px;
 }
 
-/* ベストタイムボタン */
+/* 繝吶せ繝医ち繧､繝�繝懊ち繝ｳ */
 .best-time-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -1168,7 +1168,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', 'ヒラギノ丸ゴ ProN', 'メイリオ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝偵Λ繧ｮ繝惹ｸｸ繧ｴ ProN', '繝｡繧､繝ｪ繧ｪ', Meiryo, sans-serif;
 }
 
 .btn-best-time .label {
@@ -1185,7 +1185,7 @@ h1 {
     font-weight: bold;
 }
 
-/* ベストタイム詳細ダイアログ */
+/* 繝吶せ繝医ち繧､繝�隧ｳ邏ｰ繝繧､繧｢繝ｭ繧ｰ */
 .best-time-content {
     min-width: 400px;
     max-width: 500px;
@@ -1234,7 +1234,7 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* スマホ表示用のベストタイムダイアログ調整 */
+/* 繧ｹ繝槭�陦ｨ遉ｺ逕ｨ縺ｮ繝吶せ繝医ち繧､繝�繝繧､繧｢繝ｭ繧ｰ隱ｿ謨ｴ */
 @media (max-width: 768px) {
     .best-time-content {
         min-width: 300px;
@@ -1250,11 +1250,11 @@ h1 {
     }
 }
 
-/* 紙吹雪用キャンバス */
+/* 邏吝聖髮ｪ逕ｨ繧ｭ繝｣繝ｳ繝舌せ */
 .grading-result-content {
     position: relative;
     overflow: hidden;
-    /* コンテンツからはみ出さないように */
+    /* 繧ｳ繝ｳ繝�Φ繝�°繧峨�縺ｿ蜃ｺ縺輔↑縺�ｈ縺�↓ */
 }
 
 .confetti-canvas {
@@ -1264,19 +1264,19 @@ h1 {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    /* クリックイベントを透過 */
+    /* 繧ｯ繝ｪ繝�け繧､繝吶Φ繝医ｒ騾城℃ */
     z-index: 1;
-    /* 背景より上、ボタンより下 */
+    /* 閭梧勹繧医ｊ荳翫√�繧ｿ繝ｳ繧医ｊ荳� */
 }
 
 .custom-dialog-content p,
 .custom-dialog-buttons {
     position: relative;
     z-index: 2;
-    /* キャンバスより上に表示 */
+    /* 繧ｭ繝｣繝ｳ繝舌せ繧医ｊ荳翫↓陦ｨ遉ｺ */
 }
 
-/* バージョン情報 */
+/* 繝舌�繧ｸ繝ｧ繝ｳ諠��ｱ */
 .version-info {
     position: fixed;
     bottom: 10px;
@@ -1288,16 +1288,16 @@ h1 {
     z-index: 100;
 }
 
-/* マスコットキャラクター（通常は非表示、スマホのみ表示） */
+/* 繝槭せ繧ｳ繝�ヨ繧ｭ繝｣繝ｩ繧ｯ繧ｿ繝ｼ�磯壼ｸｸ縺ｯ髱櫁｡ｨ遉ｺ縲√せ繝槭�縺ｮ縺ｿ陦ｨ遉ｺ�� */
 .mascot-container {
     display: none;
-    /* PCでは非表示 */
+    /* PC縺ｧ縺ｯ髱櫁｡ｨ遉ｺ */
 }
 
 @media (max-width: 768px) {
     .mascot-container {
         display: flex;
-        /* スマホでは表示 */
+        /* 繧ｹ繝槭�縺ｧ縺ｯ陦ｨ遉ｺ */
         flex-direction: row;
         align-items: center;
         justify-content: center;
@@ -1305,7 +1305,8 @@ h1 {
         flex-grow: 1;
         min-height: 120px;
         padding: 10px 15px 30px 15px;
-        pointer-events: none;
+        pointer-events: auto;
+        cursor: pointer;
         transition: opacity 0.3s ease;
         gap: 15px;
         width: 100%;
@@ -1363,15 +1364,61 @@ h1 {
         transform: translateY(-10px);
     }
 }
-/* ����̃A�j���[�V���� */
-.mascot-joy { animation: mascot-jump 0.5s ease infinite !important; }
-.mascot-worried { animation: mascot-shake 0.5s ease-in-out infinite !important; }
-.mascot-thinking { animation: mascot-tilt 2s ease-in-out infinite !important; }
-@keyframes mascot-jump { 0%, 100% { transform: translateY(0) scale(1.1); } 50% { transform: translateY(-20px) scale(1.1); } }
-@keyframes mascot-shake { 0%, 100% { transform: translateX(0) scale(1.1); } 25% { transform: translateX(-5px) scale(1.1); } 75% { transform: translateX(5px) scale(1.1); } }
-@keyframes mascot-tilt { 0%, 100% { transform: rotate(-5deg) scale(1.1); } 50% { transform: rotate(15deg) scale(1.1); } }
 
-/* --- v0.7.3.1 ���o�C�����C�A�E�g�ŏI�C�� --- */
+/* 感情のアニメーション */
+.mascot-joy {
+    animation: mascot-jump 0.5s ease infinite !important;
+}
+
+.mascot-worried {
+    animation: mascot-shake 0.5s ease-in-out infinite !important;
+}
+
+.mascot-thinking {
+    animation: mascot-tilt 2s ease-in-out infinite !important;
+}
+
+@keyframes mascot-jump {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1.1);
+    }
+
+    50% {
+        transform: translateY(-20px) scale(1.1);
+    }
+}
+
+@keyframes mascot-shake {
+
+    0%,
+    100% {
+        transform: translateX(0) scale(1.1);
+    }
+
+    25% {
+        transform: translateX(-5px) scale(1.1);
+    }
+
+    75% {
+        transform: translateX(5px) scale(1.1);
+    }
+}
+
+@keyframes mascot-tilt {
+
+    0%,
+    100% {
+        transform: rotate(-5deg) scale(1.1);
+    }
+
+    50% {
+        transform: rotate(15deg) scale(1.1);
+    }
+}
+
+/* --- v0.7.3.1 モバイルレイアウト最終修正 --- */
 @media (max-width: 768px) {
     body {
         flex-direction: column !important;
@@ -1382,20 +1429,41 @@ h1 {
         width: 100% !important;
         overflow-x: hidden !important;
     }
+
     main {
         width: 100% !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
     }
+
     .container {
         width: 100% !important;
         max-width: 100% !important;
     }
 }
 
-/* ������A�j���[�V���� */
-.mascot-sleep { animation: mascot-sleep-anim 4s ease-in-out infinite !important; }
-@keyframes mascot-sleep-anim { 0%, 100% { transform: translateY(0) scale(1.1); filter: opacity(0.8); } 50% { transform: translateY(5px) scale(1.05); filter: opacity(0.6); } }
+/* 居眠りアニメーション */
+.mascot-sleep {
+    animation: mascot-sleep-anim 4s ease-in-out infinite !important;
+}
 
-.speech-bubble.show { display: block !important; opacity: 1 !important; visibility: visible !important; }
+@keyframes mascot-sleep-anim {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1.1);
+        filter: opacity(0.8);
+    }
+
+    50% {
+        transform: translateY(5px) scale(1.05);
+        filter: opacity(0.6);
+    }
+}
+
+.speech-bubble.show {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
