@@ -1287,3 +1287,79 @@ h1 {
     pointer-events: none;
     z-index: 100;
 }
+
+/* マスコットキャラクター（通常は非表示、スマホのみ表示） */
+.mascot-container {
+    display: none;
+    /* PCでは非表示 */
+}
+
+@media (max-width: 768px) {
+    .mascot-container {
+        display: flex;
+        /* スマホでは表示 */
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: auto;
+        flex-grow: 1;
+        min-height: 120px;
+        padding: 10px 15px 30px 15px;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        gap: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .mascot-character {
+        font-size: 4.5rem;
+        animation: float 3s ease-in-out infinite;
+        filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+        flex-shrink: 0;
+    }
+
+    .speech-bubble {
+        position: relative;
+        background: white;
+        border-radius: 15px;
+        padding: 10px 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        max-width: 60%;
+        text-align: left;
+        font-size: 0.95em;
+        font-weight: 600;
+        color: #4a5568;
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .speech-bubble.show {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .speech-bubble::after {
+        content: '';
+        position: absolute;
+        left: -10px;
+        top: 50%;
+        transform: translateY(-50%);
+        border-width: 8px 10px 8px 0;
+        border-style: solid;
+        border-color: transparent white transparent transparent;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}

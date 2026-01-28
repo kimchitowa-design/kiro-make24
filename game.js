@@ -415,6 +415,9 @@ const bestTimeBtn = document.getElementById('bestTimeBtn');
 const accuracySpan = document.getElementById('accuracy');
 const bestTimeSpan = document.getElementById('bestTime');
 const levelSelect = document.getElementById('levelSelect');
+const mascotCharacter = document.getElementById('mascotCharacter');
+const speechBubble = document.getElementById('speechBubble');
+const mascotMessage = document.getElementById('mascotMessage');
 
 // 初期化
 function init() {
@@ -452,6 +455,22 @@ function init() {
     }
 }
 
+// マスコットの更新
+function updateMascot(emoji, message, duration = 3000) {
+    if (!mascotCharacter || !speechBubble || !mascotMessage) return;
+
+    mascotCharacter.textContent = emoji;
+    mascotMessage.textContent = message;
+    speechBubble.classList.add('show');
+
+    // 一定時間後に吹き出しを消す（durationが0なら消さない）
+    if (duration > 0) {
+        if (gameState.mascotTimer) clearTimeout(gameState.mascotTimer);
+        gameState.mascotTimer = setTimeout(() => {
+            speechBubble.classList.remove('show');
+        }, duration);
+    }
+}
 
 // タイマー機能
 function startTimer() {
@@ -1138,6 +1157,10 @@ function generateNewNumbers() {
     // 問題番号を更新
     updateProblemNumber();
 
+    // マスコットの挨拶
+    const greetings = ['こんにちは！', '頑張って！', '24を作ろう！', '準備はいい？'];
+    updateMascot('🦉', greetings[Math.floor(Math.random() * greetings.length)]);
+
     displayNumbers();
     answerInput.value = '';
 
@@ -1339,6 +1362,7 @@ function checkAnswer() {
             stats.totalAttempts++;
             // 整数の場合は小数点以下を表示しない
             const resultText = Number.isInteger(result) ? result : result.toFixed(2);
+            updateMascot('🧐', '惜しい！もう一回計算してみて！', 4000);
             showFeedback(`残念！計算結果は ${resultText} です。24を作ろう！`, 'error');
             stats.streak = 0;
             updateDisplay();
@@ -1364,6 +1388,7 @@ function handleCorrectAnswer() {
     stats.correctAnswers++;
     stats.totalAttempts++;
 
+    updateMascot('🎉', 'やすごーい！正解だよ！', 5000);
     showFeedback(`🎉 正解！次の問題に進もう！`, 'success');
 
     updateDisplay();
@@ -1489,6 +1514,8 @@ function showSolution() {
     // 解答例を表示したフラグを立てる
     gameState.solutionShown = true;
     stats.shownSolutions.add(stats.currentProblemIndex);
+
+    updateMascot('💡', '次はきっと解けるよ！応援してるね！', 5000);
 
     // 解答例を表示
     if (gameState.solutions.length > 0) {
