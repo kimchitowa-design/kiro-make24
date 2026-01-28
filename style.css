@@ -9,8 +9,6 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
-    /* 要素を縦に並べて中央寄せにする */
     justify-content: center;
     align-items: center;
     padding: 10px;
@@ -1288,94 +1286,4 @@ h1 {
     font-family: sans-serif;
     pointer-events: none;
     z-index: 100;
-}
-
-/* マスコットキャラクター */
-.mascot-container {
-    display: flex;
-    flex-direction: row;
-    /* 横並びに変更 */
-    align-items: center;
-    justify-content: center;
-    margin-top: 30px;
-    padding: 10px 15px;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    gap: 15px;
-    /* キャラと吹き出しの間隔 */
-}
-
-.mascot-character {
-    font-size: 4rem;
-    animation: float 3s ease-in-out infinite;
-    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
-    flex-shrink: 0;
-}
-
-.speech-bubble {
-    position: relative;
-    background: white;
-    border-radius: 15px;
-    padding: 10px 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    max-width: 250px;
-    /* 横並びなので最大幅を制限 */
-    text-align: left;
-    font-size: 0.9em;
-    font-weight: 600;
-    color: #4a5568;
-    opacity: 0;
-    transform: translateX(-10px);
-    /* 横方向のアニメーションに */
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.speech-bubble.show {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.speech-bubble::after {
-    content: '';
-    position: absolute;
-    left: -10px;
-    /* 左側に移動 */
-    top: 50%;
-    transform: translateY(-50%);
-    border-width: 8px 10px 8px 0;
-    border-style: solid;
-    border-color: transparent white transparent transparent;
-}
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-@media (max-width: 768px) {
-    .mascot-container {
-        margin-top: auto;
-        flex-grow: 1;
-        min-height: 120px;
-        padding-bottom: 30px;
-        justify-content: center;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .mascot-character {
-        font-size: 4.5rem;
-    }
-
-    .speech-bubble {
-        font-size: 0.95em;
-        max-width: 60%;
-    }
 }
