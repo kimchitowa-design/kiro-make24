@@ -471,9 +471,12 @@ function updateMascot(message, mood = '', duration = 3000) {
     mascotCharacter.textContent = '🦉'; // 🦉は固定
     mascotMessage.textContent = message;
 
+    // 既存の表情クラスを削除
+    mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking', 'mascot-sleep');
+
     speechBubble.classList.add('show');
 
-    // アニメーション設定がなくてもクラスは追加する
+    // 新しい表情クラスを追加
     if (mood) {
         mascotCharacter.classList.add(mood);
     }
