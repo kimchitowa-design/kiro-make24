@@ -517,16 +517,9 @@ function resetInactivityTimer() {
 
 // マスコットをつつく反応
 function handleMascotPoke(e) {
-    console.log('Mascot poked! Count:', gameState.mascotPokeCount + 1);
     if (e) {
         if (e.type === 'touchstart') e.preventDefault(); // touchstartの場合は伝播防止
         e.stopPropagation();
-    }
-
-    // 視覚的なフィードバック
-    if (mascotCharacter) {
-        mascotCharacter.style.filter = 'brightness(1.5)';
-        setTimeout(() => mascotCharacter.style.filter = '', 100);
     }
 
     // 居眠りタイマーをリセット（つつくのは操作とみなす）
@@ -555,18 +548,27 @@ function handleMascotPoke(e) {
         gameState.mascotPokeCount = 0;
     }, 5000);
 
+    // 20回未満は首を傾げるだけ（無言）
+    if (gameState.mascotPokeCount < 20) {
+        if (mascotCharacter) {
+            mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking', 'mascot-sleep');
+            mascotCharacter.classList.add('mascot-thinking');
+        }
+        return;
+    }
+
     let message = '';
     let style = 'mascot-thinking';
 
-    if (gameState.mascotPokeCount <= 3) {
-        const msgs = ['なんや？', 'くすぐったいわ！', '遊んでくれるんか？', 'びっくりするやんか'];
+    if (gameState.mascotPokeCount <= 25) {
+        const msgs = ['なんや？', 'くすぐったいわ！', 'つつきすぎやで！', 'びっくりするやんか'];
         message = msgs[Math.floor(Math.random() * msgs.length)];
-    } else if (gameState.mascotPokeCount <= 6) {
-        const msgs = ['しつこいなあ！', 'わかった、わかったって！', 'つつきすぎやで！', 'くすぐったいって！'];
+    } else if (gameState.mascotPokeCount <= 35) {
+        const msgs = ['しつこいなあ！', 'わかった、わかったって！', 'ええ加減にせえ！', '堪忍袋の緒が切れるわ！'];
         message = msgs[Math.floor(Math.random() * msgs.length)];
         style = 'mascot-joy';
     } else {
-        const msgs = ['ええ加減にせえ！', '梟にも三分の理やで！', '堪忍袋の緒が切れるわ！', 'もう、怒るで！ホンマに！'];
+        const msgs = ['もう、怒るで！ホンマに！', 'ボチボチ堪忍してや！', '梟にも三分の理やで！', 'しつこすぎてアレやわ！'];
         message = msgs[Math.floor(Math.random() * msgs.length)];
         style = 'mascot-worried';
     }

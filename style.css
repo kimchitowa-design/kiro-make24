@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝偵Λ繧ｮ繝惹ｸｸ繧ｴ ProN', '繝｡繧､繝ｪ繧ｪ', Meiryo, '�ｭ�ｳ �ｰ繧ｴ繧ｷ繝�け', sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝�EΛ繧�E�繝�E�E��E�繧�E� ProN', '繝｡繧�E�繝ｪ繧�E�', Meiryo, '�E��E��E��E� �E��E�繧�E�繧�E�繝�ぁE, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
@@ -15,7 +15,7 @@ body {
     position: relative;
 }
 
-/* 繧ｿ繧､繝槭�陦ｨ遉ｺ */
+/* 繧�E�繧�E�繝槭�E�陦�E�遉ｺ */
 .game-timer {
     position: absolute;
     right: 0;
@@ -161,7 +161,7 @@ h1 {
     cursor: pointer;
     padding: 8px;
     transition: all 0.2s;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝偵Λ繧ｮ繝惹ｸｸ繧ｴ ProN', '繝｡繧､繝ｪ繧ｪ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝�EΛ繧�E�繝�E�E��E�繧�E� ProN', '繝｡繧�E�繝ｪ繧�E�', Meiryo, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -431,7 +431,7 @@ h1 {
     transition: all 0.2s;
     font-weight: 600;
     background: white;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝偵Λ繧ｮ繝惹ｸｸ繧ｴ ProN', '繝｡繧､繝ｪ繧ｪ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝�EΛ繧�E�繝�E�E��E�繧�E� ProN', '繝｡繧�E�繝ｪ繧�E�', Meiryo, sans-serif;
 }
 
 .calc-btn:hover {
@@ -532,7 +532,7 @@ h1 {
     cursor: pointer;
     transition: all 0.3s;
     font-weight: 600;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝偵Λ繧ｮ繝惹ｸｸ繧ｴ ProN', '繝｡繧､繝ｪ繧ｪ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝�EΛ繧�E�繝�E�E��E�繧�E� ProN', '繝｡繧�E�繝ｪ繧�E�', Meiryo, sans-serif;
 }
 
 .btn-primary {
@@ -793,7 +793,7 @@ h1 {
         font-size: 1.5em;
     }
 
-    /* 繧ｹ繝槭�陦ｨ遉ｺ譎ゅｂ繧ｿ繧､繝槭�縺ｯ蜿ｳ蛛ｴ縺ｫ驟咲ｽｮ */
+    /* 繧�E�繝槭�E�陦�E�遉ｺ譎ゅ�E�繧�E�繧�E�繝槭�E�縺�E�蜿�E�蛛ｴ縺�E�驟咲�E��E� */
     .game-timer {
         position: absolute;
         right: 0;
@@ -978,19 +978,19 @@ h1 {
 
     .action-buttons .btn-secondary {
         font-size: 0.82em;
-        /* 譁�ｭ励ｒ螟ｧ縺阪￥ */
+        /* 譁E���E�励�E�螟�E�縺阪�E� */
         padding: 10px 2px;
         white-space: nowrap;
-        /* 謾ｹ陦後ｒ髦ｲ縺� */
+        /* 謾�E�陦後ｒ髦�E�縺�E� */
         line-height: 1.2;
         min-height: 54px;
         display: flex;
         flex-direction: row;
-        /* 讓ｪ荳ｦ縺ｳ縺ｫ螟画峩 */
+        /* 讓ｪ荳�E�縺�E�縺�E�螟画峩 */
         align-items: center;
         justify-content: center;
         gap: 2px;
-        /* 繧｢繧､繧ｳ繝ｳ縺ｨ譁�ｭ励�髢薙↓蟆代＠髫咎俣 */
+        /* 繧�E�繧�E�繧�E�繝ｳ縺�E�譁E���E�励�E�髢薙�E蟁E���E�髫咎俣 */
     }
 
     .action-buttons .btn-icon {
@@ -1025,7 +1025,7 @@ h1 {
     }
 }
 
-/* 繧ｫ繧ｹ繧ｿ繝�遒ｺ隱阪ム繧､繧｢繝ｭ繧ｰ */
+/* 繧�E�繧�E�繧�E�繝�遒ｺ隱阪ム繧�E�繧�E�繝ｭ繧�E� */
 .custom-dialog {
     display: none;
     position: fixed;
@@ -1098,7 +1098,7 @@ h1 {
     transition: all 0.3s;
     font-weight: 600;
     min-width: 100px;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝偵Λ繧ｮ繝惹ｸｸ繧ｴ ProN', '繝｡繧､繝ｪ繧ｪ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝�EΛ繧�E�繝�E�E��E�繧�E� ProN', '繝｡繧�E�繝ｪ繧�E�', Meiryo, sans-serif;
 }
 
 .btn-confirm-yes {
@@ -1122,7 +1122,7 @@ h1 {
     transform: translateY(-2px);
 }
 
-/* 謗｡轤ｹ邨先棡繝繧､繧｢繝ｭ繧ｰ */
+/* 謗｡轤�E�邨先棡繝繧�E�繧�E�繝ｭ繧�E� */
 .grading-result-content {
     min-width: 350px;
     max-width: 500px;
@@ -1140,7 +1140,7 @@ h1 {
     margin-top: 25px;
 }
 
-/* 繝吶せ繝医ち繧､繝�繝懊ち繝ｳ */
+/* 繝吶せ繝医ち繧�E�繝�繝懊ち繝ｳ */
 .best-time-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -1168,7 +1168,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝偵Λ繧ｮ繝惹ｸｸ繧ｴ ProN', '繝｡繧､繝ｪ繧ｪ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝�EΛ繧�E�繝�E�E��E�繧�E� ProN', '繝｡繧�E�繝ｪ繧�E�', Meiryo, sans-serif;
 }
 
 .btn-best-time .label {
@@ -1185,7 +1185,7 @@ h1 {
     font-weight: bold;
 }
 
-/* 繝吶せ繝医ち繧､繝�隧ｳ邏ｰ繝繧､繧｢繝ｭ繧ｰ */
+/* 繝吶せ繝医ち繧�E�繝�隧�E�邏ｰ繝繧�E�繧�E�繝ｭ繧�E� */
 .best-time-content {
     min-width: 400px;
     max-width: 500px;
@@ -1234,7 +1234,7 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* 繧ｹ繝槭�陦ｨ遉ｺ逕ｨ縺ｮ繝吶せ繝医ち繧､繝�繝繧､繧｢繝ｭ繧ｰ隱ｿ謨ｴ */
+/* 繧�E�繝槭�E�陦�E�遉ｺ逕ｨ縺�E�繝吶せ繝医ち繧�E�繝�繝繧�E�繧�E�繝ｭ繧�E�隱�E�謨�E� */
 @media (max-width: 768px) {
     .best-time-content {
         min-width: 300px;
@@ -1250,11 +1250,11 @@ h1 {
     }
 }
 
-/* 邏吝聖髮ｪ逕ｨ繧ｭ繝｣繝ｳ繝舌せ */
+/* 邏吝聖髮�E�逕ｨ繧�E�繝｣繝ｳ繝�EぁE*/
 .grading-result-content {
     position: relative;
     overflow: hidden;
-    /* 繧ｳ繝ｳ繝�Φ繝�°繧峨�縺ｿ蜃ｺ縺輔↑縺�ｈ縺�↓ */
+    /* 繧�E�繝ｳ繝�Φ繝�°繧峨�E�縺�E�蜁E��縺輔�E縺�E��E�縺�E�ↁE*/
 }
 
 .confetti-canvas {
@@ -1264,19 +1264,19 @@ h1 {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    /* 繧ｯ繝ｪ繝�け繧､繝吶Φ繝医ｒ騾城℃ */
+    /* 繧�E�繝ｪ繝�け繧�E�繝吶Φ繝医�E�騾城℃ */
     z-index: 1;
-    /* 閭梧勹繧医ｊ荳翫√�繧ｿ繝ｳ繧医ｊ荳� */
+    /* 閭梧勹繧医�E�荳翫√�繧�E�繝ｳ繧医�E�荳�E� */
 }
 
 .custom-dialog-content p,
 .custom-dialog-buttons {
     position: relative;
     z-index: 2;
-    /* 繧ｭ繝｣繝ｳ繝舌せ繧医ｊ荳翫↓陦ｨ遉ｺ */
+    /* 繧�E�繝｣繝ｳ繝�Eせ繧医�E�荳翫↓陦�E�遉ｺ */
 }
 
-/* 繝舌�繧ｸ繝ｧ繝ｳ諠��ｱ */
+/* 繝�E�E�繧�E�繝ｧ繝ｳ諠�E��E��E� */
 .version-info {
     position: fixed;
     bottom: 10px;
@@ -1288,16 +1288,16 @@ h1 {
     z-index: 100;
 }
 
-/* 繝槭せ繧ｳ繝�ヨ繧ｭ繝｣繝ｩ繧ｯ繧ｿ繝ｼ�磯壼ｸｸ縺ｯ髱櫁｡ｨ遉ｺ縲√せ繝槭�縺ｮ縺ｿ陦ｨ遉ｺ�� */
+/* 繝槭せ繧�E�繝�ヨ繧�E�繝｣繝ｩ繧�E�繧�E�繝ｼ�E�磯壼�E��E�縺�E�髱櫁E���E�遉ｺ縲√せ繝槭�E�縺�E�縺�E�陦�E�遉ｺ�E��E� */
 .mascot-container {
     display: none;
-    /* PC縺ｧ縺ｯ髱櫁｡ｨ遉ｺ */
+    /* PC縺�E�縺�E�髱櫁E���E�遉ｺ */
 }
 
 @media (max-width: 768px) {
     .mascot-container {
         display: flex;
-        /* 繧ｹ繝槭�縺ｧ縺ｯ陦ｨ遉ｺ */
+        /* 繧�E�繝槭�E�縺�E�縺�E�陦�E�遉ｺ */
         flex-direction: row;
         align-items: center;
         justify-content: center;
@@ -1443,7 +1443,7 @@ h1 {
     }
 }
 
-/* 居眠りアニメーション */
+/* 屁E��りアニメーション */
 .mascot-sleep {
     animation: mascot-sleep-anim 4s ease-in-out infinite !important;
 }
@@ -1467,7 +1467,11 @@ h1 {
     opacity: 1 !important;
     visibility: visible !important;
 }
-/* --- v0.7.6.6 �^�b�v�͈͂̏C�� --- */
 .mascot-container { pointer-events: none !important; }
 .mascot-character { pointer-events: auto !important; cursor: pointer !important; z-index: 10000 !important; }
 .speech-bubble { pointer-events: none !important; }
+
+/* --- v0.7.7 �^�b�v�͈͂̌��i�� --- */
+#mascotContainer { pointer-events: none !important; }
+#mascotCharacter { pointer-events: auto !important; cursor: pointer !important; z-index: 10000 !important; }
+#speechBubble { pointer-events: none !important; }
