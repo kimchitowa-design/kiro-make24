@@ -1266,3 +1266,24 @@ h1 {
     z-index: 2;
     /* キャンバスより上に表示 */
 }
+
+/* バージョン情報 */
+.version-info {
+    position: fixed;
+    bottom: 10px;
+    right: 15px;
+    font-size: 0.75em;
+    color: #999;
+    font-family: sans-serif;
+    pointer-events: none;
+    z-index: 100;
+}
+
+@media (max-width: 768px) {
+    .version-info {
+        bottom: 5px;
+        right: 10px;
+        font-size: 0.65em;
+        opacity: 0.7;
+    }
+}
