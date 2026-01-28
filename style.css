@@ -9,6 +9,8 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
+    /* 要素を縦に並べて中央寄せにする */
     justify-content: center;
     align-items: center;
     padding: 10px;
