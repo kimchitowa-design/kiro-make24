@@ -202,8 +202,15 @@ h1 {
 }
 
 @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-3px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
 }
 
 .level-select {
@@ -516,7 +523,8 @@ h1 {
     background: #e0e0e0;
 }
 
-.btn-primary, .btn-secondary {
+.btn-primary,
+.btn-secondary {
     padding: 12px 25px;
     font-size: 1em;
     border: none;
@@ -599,7 +607,7 @@ h1 {
     box-sizing: border-box;
 }
 
-.feedback > * {
+.feedback>* {
     text-align: left;
     width: 100%;
     max-width: fit-content;
@@ -635,16 +643,46 @@ h1 {
 }
 
 @keyframes bounceIn {
-    0% { transform: scale(0.3); opacity: 0; }
-    50% { transform: scale(1.05); }
-    70% { transform: scale(0.9); }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-    20%, 40%, 60%, 80% { transform: translateX(10px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-10px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(10px);
+    }
 }
 
 .rules {
@@ -683,8 +721,13 @@ h1 {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .modal-content {
@@ -703,6 +746,7 @@ h1 {
         transform: translateY(-50px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -740,15 +784,15 @@ h1 {
         padding-top: 5px;
         min-height: 100vh;
     }
-    
+
     header {
         justify-content: center;
     }
-    
+
     h1 {
         font-size: 1.5em;
     }
-    
+
     /* スマホ表示時もタイマーは右側に配置 */
     .game-timer {
         position: absolute;
@@ -756,11 +800,11 @@ h1 {
         font-size: 0.85em;
         padding: 6px 12px;
     }
-    
+
     #timerDisplay {
         font-size: 1em;
     }
-    
+
     #timerDisplay {
         font-size: 1.2em;
     }
@@ -811,15 +855,15 @@ h1 {
         margin-bottom: 10px;
         order: 1;
     }
-    
+
     .input-with-buttons .backspace-btn {
         order: 2;
     }
-    
+
     .input-with-buttons #submitBtn {
         order: 3;
     }
-    
+
     .input-with-buttons .clear-btn {
         order: 4;
     }
@@ -838,11 +882,11 @@ h1 {
         font-size: 1.4em;
         min-height: 50px;
     }
-    
+
     .action-buttons-row {
         gap: 5px;
     }
-    
+
     .action-buttons-row .calc-btn {
         padding: 8px 3px;
         font-size: 1.2em;
@@ -867,61 +911,61 @@ h1 {
         grid-template-columns: repeat(4, 1fr);
         gap: 4px;
     }
-    
+
     .info-card {
         padding: 4px 2px;
     }
-    
+
     .info-card .label {
         font-size: 0.75em;
         font-weight: 600;
     }
-    
+
     .info-card .value {
         font-size: 1em;
         font-weight: bold;
     }
-    
+
     .level-card {
         padding: 6px 3px;
     }
-    
+
     .level-card .label {
         font-size: 0.75em;
         font-weight: 600;
     }
-    
+
     .level-card .value {
         font-size: 1em;
     }
-    
+
     .level-select {
         font-size: 1em;
         font-weight: bold;
     }
-    
+
     .dropdown-arrow {
         font-size: 0.6em;
     }
-    
+
     .btn-grade {
         font-size: 0.85em;
         padding: 4px;
     }
-    
+
     .btn-grade .btn-icon {
         font-size: 1.2em;
     }
-    
+
     .btn-grade .btn-text {
         font-size: 1.1em;
     }
-    
+
     .btn-best-time .label {
         font-size: 0.75em;
         font-weight: 600;
     }
-    
+
     .btn-best-time .value {
         font-size: 0.75em;
         font-weight: bold;
@@ -931,7 +975,7 @@ h1 {
         grid-template-columns: repeat(4, 1fr);
         gap: 3px;
     }
-    
+
     .action-buttons .btn-secondary {
         font-size: 0.7em;
         padding: 8px 2px;
@@ -952,6 +996,7 @@ h1 {
         box-sizing: border-box;
         min-height: 52px;
     }
+
     .calculator-buttons {
         grid-template-columns: repeat(3, 1fr);
         gap: 6px;
@@ -1119,8 +1164,8 @@ h1 {
 
 .btn-best-time .label {
     display: block;
-    font-size: 0.95em;
-    font-weight: 600;
+    font-size: 1.3em;
+    font-weight: bold;
     opacity: 0.9;
     margin-bottom: 3px;
 }
@@ -1186,12 +1231,38 @@ h1 {
         min-width: 300px;
         max-width: 90%;
     }
-    
+
     .best-time-level p {
         font-size: 0.85em;
     }
-    
+
     .best-time-level p br {
         display: block;
     }
+}
+
+/* 紙吹雪用キャンバス */
+.grading-result-content {
+    position: relative;
+    overflow: hidden;
+    /* コンテンツからはみ出さないように */
+}
+
+.confetti-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* クリックイベントを透過 */
+    z-index: 1;
+    /* 背景より上、ボタンより下 */
+}
+
+.custom-dialog-content p,
+.custom-dialog-buttons {
+    position: relative;
+    z-index: 2;
+    /* キャンバスより上に表示 */
 }

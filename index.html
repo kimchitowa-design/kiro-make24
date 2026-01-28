@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,12 +13,14 @@
     <title>Make 24 ゲーム - 計算パズル</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/svg+xml" href="icon.svg">
     <link rel="apple-touch-icon" href="icon.svg">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -32,14 +35,14 @@
             <label for="answer">
                 4つの数字を使って24を作る計算パズルゲーム
             </label>
-            
+
             <div id="feedback" class="feedback"></div>
-            
+
             <div class="input-with-buttons">
                 <span id="problemNumber" class="problem-number"></span>
                 <input type="text" id="answer" placeholder="例: 8 / (3 - 8/3)" autocomplete="off" readonly>
             </div>
-            
+
             <div class="all-buttons-row">
                 <button class="calc-btn number-btn" data-value="">1</button>
                 <button class="calc-btn number-btn" data-value="">2</button>
@@ -61,7 +64,8 @@
 
         <div class="action-buttons">
             <button id="resetBtn" class="btn-secondary"><span class="btn-icon">🔄</span><br>リセット</button>
-            <button id="solutionBtn" class="btn-secondary btn-giveup"><span class="btn-icon">🏳️</span><br>ギブアップ</button>
+            <button id="solutionBtn" class="btn-secondary btn-giveup"><span
+                    class="btn-icon">🏳️</span><br>ギブアップ</button>
             <button id="prevBtn" class="btn-secondary"><span class="btn-icon">⬅️</span><br>前の問題</button>
             <button id="newGameBtn" class="btn-secondary"><span class="btn-icon">➡️</span><br>次の問題</button>
         </div>
@@ -119,6 +123,7 @@
     <!-- 採点結果ダイアログ -->
     <div id="gradingResultDialog" class="custom-dialog">
         <div class="custom-dialog-content grading-result-content">
+            <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
             <p id="gradingResultMessage"></p>
             <div class="custom-dialog-buttons">
                 <button id="gradingResultClose" class="btn-confirm-yes">閉じる</button>
@@ -138,6 +143,8 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="game.js"></script>
 </body>
+
 </html>

@@ -75,7 +75,7 @@ function initializeProblemLists() {
         const hasParentheses = problem.solution.includes('(') || problem.solution.includes(')');
         const hasDivision = problem.solution.includes('/');
         const hasMultiplication = problem.solution.includes('*');
-        
+
         // レベル1: 括弧なしの問題
         if (!hasParentheses) {
             levelProblems[1].push(problem);
@@ -89,13 +89,13 @@ function initializeProblemLists() {
             levelProblems[2].push(problem);
         }
     });
-    
+
     // 各レベルの問題を数字の昇順にソート
     for (let level = 1; level <= 3; level++) {
         levelProblems[level].sort((a, b) => {
             const sortedA = [...a.numbers].sort((x, y) => x - y);
             const sortedB = [...b.numbers].sort((x, y) => x - y);
-            
+
             // 数字を1つずつ比較
             for (let i = 0; i < 4; i++) {
                 if (sortedA[i] !== sortedB[i]) {
@@ -201,7 +201,7 @@ const impossibleCombinations = [
     [1, 1, 12, 12],
     [1, 1, 12, 13],
     [1, 1, 13, 13],
-    
+
     // 1が1つ含まれる主要な不可能パターン
     [1, 2, 2, 2],
     [1, 2, 2, 3],
@@ -240,7 +240,7 @@ const impossibleCombinations = [
     [1, 8, 8, 8],
     [1, 8, 9, 9],
     [1, 9, 9, 9],
-    
+
     // 2が含まれる主要な不可能パターン
     [2, 2, 2, 2],
     [2, 2, 2, 3],
@@ -283,7 +283,7 @@ const impossibleCombinations = [
     [2, 8, 8, 8],
     [2, 8, 9, 9],
     [2, 9, 9, 9],
-    
+
     // 3が含まれる主要な不可能パターン
     [3, 3, 3, 3],
     [3, 3, 3, 4],
@@ -316,7 +316,7 @@ const impossibleCombinations = [
     [3, 8, 8, 8],
     [3, 8, 9, 9],
     [3, 9, 9, 9],
-    
+
     // 4以上の主要な不可能パターン
     [4, 4, 4, 4],
     [4, 4, 5, 5],
@@ -419,11 +419,11 @@ function init() {
     generateNewNumbers();
     attachEventListeners();
     updatePlaceholder(); // 初期プレースホルダーを設定
-    
+
     // レベルカード全体をクリック可能にする
     const levelCard = document.querySelector('.level-card');
     const dropdownArrow = document.querySelector('.dropdown-arrow');
-    
+
     if (levelCard && dropdownArrow) {
         // レベルカードをクリックしたらセレクトボックスを開く
         levelCard.addEventListener('click', (e) => {
@@ -452,7 +452,7 @@ function startTimer() {
     gameState.startTime = Date.now();
     gameState.timerPaused = false;
     updateTimerDisplay();
-    
+
     // 1秒ごとにタイマーを更新
     if (gameState.timerInterval) {
         clearInterval(gameState.timerInterval);
@@ -468,11 +468,11 @@ function updateTimerDisplay() {
         }
         return;
     }
-    
+
     const elapsed = Math.floor((Date.now() - gameState.startTime) / 1000);
     const minutes = Math.floor(elapsed / 60);
     const seconds = elapsed % 60;
-    
+
     const timerDisplay = document.getElementById('timerDisplay');
     if (timerDisplay) {
         timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
@@ -522,7 +522,7 @@ function loadBestTimes() {
 function saveBestTime(level, timeInSeconds) {
     const saved = localStorage.getItem('make24BestTimes');
     let bestTimes = {};
-    
+
     if (saved) {
         try {
             bestTimes = JSON.parse(saved);
@@ -530,7 +530,7 @@ function saveBestTime(level, timeInSeconds) {
             console.error('ベストタイムの読み込みに失敗しました', e);
         }
     }
-    
+
     bestTimes[level] = {
         time: timeInSeconds,
         date: new Date().toISOString()
@@ -544,7 +544,7 @@ function saveBestTime(level, timeInSeconds) {
 function saveBestRecord(level, correctAnswers, totalProblems, timeInSeconds) {
     const saved = localStorage.getItem('make24BestRecords');
     let bestRecords = {};
-    
+
     if (saved) {
         try {
             bestRecords = JSON.parse(saved);
@@ -552,7 +552,7 @@ function saveBestRecord(level, correctAnswers, totalProblems, timeInSeconds) {
             console.error('ベストレコードの読み込みに失敗しました', e);
         }
     }
-    
+
     bestRecords[level] = {
         correctAnswers: correctAnswers,
         totalProblems: totalProblems,
@@ -624,7 +624,7 @@ function clearBestTime(level) {
     // 旧形式のベストタイムをクリア
     const saved = localStorage.getItem('make24BestTimes');
     let bestTimes = {};
-    
+
     if (saved) {
         try {
             bestTimes = JSON.parse(saved);
@@ -632,15 +632,15 @@ function clearBestTime(level) {
             console.error('ベストタイムの読み込みに失敗しました', e);
         }
     }
-    
+
     delete bestTimes[level];
     localStorage.setItem('make24BestTimes', JSON.stringify(bestTimes));
     delete gameState.levelStats[level].bestTime;
-    
+
     // 新形式のベストレコードをクリア
     const savedRecords = localStorage.getItem('make24BestRecords');
     let bestRecords = {};
-    
+
     if (savedRecords) {
         try {
             bestRecords = JSON.parse(savedRecords);
@@ -648,10 +648,10 @@ function clearBestTime(level) {
             console.error('ベストレコードの読み込みに失敗しました', e);
         }
     }
-    
+
     delete bestRecords[level];
     localStorage.setItem('make24BestRecords', JSON.stringify(bestRecords));
-    
+
     updateBestTimeDisplay();
 }
 
@@ -672,7 +672,7 @@ function attachEventListeners() {
     gradeBtn.addEventListener('click', showGrading);
     bestTimeBtn.addEventListener('click', showBestTimeDetails);
     levelSelect.addEventListener('change', handleLevelChange);
-    
+
     // 計算機ボタンのイベントリスナー（=ボタンは除外）
     document.querySelectorAll('.calc-btn:not(#submitBtn)').forEach(btn => {
         btn.addEventListener('click', handleCalculatorButton);
@@ -683,7 +683,7 @@ function attachEventListeners() {
 function goToPreviousProblem() {
     const stats = getCurrentStats();
     const problems = levelProblems[gameState.level];
-    
+
     if (stats.currentProblemIndex > 0) {
         stats.currentProblemIndex--;
     } else {
@@ -700,27 +700,27 @@ function resetGame() {
     const message = document.getElementById('customConfirmMessage');
     const recordClearOption = document.getElementById('recordClearOption');
     const clearRecordCheckbox = document.getElementById('clearRecordCheckbox');
-    
+
     message.textContent = 'リセットしますか？\n（第１問からやり直します）';
     recordClearOption.style.display = 'block'; // チェックボックスを表示
     clearRecordCheckbox.checked = false; // チェックを外す
     dialog.classList.add('show');
-    
+
     const yesBtn = document.getElementById('confirmYes');
     const noBtn = document.getElementById('confirmNo');
-    
+
     const handleYes = () => {
         dialog.classList.remove('show');
         recordClearOption.style.display = 'none'; // チェックボックスを非表示
-        
+
         // ベストタイムのクリアをチェック
         if (clearRecordCheckbox.checked) {
             clearBestTime(gameState.level);
         }
-        
+
         // 現在のレベルを保持
         const currentLevel = gameState.level;
-        
+
         // 全レベルの統計情報をリセット
         for (let level = 1; level <= 3; level++) {
             gameState.levelStats[level] = {
@@ -732,54 +732,54 @@ function resetGame() {
                 answerHistory: {}
             };
         }
-        
+
         // レベルを元に戻す
         gameState.level = currentLevel;
         gameState.solutionShown = false;
         gameState.lastButtonType = null;
-        
+
         // 入力フィールドをクリア
         answerInput.value = '';
-        
+
         // 数字ボタンを再度有効化
         document.querySelectorAll('.number-btn').forEach(btn => {
             btn.disabled = false;
             btn.classList.remove('disabled');
         });
-        
+
         // フィードバックをクリア
         feedbackDiv.textContent = '';
         feedbackDiv.className = 'feedback';
-        
+
         // タイマーをリセット
         resetTimer();
-        
+
         // 表示を更新
         updateDisplay();
         generateNewNumbers();
-        
+
         showFeedback('リセットしました', 'success');
-        
+
         // 2秒後にメッセージを消す
         setTimeout(() => {
             feedbackDiv.textContent = '';
             feedbackDiv.className = 'feedback';
         }, 2000);
-        
+
         yesBtn.removeEventListener('click', handleYes);
         noBtn.removeEventListener('click', handleNo);
     };
-    
+
     const handleNo = () => {
         dialog.classList.remove('show');
         recordClearOption.style.display = 'none'; // チェックボックスを非表示
         yesBtn.removeEventListener('click', handleYes);
         noBtn.removeEventListener('click', handleNo);
     };
-    
+
     yesBtn.addEventListener('click', handleYes);
     noBtn.addEventListener('click', handleNo);
-    
+
     // 背景クリックで閉じる
     dialog.addEventListener('click', (e) => {
         if (e.target === dialog) {
@@ -820,9 +820,9 @@ function updatePlaceholder() {
 // 計算式の最後の入力タイプを判別
 function getLastInputType(inputValue) {
     if (!inputValue) return null;
-    
+
     const lastChar = inputValue.trim().slice(-1);
-    
+
     if (!isNaN(lastChar) && lastChar !== ' ') {
         return 'number';
     } else if (lastChar === '(') {
@@ -832,7 +832,7 @@ function getLastInputType(inputValue) {
     } else if (['+', '-', '*', '/'].includes(lastChar)) {
         return 'operator';
     }
-    
+
     return null;
 }
 
@@ -841,24 +841,24 @@ function handleCalculatorButton(e) {
     const button = e.currentTarget; // e.target から e.currentTarget に変更
     const value = button.dataset.value;
     const stats = getCurrentStats();
-    
+
     // valueが未定義の場合は処理しない
     if (value === undefined) {
         return;
     }
-    
+
     // 最初のボタン押下でタイマーを開始
     resumeTimer();
-    
+
     // 回答済みの問題は入力できない
     if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
         showFeedback('採点するまで再挑戦できません', 'error');
-        
+
         // 既存のタイマーをクリア
         if (gameState.feedbackTimer) {
             clearTimeout(gameState.feedbackTimer);
         }
-        
+
         // 3秒後に元の結果を再表示（アニメーションなし）
         gameState.feedbackTimer = setTimeout(() => {
             const answer = stats.answerHistory[stats.currentProblemIndex];
@@ -871,19 +871,19 @@ function handleCalculatorButton(e) {
             }
             gameState.feedbackTimer = null;
         }, 3000);
-        
+
         return;
     }
-    
+
     // 解答例を表示した問題は計算式入力ボタンを無効化
     if (gameState.solutionShown) {
         showFeedback('解答例を表示した問題は回答できません', 'error');
-        
+
         // 既存のタイマーをクリア
         if (gameState.feedbackTimer) {
             clearTimeout(gameState.feedbackTimer);
         }
-        
+
         // 3秒後に解答例を表示
         gameState.feedbackTimer = setTimeout(() => {
             if (gameState.solutions.length > 0) {
@@ -891,13 +891,13 @@ function handleCalculatorButton(e) {
             }
             gameState.feedbackTimer = null;
         }, 3000);
-        
+
         return;
     }
-    
+
     const currentValue = answerInput.value;
     const cursorPosition = answerInput.selectionStart;
-    
+
     if (value === 'clear') {
         answerInput.value = '';
         gameState.lastButtonType = null;
@@ -916,7 +916,7 @@ function handleCalculatorButton(e) {
             answerInput.value = newValue;
             // カーソル位置を調整
             answerInput.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
-            
+
             // 削除した文字が数字だった場合、そのボタンを1つだけ再度有効化
             const deletedChar = currentValue[cursorPosition - 1];
             if (!isNaN(deletedChar) && deletedChar !== ' ') {
@@ -931,7 +931,7 @@ function handleCalculatorButton(e) {
                     }
                 }
             }
-            
+
             // 削除後の計算式の最後の文字に基づいてlastButtonTypeを設定
             gameState.lastButtonType = getLastInputType(newValue);
             // エラーメッセージをクリア
@@ -945,7 +945,7 @@ function handleCalculatorButton(e) {
             // 開きかっこの中かどうかをチェック
             const openCount = (currentValue.match(/\(/g) || []).length;
             const closeCount = (currentValue.match(/\)/g) || []).length;
-            
+
             if (openCount > closeCount) {
                 // 開きかっこの中
                 showFeedback('演算子または、閉じかっこを選択してください', 'error');
@@ -980,7 +980,7 @@ function handleCalculatorButton(e) {
             showFeedback('最初に数字または開き括弧を選択してください', 'error');
             return;
         }
-        
+
         // 括弧の場合
         if (value === '(' || value === ')') {
             // 開き括弧は最初または演算子の後のみ許可
@@ -991,43 +991,43 @@ function handleCalculatorButton(e) {
                     showFeedback('4つの数字を全て使用済みです', 'error');
                     return;
                 }
-                
+
                 // 開き括弧の後に開き括弧は入力できない
                 if (gameState.lastButtonType === 'openParen') {
                     showFeedback('数字を選択してください', 'error');
                     return;
                 }
-                
+
                 // 開き括弧は最初または演算子の後のみ許可
                 if (currentValue !== '' && gameState.lastButtonType !== 'operator') {
                     showFeedback('演算子を選択してください', 'error');
                     return;
                 }
             }
-            
+
             // 閉じ括弧の場合、開き括弧が存在するかチェック
             if (value === ')') {
                 const openCount = (currentValue.match(/\(/g) || []).length;
                 const closeCount = (currentValue.match(/\)/g) || []).length;
-                
+
                 if (openCount <= closeCount) {
                     showFeedback('開き括弧が入力されていません', 'error');
                     return;
                 }
-                
+
                 // 開き括弧の直後は閉じ括弧を入力できない
                 if (gameState.lastButtonType === 'openParen') {
                     showFeedback('開き括弧の後に閉じ括弧は入力できません', 'error');
                     return;
                 }
-                
+
                 // 演算子の直後は閉じ括弧を入力できない
                 if (gameState.lastButtonType === 'operator') {
                     showFeedback('演算子の後に閉じ括弧は入力できません', 'error');
                     return;
                 }
             }
-            
+
             answerInput.value = currentValue.slice(0, cursorPosition) + value + currentValue.slice(cursorPosition);
             // カーソル位置を調整
             answerInput.setSelectionRange(cursorPosition + value.length, cursorPosition + value.length);
@@ -1052,7 +1052,7 @@ function handleCalculatorButton(e) {
                 showFeedback('4つの数字を全て使用済みです', 'error');
                 return;
             }
-            
+
             // 開き括弧の直後は演算子を入力できない
             if (gameState.lastButtonType === 'openParen') {
                 showFeedback('数字を選択してください', 'error');
@@ -1075,7 +1075,7 @@ function handleCalculatorButton(e) {
             }
         }
     }
-    
+
     answerInput.focus();
 }
 
@@ -1100,41 +1100,41 @@ function generateNewNumbers() {
         clearTimeout(gameState.feedbackTimer);
         gameState.feedbackTimer = null;
     }
-    
+
     const stats = getCurrentStats();
     const problems = levelProblems[gameState.level];
-    
+
     // 問題リストが空の場合
     if (!problems || problems.length === 0) {
         console.error('このレベルには問題がありません');
         showFeedback('このレベルには問題がありません', 'error');
         return;
     }
-    
+
     // すべての問題をクリアした場合、最初に戻る
     if (stats.currentProblemIndex >= problems.length) {
         stats.currentProblemIndex = 0;
         showFeedback('🎉 すべての問題をクリアしました！最初から再開します', 'success');
     }
-    
+
     // 現在の問題を取得
     const currentProblem = problems[stats.currentProblemIndex];
     // 数字を昇順にソート
     gameState.currentNumbers = [...currentProblem.numbers].sort((a, b) => a - b);
     gameState.solutions = [currentProblem.solution];
-    
+
     // この問題が解答例を表示済みかどうかをチェック
     gameState.solutionShown = stats.shownSolutions.has(stats.currentProblemIndex);
-    
+
     // この問題が回答済みかどうかをチェック
     const hasAnswered = stats.answerHistory.hasOwnProperty(stats.currentProblemIndex);
-    
+
     // 問題番号を更新
     updateProblemNumber();
-    
+
     displayNumbers();
     answerInput.value = '';
-    
+
     // 回答済みの問題の場合、回答結果を表示（アニメーションなし）
     if (hasAnswered) {
         const answer = stats.answerHistory[stats.currentProblemIndex];
@@ -1152,7 +1152,7 @@ function generateNewNumbers() {
         feedbackDiv.textContent = '';
         feedbackDiv.className = 'feedback';
     }
-    
+
     gameState.lastButtonType = null;
 }
 
@@ -1161,7 +1161,7 @@ function updateProblemNumber() {
     const stats = getCurrentStats();
     const problems = levelProblems[gameState.level];
     const problemNumberSpan = document.getElementById('problemNumber');
-    
+
     if (problemNumberSpan && problems) {
         problemNumberSpan.textContent = `問題 ${stats.currentProblemIndex + 1}/${problems.length}`;
     }
@@ -1184,7 +1184,7 @@ function updateCalculatorNumbers() {
             numberButtons[index].classList.remove('disabled');
         }
     });
-    
+
     // レベルに応じて演算子ボタンの表示/非表示を制御
     updateOperatorButtons();
 }
@@ -1193,7 +1193,7 @@ function updateCalculatorNumbers() {
 function updateOperatorButtons() {
     const config = levelConfig[gameState.level] || levelConfig[1];
     const allowedOperators = config.operators || ['+', '-', '*', '/', '(', ')'];
-    
+
     const operatorButtons = document.querySelectorAll('.operator-btn');
     operatorButtons.forEach(btn => {
         const value = btn.dataset.value;
@@ -1210,40 +1210,40 @@ function updateOperatorButtons() {
 function isValidOperatorsForLevel(expression) {
     const config = levelConfig[gameState.level] || levelConfig[1];
     const allowedOperators = config.operators || ['+', '-', '*', '/', '(', ')'];
-    
+
     // 式に含まれる演算子を抽出
     const usedOperators = expression.match(/[\+\-\*\/\(\)]/g) || [];
-    
+
     // すべての演算子が許可されているかチェック
     for (const op of usedOperators) {
         if (!allowedOperators.includes(op)) {
             return false;
         }
     }
-    
+
     return true;
 }
 
 // 答えをチェック
 function checkAnswer() {
     const userAnswer = answerInput.value.trim();
-    
+
     // 空の入力は無視（早期リターン）
     if (!userAnswer) {
         return;
     }
-    
+
     const stats = getCurrentStats();
-    
+
     // 回答済みの問題は回答できない
     if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
         showFeedback('採点するまで再挑戦できません', 'error');
-        
+
         // 既存のタイマーをクリア
         if (gameState.feedbackTimer) {
             clearTimeout(gameState.feedbackTimer);
         }
-        
+
         // 3秒後に元の結果を再表示（アニメーションなし）
         gameState.feedbackTimer = setTimeout(() => {
             const answer = stats.answerHistory[stats.currentProblemIndex];
@@ -1256,19 +1256,19 @@ function checkAnswer() {
             }
             gameState.feedbackTimer = null;
         }, 3000);
-        
+
         return;
     }
-    
+
     // 解答例を表示した問題は回答できない
     if (gameState.solutionShown) {
         showFeedback('解答例を表示した問題は回答できません', 'error');
-        
+
         // 既存のタイマーをクリア
         if (gameState.feedbackTimer) {
             clearTimeout(gameState.feedbackTimer);
         }
-        
+
         // 3秒後に解答例を表示
         gameState.feedbackTimer = setTimeout(() => {
             if (gameState.solutions.length > 0) {
@@ -1276,15 +1276,15 @@ function checkAnswer() {
             }
             gameState.feedbackTimer = null;
         }, 3000);
-        
+
         return;
     }
-    
+
     if (!userAnswer) {
         showFeedback('計算式を入力してください', 'error');
         return;
     }
-    
+
     // レベルに応じた演算子のみを使用しているかチェック
     if (!isValidOperatorsForLevel(userAnswer)) {
         const config = levelConfig[gameState.level] || levelConfig[1];
@@ -1292,7 +1292,7 @@ function checkAnswer() {
         showFeedback(`このレベルでは ${allowedOps} のみ使用できます`, 'error');
         return;
     }
-    
+
     try {
         // 使用されている数字を抽出
         const usedNumbers = userAnswer.match(/\d+/g);
@@ -1300,24 +1300,24 @@ function checkAnswer() {
             showFeedback('4つの数字すべてを使ってください！', 'error');
             return;
         }
-        
+
         // 数字の使用回数をチェック
         const usedNumsSorted = usedNumbers.map(Number).sort((a, b) => a - b);
         const currentNumsSorted = [...gameState.currentNumbers].sort((a, b) => a - b);
-        
+
         if (JSON.stringify(usedNumsSorted) !== JSON.stringify(currentNumsSorted)) {
             showFeedback('指定された数字だけを使ってください！', 'error');
             return;
         }
-        
+
         // 計算式を評価
         const result = eval(userAnswer);
-        
+
         if (Math.abs(result - 24) < 0.0001) {
             handleCorrectAnswer();
         } else {
             const stats = getCurrentStats();
-            
+
             // 回答履歴を保存（不正解）
             stats.answerHistory[stats.currentProblemIndex] = {
                 formula: userAnswer,
@@ -1325,7 +1325,7 @@ function checkAnswer() {
                 result: result,
                 timestamp: new Date().toISOString()
             };
-            
+
             stats.totalAttempts++;
             // 整数の場合は小数点以下を表示しない
             const resultText = Number.isInteger(result) ? result : result.toFixed(2);
@@ -1342,20 +1342,20 @@ function checkAnswer() {
 function handleCorrectAnswer() {
     const stats = getCurrentStats();
     const userAnswer = answerInput.value.trim();
-    
+
     // 回答履歴を保存
     stats.answerHistory[stats.currentProblemIndex] = {
         formula: userAnswer,
         isCorrect: true,
         timestamp: new Date().toISOString()
     };
-    
+
     stats.streak++;
     stats.correctAnswers++;
     stats.totalAttempts++;
-    
+
     showFeedback(`🎉 正解！次の問題に進もう！`, 'success');
-    
+
     updateDisplay();
 }
 
@@ -1366,7 +1366,11 @@ function showFeedback(message, type, noAnimation = false) {
         clearTimeout(gameState.feedbackTimer);
         gameState.feedbackTimer = null;
     }
-    
+
+    // アニメーションをリセットするために一旦クラスを削除し、リフローを強制
+    feedbackDiv.className = 'feedback';
+    void feedbackDiv.offsetWidth; // リフロー（再描画）を強制
+
     feedbackDiv.textContent = message;
     if (noAnimation) {
         // アニメーションなしで表示
@@ -1375,7 +1379,7 @@ function showFeedback(message, type, noAnimation = false) {
         // 通常のアニメーション付き表示
         feedbackDiv.className = `feedback ${type}`;
     }
-    
+
     // 入力制限のエラーメッセージのみ3秒後に自動消去
     // 計算結果のエラー（不正解）は残す
     const autoHideErrors = [
@@ -1391,7 +1395,7 @@ function showFeedback(message, type, noAnimation = false) {
         '解答例を表示した問題は回答できません',
         '無効な計算式です。もう一度試してください！'
     ];
-    
+
     if (type === 'error' && autoHideErrors.includes(message)) {
         gameState.feedbackTimer = setTimeout(() => {
             feedbackDiv.textContent = '';
@@ -1409,12 +1413,12 @@ function getCurrentStats() {
 
 function updateDisplay() {
     const stats = getCurrentStats();
-    
+
     // 正解率を計算
-    const accuracy = stats.totalAttempts > 0 
+    const accuracy = stats.totalAttempts > 0
         ? Math.round((stats.correctAnswers / stats.totalAttempts) * 100)
         : 0;
-    
+
     accuracySpan.textContent = accuracy + '%';
     levelSelect.value = gameState.level;
 }
@@ -1423,23 +1427,23 @@ function updateDisplay() {
 function showSolution() {
     // 現在のレベルと問題インデックスを取得
     const stats = getCurrentStats();
-    
+
     // 回答済みの問題の場合、解答例を表示して数秒後に元の結果に戻す
     if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
         const answer = stats.answerHistory[stats.currentProblemIndex];
-        
+
         // 解答例を表示
         if (gameState.solutions.length > 0) {
             showFeedback(`解答例: ${gameState.solutions[0]}`, 'info', true);
         } else {
             showFeedback('この問題の解答例が見つかりません。24にならない可能性があります。AIに相談してみましょう', 'info', true);
         }
-        
+
         // 既存のタイマーをクリア
         if (gameState.feedbackTimer) {
             clearTimeout(gameState.feedbackTimer);
         }
-        
+
         // 3秒後に元の回答結果に戻す
         gameState.feedbackTimer = setTimeout(() => {
             if (answer.isCorrect) {
@@ -1451,14 +1455,14 @@ function showSolution() {
             }
             gameState.feedbackTimer = null;
         }, 3000);
-        
+
         return;
     }
-    
+
     // まだ解答例を表示していない問題の場合のみ試行回数を増やす
     if (!gameState.solutionShown) {
         stats.totalAttempts++;
-        
+
         // 回答履歴を保存（解答例表示）
         stats.answerHistory[stats.currentProblemIndex] = {
             formula: '解答例を表示',
@@ -1467,18 +1471,18 @@ function showSolution() {
             timestamp: new Date().toISOString()
         };
     }
-    
+
     // 解答例を表示したフラグを立てる
     gameState.solutionShown = true;
     stats.shownSolutions.add(stats.currentProblemIndex);
-    
+
     // 解答例を表示
     if (gameState.solutions.length > 0) {
         showFeedback(`解答例: ${gameState.solutions[0]}`, 'info');
     } else {
         showFeedback('この問題の解答例が見つかりません。24にならない可能性があります。AIに相談してみましょう', 'info');
     }
-    
+
     // 解答例を見ると連続正解がリセットされる
     stats.streak = 0;
     updateDisplay();
@@ -1491,27 +1495,27 @@ function showGrading() {
     const message = document.getElementById('customConfirmMessage');
     message.textContent = '採点しますか？';
     dialog.classList.add('show');
-    
+
     // はいボタンのイベントリスナー（一度だけ実行）
     const yesBtn = document.getElementById('confirmYes');
     const noBtn = document.getElementById('confirmNo');
-    
+
     const handleYes = () => {
         dialog.classList.remove('show');
         executeGrading();
         yesBtn.removeEventListener('click', handleYes);
         noBtn.removeEventListener('click', handleNo);
     };
-    
+
     const handleNo = () => {
         dialog.classList.remove('show');
         yesBtn.removeEventListener('click', handleYes);
         noBtn.removeEventListener('click', handleNo);
     };
-    
+
     yesBtn.addEventListener('click', handleYes);
     noBtn.addEventListener('click', handleNo);
-    
+
     // 背景クリックで閉じる
     dialog.addEventListener('click', (e) => {
         if (e.target === dialog) {
@@ -1527,36 +1531,36 @@ function executeGrading() {
     const totalProblems = problems.length;
     const correctAnswers = stats.correctAnswers;
     const accuracy = totalProblems > 0 ? Math.round((correctAnswers / totalProblems) * 100) : 0;
-    
+
     const levelNames = { 1: 'ふつう', 2: '難しい', 3: '鬼' };
     const levelName = levelNames[gameState.level];
-    
+
     // 半角数字を全角数字に変換
     const toFullWidth = (num) => {
         return String(num).replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) + 0xFEE0));
     };
-    
+
     // 経過時間を計算
     let timeText = '００：００';
     let elapsedTimeInSeconds = 0;
     let isNewRecord = false;
-    
+
     if (gameState.startTime && !gameState.timerPaused) {
         elapsedTimeInSeconds = Math.floor((Date.now() - gameState.startTime) / 1000);
         const minutes = Math.floor(elapsedTimeInSeconds / 60);
         const seconds = elapsedTimeInSeconds % 60;
         timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}：${toFullWidth(String(seconds).padStart(2, '0'))}`;
-        
+
         // ベストレコードをチェック（正解数が多い、または同じ正解数でタイムが早い）
         const currentRecord = getBestRecord(gameState.level);
-        if (!currentRecord || 
+        if (!currentRecord ||
             correctAnswers > currentRecord.correctAnswers ||
             (correctAnswers === currentRecord.correctAnswers && elapsedTimeInSeconds < currentRecord.time)) {
             saveBestRecord(gameState.level, correctAnswers, totalProblems, elapsedTimeInSeconds);
             isNewRecord = true;
         }
     }
-    
+
     // 統計情報をリセット（現在のレベルのみ）
     stats.totalAttempts = 0;
     stats.correctAnswers = 0;
@@ -1564,16 +1568,16 @@ function executeGrading() {
     stats.currentProblemIndex = 0;
     stats.shownSolutions.clear();
     stats.answerHistory = {}; // 回答履歴もリセット
-    
+
     // タイマーをリセット
     resetTimer();
-    
+
     updateDisplay();
     generateNewNumbers();
-    
+
     // 正解率に応じたメッセージ
     let resultMessage = '';
-    
+
     // 鬼レベルの場合は正解数に応じた専用メッセージ
     if (gameState.level === 3) {
         const messages = {
@@ -1618,27 +1622,36 @@ function executeGrading() {
             resultMessage = '🏁 ここからがスタートだ！';
         }
     }
-    
+
     // 採点結果をダイアログで表示
     let recordMessage = isNewRecord ? '\n🏆 記録更新！' : '';
+
     const message = `【採点結果　レベル：${levelName}】\n正解数　${toFullWidth(correctAnswers)}問（全${toFullWidth(totalProblems)}問）\n正解率　${toFullWidth(accuracy)}％\nタイム　${timeText}${recordMessage}\n\n${resultMessage}`;
-    
+
     // ダイアログを表示
     const dialog = document.getElementById('gradingResultDialog');
-    const messageElement = document.getElementById('gradingResultMessage');
+    const messageP = document.getElementById('gradingResultMessage');
     const closeBtn = document.getElementById('gradingResultClose');
-    
-    messageElement.textContent = message;
+
+    messageP.innerText = message;
     dialog.classList.add('show');
-    
+
+    // 記録更新時の紙吹雪演出（ダイアログ表示後に呼び出す）
+    if (isNewRecord) {
+        // レイアウト確定のために少しだけ待つ
+        setTimeout(() => {
+            triggerConfetti();
+        }, 100);
+    }
+
     // 閉じるボタンのイベントリスナー
     const handleClose = () => {
         dialog.classList.remove('show');
         closeBtn.removeEventListener('click', handleClose);
     };
-    
+
     closeBtn.addEventListener('click', handleClose);
-    
+
     // 背景クリックで閉じる
     dialog.addEventListener('click', (e) => {
         if (e.target === dialog) {
@@ -1652,31 +1665,31 @@ function showBestTimeDetails() {
     const dialog = document.getElementById('bestTimeDialog');
     const detailsDiv = document.getElementById('bestTimeDetails');
     const closeBtn = document.getElementById('bestTimeClose');
-    
+
     const levelNames = { 1: 'ふつう', 2: '難しい', 3: '鬼' };
-    
+
     // 半角数字を全角数字に変換
     const toFullWidth = (num) => {
         return String(num).replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) + 0xFEE0));
     };
-    
+
     // 各レベルのベストレコードを表示
     let html = '';
     for (let level = 1; level <= 3; level++) {
         const levelName = levelNames[level];
         const record = getBestRecord(level);
-        
+
         html += `<div class="best-time-level">`;
         html += `<h3>レベル ${toFullWidth(level)}：${levelName}</h3>`;
-        
+
         if (record) {
             // スマホ表示かどうかを判定
             const isMobile = window.innerWidth <= 768;
-            
+
             if (isMobile) {
                 // スマホ表示：縦並び
                 html += `<p>✅ 正解数：${toFullWidth(record.correctAnswers)}問 / ${toFullWidth(record.totalProblems)}問</p>`;
-                
+
                 const minutes = Math.floor(record.time / 60);
                 const seconds = record.time % 60;
                 const timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}：${toFullWidth(String(seconds).padStart(2, '0'))}`;
@@ -1684,13 +1697,13 @@ function showBestTimeDetails() {
             } else {
                 // PC表示：横並び
                 html += `<p>✅ 正解数：${toFullWidth(record.correctAnswers)}問 / ${toFullWidth(record.totalProblems)}問　⏱️ タイム：`;
-                
+
                 const minutes = Math.floor(record.time / 60);
                 const seconds = record.time % 60;
                 const timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}：${toFullWidth(String(seconds).padStart(2, '0'))}`;
                 html += `${timeText}</p>`;
             }
-            
+
             if (record.date) {
                 const date = new Date(record.date);
                 const dateText = `${toFullWidth(date.getFullYear())}年${toFullWidth(date.getMonth() + 1)}月${toFullWidth(date.getDate())}日`;
@@ -1699,21 +1712,21 @@ function showBestTimeDetails() {
         } else {
             html += `<p class="no-record">記録なし</p>`;
         }
-        
+
         html += `</div>`;
     }
-    
+
     detailsDiv.innerHTML = html;
     dialog.classList.add('show');
-    
+
     // 閉じるボタンのイベントリスナー
     const handleClose = () => {
         dialog.classList.remove('show');
         closeBtn.removeEventListener('click', handleClose);
     };
-    
+
     closeBtn.addEventListener('click', handleClose);
-    
+
     // 背景クリックで閉じる
     dialog.addEventListener('click', (e) => {
         if (e.target === dialog) {
@@ -1729,13 +1742,13 @@ function skipProblem() {
     } else {
         showFeedback('この問題は解くのが難しいため、新しい問題を生成します', 'info');
     }
-    
+
     gameState.streak = 0;
     if (gameState.score > 10) {
         gameState.score -= 10;
     }
     updateDisplay();
-    
+
     setTimeout(() => {
         generateNewNumbers();
     }, 3000);
@@ -1744,7 +1757,7 @@ function skipProblem() {
 // 解を見つける（簡易版）
 function findSolutions(numbers) {
     const solutions = [];
-    
+
     // 既知のパターンから検索
     const sortedNums = [...numbers].sort((a, b) => a - b).join(',');
     for (const pattern of knownSolutions) {
@@ -1753,18 +1766,18 @@ function findSolutions(numbers) {
             solutions.push(pattern.solution);
         }
     }
-    
+
     // 簡単なパターンをチェック
     const [a, b, c, d] = numbers;
-    
+
     // パターン0: a + b + c + d = 24
     if (a + b + c + d === 24) solutions.push(`${a} + ${b} + ${c} + ${d}`);
-    
+
     // パターン1: (a + b) * (c + d) = 24
     if ((a + b) * (c + d) === 24) solutions.push(`(${a} + ${b}) * (${c} + ${d})`);
     if ((a + c) * (b + d) === 24) solutions.push(`(${a} + ${c}) * (${b} + ${d})`);
     if ((a + d) * (b + c) === 24) solutions.push(`(${a} + ${d}) * (${b} + ${c})`);
-    
+
     // パターン1-2: (a + b) * (c - d) = 24
     if ((a + b) * (c - d) === 24) solutions.push(`(${a} + ${b}) * (${c} - ${d})`);
     if ((a + b) * (d - c) === 24) solutions.push(`(${a} + ${b}) * (${d} - ${c})`);
@@ -1778,10 +1791,10 @@ function findSolutions(numbers) {
     if ((b + d) * (c - a) === 24) solutions.push(`(${b} + ${d}) * (${c} - ${a})`);
     if ((c + d) * (a - b) === 24) solutions.push(`(${c} + ${d}) * (${a} - ${b})`);
     if ((c + d) * (b - a) === 24) solutions.push(`(${c} + ${d}) * (${b} - ${a})`);
-    
+
     // パターン2: (a - b) * (c + d) = 24
     if ((a - b) * (c + d) === 24) solutions.push(`(${a} - ${b}) * (${c} + ${d})`);
-    
+
     // パターン2-1: (a - b) * (c - d) = 24
     if ((a - b) * (c - d) === 24) solutions.push(`(${a} - ${b}) * (${c} - ${d})`);
     if ((a - b) * (d - c) === 24) solutions.push(`(${a} - ${b}) * (${d} - ${c})`);
@@ -1795,7 +1808,7 @@ function findSolutions(numbers) {
     if ((a - d) * (c - b) === 24) solutions.push(`(${a} - ${d}) * (${c} - ${b})`);
     if ((d - a) * (b - c) === 24) solutions.push(`(${d} - ${a}) * (${b} - ${c})`);
     if ((d - a) * (c - b) === 24) solutions.push(`(${d} - ${a}) * (${c} - ${b})`);
-    
+
     // パターン2-2: (a * b) - (c + d) = 24
     if (a * b - (c + d) === 24) solutions.push(`(${a} * ${b}) - (${c} + ${d})`);
     if (a * c - (b + d) === 24) solutions.push(`(${a} * ${c}) - (${b} + ${d})`);
@@ -1803,12 +1816,12 @@ function findSolutions(numbers) {
     if (b * c - (a + d) === 24) solutions.push(`(${b} * ${c}) - (${a} + ${d})`);
     if (b * d - (a + c) === 24) solutions.push(`(${b} * ${d}) - (${a} + ${c})`);
     if (c * d - (a + b) === 24) solutions.push(`(${c} * ${d}) - (${a} + ${b})`);
-    
+
     // パターン3: a * b + c * d = 24
     if (a * b + c * d === 24) solutions.push(`${a} * ${b} + ${c} * ${d}`);
     if (a * c + b * d === 24) solutions.push(`${a} * ${c} + ${b} * ${d}`);
     if (a * d + b * c === 24) solutions.push(`${a} * ${d} + ${b} * ${c}`);
-    
+
     // パターン3-1: a * b - c * d = 24
     if (a * b - c * d === 24) solutions.push(`${a} * ${b} - ${c} * ${d}`);
     if (a * c - b * d === 24) solutions.push(`${a} * ${c} - ${b} * ${d}`);
@@ -1816,7 +1829,7 @@ function findSolutions(numbers) {
     if (b * c - a * d === 24) solutions.push(`${b} * ${c} - ${a} * ${d}`);
     if (b * d - a * c === 24) solutions.push(`${b} * ${d} - ${a} * ${c}`);
     if (c * d - a * b === 24) solutions.push(`${c} * ${d} - ${a} * ${b}`);
-    
+
     // パターン3-2: a * b + c - d = 24
     if (a * b + c - d === 24) solutions.push(`${a} * ${b} + ${c} - ${d}`);
     if (a * b + d - c === 24) solutions.push(`${a} * ${b} + ${d} - ${c}`);
@@ -1830,13 +1843,13 @@ function findSolutions(numbers) {
     if (b * d + c - a === 24) solutions.push(`${b} * ${d} + ${c} - ${a}`);
     if (c * d + a - b === 24) solutions.push(`${c} * ${d} + ${a} - ${b}`);
     if (c * d + b - a === 24) solutions.push(`${c} * ${d} + ${b} - ${a}`);
-    
+
     // パターン4: a * b * c - d = 24
     if (a * b * c - d === 24) solutions.push(`${a} * ${b} * ${c} - ${d}`);
     if (a * b * d - c === 24) solutions.push(`${a} * ${b} * ${d} - ${c}`);
     if (a * c * d - b === 24) solutions.push(`${a} * ${c} * ${d} - ${b}`);
     if (b * c * d - a === 24) solutions.push(`${b} * ${c} * ${d} - ${a}`);
-    
+
     // パターン4-2: (a - b) * c * d = 24
     if ((a - b) * c * d === 24) solutions.push(`(${a} - ${b}) * ${c} * ${d}`);
     if ((b - a) * c * d === 24) solutions.push(`(${b} - ${a}) * ${c} * ${d}`);
@@ -1850,13 +1863,13 @@ function findSolutions(numbers) {
     if ((d - b) * a * c === 24) solutions.push(`(${d} - ${b}) * ${a} * ${c}`);
     if ((c - d) * a * b === 24) solutions.push(`(${c} - ${d}) * ${a} * ${b}`);
     if ((d - c) * a * b === 24) solutions.push(`(${d} - ${c}) * ${a} * ${b}`);
-    
+
     // パターン5: (a + b + c) * d = 24
     if ((a + b + c) * d === 24) solutions.push(`(${a} + ${b} + ${c}) * ${d}`);
     if ((a + b + d) * c === 24) solutions.push(`(${a} + ${b} + ${d}) * ${c}`);
     if ((a + c + d) * b === 24) solutions.push(`(${a} + ${c} + ${d}) * ${b}`);
     if ((b + c + d) * a === 24) solutions.push(`(${b} + ${c} + ${d}) * ${a}`);
-    
+
     // パターン5-2: (a - b + c) * d = 24
     if ((a - b + c) * d === 24) solutions.push(`(${a} - ${b} + ${c}) * ${d}`);
     if ((a - b + d) * c === 24) solutions.push(`(${a} - ${b} + ${d}) * ${c}`);
@@ -1882,13 +1895,13 @@ function findSolutions(numbers) {
     if ((d - b + c) * a === 24) solutions.push(`(${d} - ${b} + ${c}) * ${a}`);
     if ((d - c + a) * b === 24) solutions.push(`(${d} - ${c} + ${a}) * ${b}`);
     if ((d - c + b) * a === 24) solutions.push(`(${d} - ${c} + ${b}) * ${a}`);
-    
+
     // パターン6: a + b + c - d = 24
     if (a + b + c - d === 24) solutions.push(`${a} + ${b} + ${c} - ${d}`);
     if (a + b + d - c === 24) solutions.push(`${a} + ${b} + ${d} - ${c}`);
     if (a + c + d - b === 24) solutions.push(`${a} + ${c} + ${d} - ${b}`);
     if (b + c + d - a === 24) solutions.push(`${b} + ${c} + ${d} - ${a}`);
-    
+
     // パターン7: (a + b) / c * d = 24
     if (c !== 0 && (a + b) / c * d === 24) solutions.push(`(${a} + ${b}) / ${c} * ${d}`);
     if (c !== 0 && (a + d) / c * b === 24) solutions.push(`(${a} + ${d}) / ${c} * ${b}`);
@@ -1902,7 +1915,7 @@ function findSolutions(numbers) {
     if (a !== 0 && (b + c) / a * d === 24) solutions.push(`(${b} + ${c}) / ${a} * ${d}`);
     if (a !== 0 && (b + d) / a * c === 24) solutions.push(`(${b} + ${d}) / ${a} * ${c}`);
     if (a !== 0 && (c + d) / a * b === 24) solutions.push(`(${c} + ${d}) / ${a} * ${b}`);
-    
+
     // パターン8: a * b / c * d = 24
     if (c !== 0 && a * b / c * d === 24) solutions.push(`${a} * ${b} / ${c} * ${d}`);
     if (c !== 0 && a * d / c * b === 24) solutions.push(`${a} * ${d} / ${c} * ${b}`);
@@ -1916,7 +1929,7 @@ function findSolutions(numbers) {
     if (a !== 0 && b * c / a * d === 24) solutions.push(`${b} * ${c} / ${a} * ${d}`);
     if (a !== 0 && b * d / a * c === 24) solutions.push(`${b} * ${d} / ${a} * ${c}`);
     if (a !== 0 && c * d / a * b === 24) solutions.push(`${c} * ${d} / ${a} * ${b}`);
-    
+
     // パターン9: (a * b - c) * d = 24
     if ((a * b - c) * d === 24) solutions.push(`(${a} * ${b} - ${c}) * ${d}`);
     if ((a * b - d) * c === 24) solutions.push(`(${a} * ${b} - ${d}) * ${c}`);
@@ -1930,7 +1943,7 @@ function findSolutions(numbers) {
     if ((b * d - c) * a === 24) solutions.push(`(${b} * ${d} - ${c}) * ${a}`);
     if ((c * d - a) * b === 24) solutions.push(`(${c} * ${d} - ${a}) * ${b}`);
     if ((c * d - b) * a === 24) solutions.push(`(${c} * ${d} - ${b}) * ${a}`);
-    
+
     // パターン10: (a + b) * c * d = 24
     if ((a + b) * c * d === 24) solutions.push(`(${a} + ${b}) * ${c} * ${d}`);
     if ((a + c) * b * d === 24) solutions.push(`(${a} + ${c}) * ${b} * ${d}`);
@@ -1938,7 +1951,7 @@ function findSolutions(numbers) {
     if ((b + c) * a * d === 24) solutions.push(`(${b} + ${c}) * ${a} * ${d}`);
     if ((b + d) * a * c === 24) solutions.push(`(${b} + ${d}) * ${a} * ${c}`);
     if ((c + d) * a * b === 24) solutions.push(`(${c} + ${d}) * ${a} * ${b}`);
-    
+
     // パターン11: a + b * c / d = 24
     if (d !== 0 && a + b * c / d === 24) solutions.push(`${a} + ${b} * ${c} / ${d}`);
     if (d !== 0 && b + a * c / d === 24) solutions.push(`${b} + ${a} * ${c} / ${d}`);
@@ -1952,7 +1965,7 @@ function findSolutions(numbers) {
     if (a !== 0 && b + c * d / a === 24) solutions.push(`${b} + ${c} * ${d} / ${a}`);
     if (a !== 0 && c + b * d / a === 24) solutions.push(`${c} + ${b} * ${d} / ${a}`);
     if (a !== 0 && d + b * c / a === 24) solutions.push(`${d} + ${b} * ${c} / ${a}`);
-    
+
     // パターン12: (a - b) * c + d = 24
     if ((a - b) * c + d === 24) solutions.push(`(${a} - ${b}) * ${c} + ${d}`);
     if ((a - b) * d + c === 24) solutions.push(`(${a} - ${b}) * ${d} + ${c}`);
@@ -1978,7 +1991,7 @@ function findSolutions(numbers) {
     if ((d - b) * c + a === 24) solutions.push(`(${d} - ${b}) * ${c} + ${a}`);
     if ((d - c) * a + b === 24) solutions.push(`(${d} - ${c}) * ${a} + ${b}`);
     if ((d - c) * b + a === 24) solutions.push(`(${d} - ${c}) * ${b} + ${a}`);
-    
+
     // パターン13: a / (b / c - d) = 24
     if (c !== 0 && b / c - d !== 0 && a / (b / c - d) === 24) solutions.push(`${a} / (${b} / ${c} - ${d})`);
     if (c !== 0 && b / c - a !== 0 && d / (b / c - a) === 24) solutions.push(`${d} / (${b} / ${c} - ${a})`);
@@ -2004,7 +2017,7 @@ function findSolutions(numbers) {
     if (a !== 0 && d / a - b !== 0 && c / (d / a - b) === 24) solutions.push(`${c} / (${d} / ${a} - ${b})`);
     if (a !== 0 && b / a - d !== 0 && c / (b / a - d) === 24) solutions.push(`${c} / (${b} / ${a} - ${d})`);
     if (a !== 0 && b / a - c !== 0 && d / (b / a - c) === 24) solutions.push(`${d} / (${b} / ${a} - ${c})`);
-    
+
     // パターン14: a * (b + c - d) = 24
     if (a * (b + c - d) === 24) solutions.push(`${a} * (${b} + ${c} - ${d})`);
     if (a * (b + d - c) === 24) solutions.push(`${a} * (${b} + ${d} - ${c})`);
@@ -2018,13 +2031,13 @@ function findSolutions(numbers) {
     if (d * (a + b - c) === 24) solutions.push(`${d} * (${a} + ${b} - ${c})`);
     if (d * (a + c - b) === 24) solutions.push(`${d} * (${a} + ${c} - ${b})`);
     if (d * (b + c - a) === 24) solutions.push(`${d} * (${b} + ${c} - ${a})`);
-    
+
     // パターン15: a * (b + c + d) = 24
     if (a * (b + c + d) === 24) solutions.push(`${a} * (${b} + ${c} + ${d})`);
     if (b * (a + c + d) === 24) solutions.push(`${b} * (${a} + ${c} + ${d})`);
     if (c * (a + b + d) === 24) solutions.push(`${c} * (${a} + ${b} + ${d})`);
     if (d * (a + b + c) === 24) solutions.push(`${d} * (${a} + ${b} + ${c})`);
-    
+
     // パターン16: a * (b - c / d) = 24
     if (d !== 0 && a * (b - c / d) === 24) solutions.push(`${a} * (${b} - ${c} / ${d})`);
     if (d !== 0 && a * (c - b / d) === 24) solutions.push(`${a} * (${c} - ${b} / ${d})`);
@@ -2050,7 +2063,7 @@ function findSolutions(numbers) {
     if (a !== 0 && c * (d - b / a) === 24) solutions.push(`${c} * (${d} - ${b} / ${a})`);
     if (a !== 0 && d * (b - c / a) === 24) solutions.push(`${d} * (${b} - ${c} / ${a})`);
     if (a !== 0 && d * (c - b / a) === 24) solutions.push(`${d} * (${c} - ${b} / ${a})`);
-    
+
     // パターン16-2: a * (b - c - d) = 24
     if (a * (b - c - d) === 24) solutions.push(`${a} * (${b} - ${c} - ${d})`);
     if (a * (b - d - c) === 24) solutions.push(`${a} * (${b} - ${d} - ${c})`);
@@ -2076,7 +2089,7 @@ function findSolutions(numbers) {
     if (d * (b - c - a) === 24) solutions.push(`${d} * (${b} - ${c} - ${a})`);
     if (d * (c - a - b) === 24) solutions.push(`${d} * (${c} - ${a} - ${b})`);
     if (d * (c - b - a) === 24) solutions.push(`${d} * (${c} - ${b} - ${a})`);
-    
+
     // パターン17: a * (b + c) - d = 24
     if (a * (b + c) - d === 24) solutions.push(`${a} * (${b} + ${c}) - ${d}`);
     if (a * (b + d) - c === 24) solutions.push(`${a} * (${b} + ${d}) - ${c}`);
@@ -2090,7 +2103,7 @@ function findSolutions(numbers) {
     if (d * (a + b) - c === 24) solutions.push(`${d} * (${a} + ${b}) - ${c}`);
     if (d * (a + c) - b === 24) solutions.push(`${d} * (${a} + ${c}) - ${b}`);
     if (d * (b + c) - a === 24) solutions.push(`${d} * (${b} + ${c}) - ${a}`);
-    
+
     // パターン18: a / (b - c / d) = 24
     if (d !== 0 && b - c / d !== 0 && a / (b - c / d) === 24) solutions.push(`${a} / (${b} - ${c} / ${d})`);
     if (d !== 0 && c - b / d !== 0 && a / (c - b / d) === 24) solutions.push(`${a} / (${c} - ${b} / ${d})`);
@@ -2116,7 +2129,7 @@ function findSolutions(numbers) {
     if (a !== 0 && d - b / a !== 0 && c / (d - b / a) === 24) solutions.push(`${c} / (${d} - ${b} / ${a})`);
     if (a !== 0 && b - c / a !== 0 && d / (b - c / a) === 24) solutions.push(`${d} / (${b} - ${c} / ${a})`);
     if (a !== 0 && c - b / a !== 0 && d / (c - b / a) === 24) solutions.push(`${d} / (${c} - ${b} / ${a})`);
-    
+
     // パターン19: a * b + c + d = 24
     if (a * b + c + d === 24) solutions.push(`${a} * ${b} + ${c} + ${d}`);
     if (a * c + b + d === 24) solutions.push(`${a} * ${c} + ${b} + ${d}`);
@@ -2124,7 +2137,7 @@ function findSolutions(numbers) {
     if (b * c + a + d === 24) solutions.push(`${b} * ${c} + ${a} + ${d}`);
     if (b * d + a + c === 24) solutions.push(`${b} * ${d} + ${a} + ${c}`);
     if (c * d + a + b === 24) solutions.push(`${c} * ${d} + ${a} + ${b}`);
-    
+
     // パターン20: (a - b) * (c / d) = 24
     if (d !== 0 && (a - b) * (c / d) === 24) solutions.push(`(${a} - ${b}) * (${c} / ${d})`);
     if (d !== 0 && (b - a) * (c / d) === 24) solutions.push(`(${b} - ${a}) * (${c} / ${d})`);
@@ -2150,7 +2163,7 @@ function findSolutions(numbers) {
     if (a !== 0 && (d - b) * (c / a) === 24) solutions.push(`(${d} - ${b}) * (${c} / ${a})`);
     if (a !== 0 && (c - d) * (b / a) === 24) solutions.push(`(${c} - ${d}) * (${b} / ${a})`);
     if (a !== 0 && (d - c) * (b / a) === 24) solutions.push(`(${d} - ${c}) * (${b} / ${a})`);
-    
+
     // パターン21: (a + b) * c + d = 24
     if ((a + b) * c + d === 24) solutions.push(`(${a} + ${b}) * ${c} + ${d}`);
     if ((a + b) * d + c === 24) solutions.push(`(${a} + ${b}) * ${d} + ${c}`);
@@ -2164,7 +2177,7 @@ function findSolutions(numbers) {
     if ((b + d) * c + a === 24) solutions.push(`(${b} + ${d}) * ${c} + ${a}`);
     if ((c + d) * a + b === 24) solutions.push(`(${c} + ${d}) * ${a} + ${b}`);
     if ((c + d) * b + a === 24) solutions.push(`(${c} + ${d}) * ${b} + ${a}`);
-    
+
     // パターン22: (a * b) / (c - d) = 24
     if (c - d !== 0 && (a * b) / (c - d) === 24) solutions.push(`(${a} * ${b}) / (${c} - ${d})`);
     if (d - c !== 0 && (a * b) / (d - c) === 24) solutions.push(`(${a} * ${b}) / (${d} - ${c})`);
@@ -2184,7 +2197,7 @@ function findSolutions(numbers) {
     if (a - d !== 0 && (b * c) / (a - d) === 24) solutions.push(`(${b} * ${c}) / (${a} - ${d})`);
     if (a - c !== 0 && (b * d) / (a - c) === 24) solutions.push(`(${b} * ${d}) / (${a} - ${c})`);
     if (a - b !== 0 && (c * d) / (a - b) === 24) solutions.push(`(${c} * ${d}) / (${a} - ${b})`);
-    
+
     // パターン23: (a - b) * c - d = 24
     if ((a - b) * c - d === 24) solutions.push(`(${a} - ${b}) * ${c} - ${d}`);
     if ((a - b) * d - c === 24) solutions.push(`(${a} - ${b}) * ${d} - ${c}`);
@@ -2210,18 +2223,93 @@ function findSolutions(numbers) {
     if ((d - b) * c - a === 24) solutions.push(`(${d} - ${b}) * ${c} - ${a}`);
     if ((d - c) * a - b === 24) solutions.push(`(${d} - ${c}) * ${a} - ${b}`);
     if ((d - c) * b - a === 24) solutions.push(`(${d} - ${c}) * ${b} - ${a}`);
-    
+
     // レベルに応じて使用可能な演算子でフィルタリング
     const config = levelConfig[gameState.level] || levelConfig[1];
     const allowedOperators = config.operators || ['+', '-', '*', '/', '(', ')'];
-    
+
     const filteredSolutions = solutions.filter(solution => {
         const usedOperators = solution.match(/[\+\-\*\/\(\)]/g) || [];
         return usedOperators.every(op => allowedOperators.includes(op));
     });
-    
+
     return filteredSolutions;
 }
 
 // ゲーム開始
 init();
+
+
+// 紙吹雪演出
+function triggerConfetti() {
+    // canvas-confettiが読み込まれているかチェック
+    if (typeof confetti === 'function') {
+        const canvas = document.getElementById('confettiCanvas');
+        if (!canvas) return;
+
+        // キャンバスのサイズを親要素に合わせる（念のため）
+        // CSSで100%に設定しているが、描画解像度を合わせる必要があるかも知れない
+        // canvas-confetti.createを使用すると、自動的にリサイズ処理などもしてくれる場合があるが、
+        // ここでは親要素のサイズを取得して設定する
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+
+        // キャンバス専用のインスタンスを作成
+        const myConfetti = confetti.create(canvas, {
+            resize: true,
+            useWorker: true
+        });
+
+        // デフォルトの紙吹雪
+        myConfetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+
+        // 左側からの発射
+        setTimeout(() => {
+            myConfetti({
+                particleCount: 50,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 }
+            });
+        }, 200);
+
+        // 右側からの発射
+        setTimeout(() => {
+            myConfetti({
+                particleCount: 50,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 }
+            });
+        }, 400);
+
+        // 最後に大量の紙吹雪
+        setTimeout(() => {
+            const end = Date.now() + 1000;
+
+            (function frame() {
+                myConfetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 }
+                });
+                myConfetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 }
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }, 1000);
+    }
+}
