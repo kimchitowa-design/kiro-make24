@@ -804,10 +804,10 @@ function attachEventListeners() {
     window.addEventListener('touchstart', interactionHandler);
 
     // マスコット自身のクリックイベント
-    if (mascotContainer) {
-        mascotContainer.addEventListener('click', handleMascotPoke);
+    if (mascotCharacter) {
+        mascotCharacter.addEventListener('click', handleMascotPoke);
         // タッチデバイス用に追加
-        mascotContainer.addEventListener('touchstart', (e) => {
+        mascotCharacter.addEventListener('touchstart', (e) => {
             // clickイベントと重複しないように制御
             handleMascotPoke(e);
         }, { passive: false });

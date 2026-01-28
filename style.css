@@ -1467,3 +1467,7 @@ h1 {
     opacity: 1 !important;
     visibility: visible !important;
 }
+/* --- v0.7.6.6 ƒ^ƒbƒv”ÍˆÍ‚ÌC³ --- */
+.mascot-container { pointer-events: none !important; }
+.mascot-character { pointer-events: auto !important; cursor: pointer !important; z-index: 10000 !important; }
+.speech-bubble { pointer-events: none !important; }
