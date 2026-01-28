@@ -424,6 +424,9 @@ const mascotCharacter = document.getElementById('mascotCharacter');
 const speechBubble = document.getElementById('speechBubble');
 const mascotMessage = document.getElementById('mascotMessage');
 
+// デバッグ用：マスコット要素の確認
+console.log('Mascot elements:', { mascotContainer, mascotCharacter, speechBubble, mascotMessage });
+
 // 初期化
 function init() {
     initializeProblemLists(); // 問題リストを初期化
@@ -511,9 +514,16 @@ function resetInactivityTimer() {
 
 // マスコットをつつく反応
 function handleMascotPoke(e) {
+    console.log('Mascot poked! Count:', gameState.mascotPokeCount + 1);
     if (e) {
-        e.preventDefault();
+        if (e.type === 'touchstart') e.preventDefault(); // touchstartの場合は伝播防止
         e.stopPropagation();
+    }
+
+    // 視覚的なフィードバック
+    if (mascotCharacter) {
+        mascotCharacter.style.filter = 'brightness(1.5)';
+        setTimeout(() => mascotCharacter.style.filter = '', 100);
     }
 
     // 居眠りタイマーをリセット（つつくのは操作とみなす）
@@ -792,8 +802,12 @@ function attachEventListeners() {
 
     // マスコット自身のクリックイベント
     if (mascotContainer) {
-        mascotContainer.addEventListener('mousedown', handleMascotPoke);
-        mascotContainer.addEventListener('touchstart', handleMascotPoke);
+        mascotContainer.addEventListener('click', handleMascotPoke);
+        // タッチデバイス用に追加
+        mascotContainer.addEventListener('touchstart', (e) => {
+            // clickイベントと重複しないように制御
+            handleMascotPoke(e);
+        }, { passive: false });
     }
 
     if (submitBtn) {
