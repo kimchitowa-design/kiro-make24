@@ -917,12 +917,12 @@ h1 {
     }
 
     .info-card .label {
-        font-size: 0.75em;
+        font-size: 0.85em;
         font-weight: 600;
     }
 
     .info-card .value {
-        font-size: 1em;
+        font-size: 1.15em;
         font-weight: bold;
     }
 
