@@ -1476,3 +1476,12 @@ h1 {
 #mascotCharacter { pointer-events: auto !important; cursor: pointer !important; z-index: 10000 !important; }
 #speechBubble { pointer-events: none !important; }
 
+
+/* ふわふわ動き回る演出用のスタイル */
+.mascot-character.wandering {
+    position: fixed !important;
+    z-index: 10001 !important;
+    transition: all 1.5s ease-in-out !important;
+    pointer-events: none !important; /* 動き回っている間はタップ不可 */
+}
+
