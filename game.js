@@ -85,7 +85,7 @@ function initializeProblemLists() {
         const hasDivision = problem.solution.includes('/');
         const hasMultiplication = problem.solution.includes('*');
 
-        // レベル1: 括弧なし�E問顁E
+        // レベル1: 括弧なし�E問題 
         if (!hasParentheses) {
             levelProblems[1].push(problem);
         }
@@ -424,8 +424,8 @@ const mascotCharacter = document.getElementById('mascotCharacter');
 const speechBubble = document.getElementById('speechBubble');
 const mascotMessage = document.getElementById('mascotMessage');
 
-// チE��チE��用�E��EスコチE��要素の確誁E
-console.log('Mascot elements:', { mascotContainer, mascotCharacter, speechBubble, mascotMessage });
+// チE��チE��用�E��EスコチE��要素の確認
+console.log('Mascot elements:', { mascotContainer, mascotCharacter, speechBubbl', mascotMessage });
 
 // 初期匁E
 function init() {
@@ -435,7 +435,7 @@ function init() {
     generateNewNumbers();
     attachEventListeners();
     updatePlaceholder(); // 初期プレースホルダーを設宁E
-    resetInactivityTimer(); // 屁E��りタイマ�E開姁E
+    resetInactivityTimer(); // 屁E��りタイマ�E開始
 
     // レベルカード�E体をクリチE��可能にする
     const levelCard = document.querySelector('.level-card');
@@ -443,7 +443,7 @@ function init() {
 
     if (levelCard && dropdownArrow) {
         // レベルカードをクリチE��したらセレクト�EチE��スを開ぁE
-        levelCard.addEventListener('click', (e) => {
+        levelCard.addEventListener('click', (') => {
             // セレクト�EチE��ス自体�EクリチE��でなぁE��合�Eみ処琁E
             if (e.target !== levelSelect) {
                 levelSelect.focus();
@@ -664,7 +664,7 @@ function loadBestTimes() {
                 }
             }
         } catch (e) {
-            console.error('ベストタイムの読み込みに失敗しました', e);
+            console.error('ベストタイムの読み込みに失敗しました', ');
         }
     }
     updateBestTimeDisplay();
@@ -678,7 +678,7 @@ function saveBestTime(level, timeInSeconds) {
         try {
             bestTimes = JSON.parse(saved);
         } catch (e) {
-            console.error('ベストタイムの読み込みに失敗しました', e);
+            console.error('ベストタイムの読み込みに失敗しました', ');
         }
     }
 
@@ -700,7 +700,7 @@ function saveBestRecord(level, correctAnswers, totalProblems, timeInSeconds) {
         try {
             bestRecords = JSON.parse(saved);
         } catch (e) {
-            console.error('ベストレコード�E読み込みに失敗しました', e);
+            console.error('ベストレコード�E読み込みに失敗しました', ');
         }
     }
 
@@ -721,7 +721,7 @@ function getBestRecord(level) {
             const bestRecords = JSON.parse(saved);
             return bestRecords[level] || null;
         } catch (e) {
-            console.error('ベストレコード�E読み込みに失敗しました', e);
+            console.error('ベストレコード�E読み込みに失敗しました', ');
         }
     }
     return null;
@@ -740,7 +740,7 @@ function getBestTime(level) {
                 return record.time;
             }
         } catch (e) {
-            console.error('ベストタイムの読み込みに失敗しました', e);
+            console.error('ベストタイムの読み込みに失敗しました', ');
         }
     }
     return null;
@@ -756,7 +756,7 @@ function getBestTimeDate(level) {
                 return record.date;
             }
         } catch (e) {
-            console.error('ベストタイムの読み込みに失敗しました', e);
+            console.error('ベストタイムの読み込みに失敗しました', ');
         }
     }
     return null;
@@ -767,7 +767,7 @@ function updateBestTimeDisplay() {
     if (record) {
         bestTimeSpan.textContent = `${record.correctAnswers}問`;
     } else {
-        bestTimeSpan.textContent = 'なぁE;
+        bestTimeSpan.textContent = 'なぁ';
     }
 }
 
@@ -780,7 +780,7 @@ function clearBestTime(level) {
         try {
             bestTimes = JSON.parse(saved);
         } catch (e) {
-            console.error('ベストタイムの読み込みに失敗しました', e);
+            console.error('ベストタイムの読み込みに失敗しました', ');
         }
     }
 
@@ -796,7 +796,7 @@ function clearBestTime(level) {
         try {
             bestRecords = JSON.parse(savedRecords);
         } catch (e) {
-            console.error('ベストレコード�E読み込みに失敗しました', e);
+            console.error('ベストレコード�E読み込みに失敗しました', ');
         }
     }
 
@@ -808,8 +808,8 @@ function clearBestTime(level) {
 
 // イベントリスナ�E
 function attachEventListeners() {
-    // ユーザー操作（�E体的なクリチE��めE��ー入力）でタイマ�EリセチE��
-    // ただし�EスコチE��自身のクリチE��等でリセチE��されなぁE��ぁE��御
+    // ユーザー操作（�E体的なクリチE��めE��ー入力）でタイマ�Eリセット��
+    // ただし�EスコチE��自身のクリチE��等でリセット��されなぁE��ぁE��御
     const interactionHandler = (e) => {
         // マスコチE��コンチE��冁E�E操作�E無視して屁E��りを継続させる
         if (e.target.closest('#mascotContainer')) return;
@@ -817,36 +817,36 @@ function attachEventListeners() {
     };
 
     window.addEventListener('mousedown', interactionHandler);
-    window.addEventListener('keydown', resetInactivityTimer); // キー入力�E常にリセチE��
+    window.addEventListener('keydown', resetInactivityTimer); // キー入力�E常にリセット��
     window.addEventListener('touchstart', interactionHandler);
 
     // マスコチE��自身のクリチE��イベンチE
     if (mascotCharacter) {
-        mascotCharacter.addEventListener('click', handleMascotPoke);
+        mascotCharacter.addEventListener('click', handleMascotPok');
         // タチE��チE��イス用に追加
-        mascotCharacter.addEventListener('touchstart', (e) => {
+        mascotCharacter.addEventListener('touchstart', (') => {
             // clickイベントと重褁E��なぁE��ぁE��制御
             handleMascotPoke(e);
         }, { passive: false });
     }
 
     if (submitBtn) {
-        submitBtn.addEventListener('click', (e) => {
+        submitBtn.addEventListener('click', (') => {
             e.preventDefault();
             e.stopPropagation();
             checkAnswer();
         });
     }
-    answerInput.addEventListener('keypress', (e) => {
+    answerInput.addEventListener('keypress', (') => {
         if (e.key === 'Enter') checkAnswer();
     });
-    resetBtn.addEventListener('click', resetGame);
+    resetBtn.addEventListener('click', resetGam');
     prevBtn.addEventListener('click', goToPreviousProblem);
     solutionBtn.addEventListener('click', showSolution);
     newGameBtn.addEventListener('click', skipToNextProblem);
     gradeBtn.addEventListener('click', showGrading);
     bestTimeBtn.addEventListener('click', showBestTimeDetails);
-    levelSelect.addEventListener('change', handleLevelChange);
+    levelSelect.addEventListener('change', handleLevelChang');
 
     // 計算機�Eタンのイベントリスナ�E�E�Eボタンは除外！E
     document.querySelectorAll('.calc-btn:not(#submitBtn)').forEach(btn => {
@@ -868,7 +868,7 @@ function goToPreviousProblem() {
     generateNewNumbers();
 }
 
-// リセチE��機�E
+// リセット��機�E
 function resetGame() {
     // 確認ダイアログを表示
     const dialog = document.getElementById('customConfirmDialog');
@@ -876,7 +876,7 @@ function resetGame() {
     const recordClearOption = document.getElementById('recordClearOption');
     const clearRecordCheckbox = document.getElementById('clearRecordCheckbox');
 
-    message.textContent = 'リセチE��しますか�E�\n�E�第�E�問からめE��直します！E;
+    message.textContent = 'リセット��しますか�E�\n�E�第�E�問からめE��直します！';
     recordClearOption.style.display = 'block'; // チェチE��ボックスを表示
     clearRecordCheckbox.checked = false; // チェチE��を外す
     dialog.classList.add('show');
@@ -896,7 +896,7 @@ function resetGame() {
         // 現在のレベルを保持
         const currentLevel = gameState.level;
 
-        // 全レベルの統計情報をリセチE��
+        // 全レベルの統計情報をリセット��
         for (let level = 1; level <= 3; level++) {
             gameState.levelStats[level] = {
                 totalAttempts: 0,
@@ -926,14 +926,14 @@ function resetGame() {
         feedbackDiv.textContent = '';
         feedbackDiv.className = 'feedback';
 
-        // タイマ�EをリセチE��
+        // タイマ�Eをリセット��
         resetTimer();
 
         // 表示を更新
         updateDisplay();
         generateNewNumbers();
 
-        showFeedback('リセチE��しました', 'success');
+        showFeedback('リセット��しました', 'success');
 
         // 2秒後にメチE��ージを消す
         setTimeout(() => {
@@ -956,7 +956,7 @@ function resetGame() {
     noBtn.addEventListener('click', handleNo);
 
     // 背景クリチE��で閉じめE
-    dialog.addEventListener('click', (e) => {
+    dialog.addEventListener('click', (') => {
         if (e.target === dialog) {
             handleNo();
         }
@@ -984,11 +984,11 @@ function handleLevelChange() {
 // プレースホルダーをレベルに応じて更新
 function updatePlaceholder() {
     const placeholders = {
-        1: '侁E 1 + 3 + 4 * 5',
-        2: '侁E (1 + 2) * 6 + 6',
-        3: '侁E 6 / (1 - 3/4)'
+        1: '例:  1 + 3 + 4 * 5',
+        2: '例:  (1 + 2) * 6 + 6',
+        3: '例:  6 / (1 - 3/4)'
     };
-    answerInput.placeholder = placeholders[gameState.level] || '侁E 8 / (3 - 8/3)';
+    answerInput.placeholder = placeholders[gameState.level] || '例:  8 / (3 - 8/3)';
 }
 
 // 電卓を開く
@@ -1022,10 +1022,10 @@ function handleCalculatorButton(e) {
         return;
     }
 
-    // 最初�Eボタン押下でタイマ�Eを開姁E
+    // 最初�Eボタン押下でタイマ�Eを開始
     resumeTimer();
 
-    // 回答済みの問題�E入力できなぁE
+    // 回答済み の問題�E入力できなぁE
     if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
         showFeedback('採点するまで再挑戦できません', 'error');
 
@@ -1038,11 +1038,11 @@ function handleCalculatorButton(e) {
         gameState.feedbackTimer = setTimeout(() => {
             const answer = stats.answerHistory[stats.currentProblemIndex];
             if (answer.isCorrect) {
-                showFeedback(`✁E正解済み: ${answer.formula}`, 'success', true);
+                showFeedback(`✅ 正解済み: ${answer.formula}`, 'success', tru');
             } else if (answer.showedSolution) {
-                showFeedback(`解答侁E ${gameState.solutions[0]}`, 'info', true);
+                showFeedback(`解答例:  ${gameState.solutions[0]}`, 'info', tru');
             } else {
-                showFeedback(`❁E不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', true);
+                showFeedback(`❌ 不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', tru');
             }
             gameState.feedbackTimer = null;
         }, 3000);
@@ -1062,7 +1062,7 @@ function handleCalculatorButton(e) {
         // 3秒後に解答例を表示
         gameState.feedbackTimer = setTimeout(() => {
             if (gameState.solutions.length > 0) {
-                showFeedback(`解答侁E ${gameState.solutions[0]}`, 'info');
+                showFeedback(`解答例:  ${gameState.solutions[0]}`, 'info');
             }
             gameState.feedbackTimer = null;
         }, 3000);
@@ -1163,7 +1163,7 @@ function handleCalculatorButton(e) {
                 // 4つの数字を全て使ぁE�Eった後�E開き括弧を�E力できなぁE
                 const usedNumbers = (currentValue.match(/[0-9]/g) || []).length;
                 if (usedNumbers >= 4) {
-                    showFeedback('4つの数字を全て使用済みでぁE, 'error');
+                    showFeedback('4つの数字を全て使用済みでぁ', 'error');
                     return;
                 }
 
@@ -1224,7 +1224,7 @@ function handleCalculatorButton(e) {
             // 4つの数字を全て使ぁE�Eった後�E演算子を入力できなぁE
             const usedNumbers = (currentValue.match(/[0-9]/g) || []).length;
             if (usedNumbers >= 4) {
-                showFeedback('4つの数字を全て使用済みでぁE, 'error');
+                showFeedback('4つの数字を全て使用済みでぁ', 'error');
                 return;
             }
 
@@ -1289,10 +1289,10 @@ function generateNewNumbers() {
     // すべての問題をクリアした場合、最初に戻めE
     if (stats.currentProblemIndex >= problems.length) {
         stats.currentProblemIndex = 0;
-        showFeedback('🎉 すべての問題をクリアしました�E�最初から�E開しまぁE, 'success');
+        showFeedback('🎉 すべての問題をクリアしました�E�最初から�E開しまぁ', 'success');
     }
 
-    // 現在の問題を取征E
+    // 現在の問題を取得
     const currentProblem = problems[stats.currentProblemIndex];
     // 数字を昁E��E��ソーチE
     gameState.currentNumbers = [...currentProblem.numbers].sort((a, b) => a - b);
@@ -1301,32 +1301,32 @@ function generateNewNumbers() {
     // こ�E問題が解答例を表示済みかどぁE��をチェチE��
     gameState.solutionShown = stats.shownSolutions.has(stats.currentProblemIndex);
 
-    // こ�E問題が回答済みかどぁE��をチェチE��
+    // こ�E問題が回答済み かどぁE��をチェチE��
     const hasAnswered = stats.answerHistory.hasOwnProperty(stats.currentProblemIndex);
 
     // 問題番号を更新
     updateProblemNumber();
 
     // マスコチE��の挨拶
-    const greetings = ['こんちは�E�E, 'き�EってぁE��ぁE���E�E��E, '24作ったろか！E, 'ボチボチぁE��ぁE];
+    const greetings = ['こんちは�E�', 'き�EってぁE��ぁE���E�E��', '24作ったろか！', 'ボチボチぁE��ぁE];
     updateMascot(greetings[Math.floor(Math.random() * greetings.length)], 'mascot-thinking');
 
     displayNumbers();
     answerInput.value = '';
 
-    // 回答済みの問題�E場合、回答結果を表示�E�アニメーションなし！E
+    // 回答済み の問題�E場合、回答結果を表示�E�アニメーションなし！E
     if (hasAnswered) {
         const answer = stats.answerHistory[stats.currentProblemIndex];
         if (answer.isCorrect) {
-            showFeedback(`✁E正解済み: ${answer.formula}`, 'success', true);
+            showFeedback(`✅ 正解済み: ${answer.formula}`, 'success', tru');
         } else if (answer.showedSolution) {
-            showFeedback(`解答侁E ${gameState.solutions[0]}`, 'info', true);
+            showFeedback(`解答例:  ${gameState.solutions[0]}`, 'info', tru');
         } else {
-            showFeedback(`❁E不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', true);
+            showFeedback(`❌ 不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', tru');
         }
     } else if (gameState.solutionShown) {
         // 解答例を表示済みの問題�E場合、解答例を表示
-        showFeedback(`解答侁E ${gameState.solutions[0]}`, 'info', true);
+        showFeedback(`解答例:  ${gameState.solutions[0]}`, 'info', tru');
     } else {
         feedbackDiv.textContent = '';
         feedbackDiv.className = 'feedback';
@@ -1346,7 +1346,7 @@ function updateProblemNumber() {
         const answeredCount = toFullWidth(Object.keys(stats.answerHistory).length);
         const totalCount = toFullWidth(problems.length);
 
-        problemNumberSpan.textContent = `問顁E{currentNum}�E�回答済み${answeredCount}/${totalCount}�E�`;
+        problemNumberSpan.textContent = `問顁${currentNum}�E�回答済み ${answeredCount}/${totalCount}�E�`;
     }
 }
 
@@ -1418,7 +1418,7 @@ function checkAnswer() {
 
     const stats = getCurrentStats();
 
-    // 回答済みの問題�E回答できなぁE
+    // 回答済み の問題�E回答できなぁE
     if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
         showFeedback('採点するまで再挑戦できません', 'error');
 
@@ -1431,11 +1431,11 @@ function checkAnswer() {
         gameState.feedbackTimer = setTimeout(() => {
             const answer = stats.answerHistory[stats.currentProblemIndex];
             if (answer.isCorrect) {
-                showFeedback(`✁E正解済み: ${answer.formula}`, 'success', true);
+                showFeedback(`✅ 正解済み: ${answer.formula}`, 'success', tru');
             } else if (answer.showedSolution) {
-                showFeedback(`解答侁E ${gameState.solutions[0]}`, 'info', true);
+                showFeedback(`解答例:  ${gameState.solutions[0]}`, 'info', tru');
             } else {
-                showFeedback(`❁E不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', true);
+                showFeedback(`❌ 不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', tru');
             }
             gameState.feedbackTimer = null;
         }, 3000);
@@ -1455,7 +1455,7 @@ function checkAnswer() {
         // 3秒後に解答例を表示
         gameState.feedbackTimer = setTimeout(() => {
             if (gameState.solutions.length > 0) {
-                showFeedback(`解答侁E ${gameState.solutions[0]}`, 'info');
+                showFeedback(`解答例:  ${gameState.solutions[0]}`, 'info');
             }
             gameState.feedbackTimer = null;
         }, 3000);
@@ -1480,7 +1480,7 @@ function checkAnswer() {
         // 使用されてぁE��数字を抽出
         const usedNumbers = userAnswer.match(/\d+/g);
         if (!usedNumbers || usedNumbers.length !== 4) {
-            showFeedback('4つの数字すべてを使ってください�E�E, 'error');
+            showFeedback('4つの数字すべてを使ってください�E�', 'error');
             return;
         }
 
@@ -1489,7 +1489,7 @@ function checkAnswer() {
         const currentNumsSorted = [...gameState.currentNumbers].sort((a, b) => a - b);
 
         if (JSON.stringify(usedNumsSorted) !== JSON.stringify(currentNumsSorted)) {
-            showFeedback('持E��された数字だけを使ってください�E�E, 'error');
+            showFeedback('持E��された数字だけを使ってください�E�', 'error');
             return;
         }
 
@@ -1512,13 +1512,13 @@ function checkAnswer() {
             stats.totalAttempts++;
             // 整数の場合�E小数点以下を表示しなぁE
             const resultText = Number.isInteger(result) ? result : result.toFixed(2);
-            updateMascot('おっと�E��Eしいなあ。もぁE��回計算してみーめE��E, 'mascot-worried', 4000);
+            updateMascot('おっと�E��Eしいなあ。もぁE��回計算してみーめE��', 'mascot-worried', 4000);
             showFeedback(`残念�E�計算結果は ${resultText} です、E4を作ろぁE��`, 'error');
             stats.streak = 0;
             updateDisplay();
         }
     } catch (error) {
-        showFeedback('無効な計算式です。もぁE��度試してください�E�E, 'error');
+        showFeedback('無効な計算式です。もぁE��度試してください�E�', 'error');
     }
 }
 
@@ -1538,7 +1538,7 @@ function handleCorrectAnswer() {
     stats.correctAnswers++;
     stats.totalAttempts++;
 
-    updateMascot('めE��めE��か！正解めE���E�E, 'mascot-joy', 5000);
+    updateMascot('めE��めE��か！正解めE���E�', 'mascot-joy', 5000);
     showFeedback(`🎉 正解�E�次の問題に進もう�E�`, 'success');
 
     updateDisplay();
@@ -1552,7 +1552,7 @@ function showFeedback(message, type, noAnimation = false) {
         gameState.feedbackTimer = null;
     }
 
-    // アニメーションをリセチE��するために一旦クラスを削除し、リフローを強制
+    // アニメーションをリセット��するために一旦クラスを削除し、リフローを強制
     feedbackDiv.className = 'feedback';
     void feedbackDiv.offsetWidth; // リフロー�E��E描画�E�を強制
 
@@ -1575,13 +1575,13 @@ function showFeedback(message, type, noAnimation = false) {
         '開き括弧の後に閉じ括弧は入力できません',
         '演算子�E後に閉じ括弧は入力できません',
         '数字を選択してください',
-        '4つの数字を全て使用済みでぁE,
+        '4つの数字を全て使用済みでぁ',
         '採点するまで再挑戦できません',
         '解答例を表示した問題�E回答できません',
         '無効な計算式です。もぁE��度試してください�E�E
     ];
 
-    if (type === 'error' && autoHideErrors.includes(message)) {
+    if (type === 'error' && autoHideErrors.includes(messag')) {
         gameState.feedbackTimer = setTimeout(() => {
             feedbackDiv.textContent = '';
             feedbackDiv.className = 'feedback';
@@ -1591,7 +1591,7 @@ function showFeedback(message, type, noAnimation = false) {
 }
 
 // 表示を更新
-// 現在のレベルの統計情報を取征E
+// 現在のレベルの統計情報を取得
 function getCurrentStats() {
     return gameState.levelStats[gameState.level];
 }
@@ -1599,7 +1599,7 @@ function getCurrentStats() {
 function updateDisplay() {
     const stats = getCurrentStats();
 
-    // 正解玁E��計箁E
+    // 正解率 ��計箁E
     const accuracy = stats.totalAttempts > 0
         ? Math.round((stats.correctAnswers / stats.totalAttempts) * 100)
         : 0;
@@ -1611,21 +1611,21 @@ function updateDisplay() {
 
 // 解答例を表示
 function showSolution() {
-    // 最初�Eボタン押下でタイマ�Eを開姁E
+    // 最初�Eボタン押下でタイマ�Eを開始
     resumeTimer();
 
-    // 現在のレベルと問題インチE��クスを取征E
+    // 現在のレベルと問題インチE��クスを取得
     const stats = getCurrentStats();
 
-    // 回答済みの問題�E場合、解答例を表示して数秒後に允E�E結果に戻ぁE
+    // 回答済み の問題�E場合、解答例を表示して数秒後に允E�E結果に戻ぁE
     if (stats.answerHistory.hasOwnProperty(stats.currentProblemIndex)) {
         const answer = stats.answerHistory[stats.currentProblemIndex];
 
         // 解答例を表示
         if (gameState.solutions.length > 0) {
-            showFeedback(`解答侁E ${gameState.solutions[0]}`, 'info', true);
+            showFeedback(`解答例:  ${gameState.solutions[0]}`, 'info', tru');
         } else {
-            showFeedback('こ�E問題�E解答例が見つかりません、E4にならなぁE��能性があります、EIに相諁E��てみましょぁE, 'info', true);
+            showFeedback('こ�E問題�E解答例が見つかりません、E4にならなぁE��能性があります、EIに相諁E��てみましょぁ', 'info', tru');
         }
 
         // 既存�Eタイマ�Eをクリア
@@ -1636,11 +1636,11 @@ function showSolution() {
         // 3秒後に允E�E回答結果に戻ぁE
         gameState.feedbackTimer = setTimeout(() => {
             if (answer.isCorrect) {
-                showFeedback(`✁E正解済み: ${answer.formula}`, 'success', true);
+                showFeedback(`✅ 正解済み: ${answer.formula}`, 'success', tru');
             } else if (answer.showedSolution) {
-                showFeedback(`解答侁E ${gameState.solutions[0]}`, 'info', true);
+                showFeedback(`解答例:  ${gameState.solutions[0]}`, 'info', tru');
             } else {
-                showFeedback(`❁E不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', true);
+                showFeedback(`❌ 不正解: ${answer.formula} = ${answer.result.toFixed(2)}`, 'error', tru');
             }
             gameState.feedbackTimer = null;
         }, 3000);
@@ -1665,16 +1665,16 @@ function showSolution() {
     gameState.solutionShown = true;
     stats.shownSolutions.add(stats.currentProblemIndex);
 
-    updateMascot('次はイケるって�E�応援してるからな�E�E, 'mascot-thinking', 5000);
+    updateMascot('次はイケるって�E�応援してるからな�E�', 'mascot-thinking', 5000);
 
     // 解答例を表示
     if (gameState.solutions.length > 0) {
-        showFeedback(`解答侁E ${gameState.solutions[0]}`, 'info');
+        showFeedback(`解答例:  ${gameState.solutions[0]}`, 'info');
     } else {
-        showFeedback('こ�E問題�E解答例が見つかりません、E4にならなぁE��能性があります、EIに相諁E��てみましょぁE, 'info');
+        showFeedback('こ�E問題�E解答例が見つかりません、E4にならなぁE��能性があります、EIに相諁E��てみましょぁ', 'info');
     }
 
-    // 解答例を見ると連続正解がリセチE��されめE
+    // 解答例を見ると連続正解がリセット��されめE
     stats.streak = 0;
     updateDisplay();
 }
@@ -1684,7 +1684,7 @@ function showGrading() {
     // カスタム確認ダイアログを表示
     const dialog = document.getElementById('customConfirmDialog');
     const message = document.getElementById('customConfirmMessage');
-    message.textContent = '採点しますか�E�E;
+    message.textContent = '採点しますか�E�';
     dialog.classList.add('show');
 
     // はぁE�Eタンのイベントリスナ�E�E�一度だけ実行！E
@@ -1708,7 +1708,7 @@ function showGrading() {
     noBtn.addEventListener('click', handleNo);
 
     // 背景クリチE��で閉じめE
-    dialog.addEventListener('click', (e) => {
+    dialog.addEventListener('click', (') => {
         if (e.target === dialog) {
             handleNo();
         }
@@ -1723,13 +1723,13 @@ function executeGrading() {
     const correctAnswers = stats.correctAnswers;
     const accuracy = totalProblems > 0 ? Math.round((correctAnswers / totalProblems) * 100) : 0;
 
-    const levelNames = { 1: 'ふつぁE, 2: '難しい', 3: '鬼' };
+    const levelNames = { 1: 'ふつぁ', 2: '難しい', 3: '鬼' };
     const levelName = levelNames[gameState.level];
 
 
 
     // 経過時間を計箁E
-    let timeText = '�E�０：０！E;
+    let timeText = '�E�０：０！';
     let elapsedTimeInSeconds = 0;
     let isNewRecord = false;
 
@@ -1737,7 +1737,7 @@ function executeGrading() {
         elapsedTimeInSeconds = Math.floor((Date.now() - gameState.startTime) / 1000);
         const minutes = Math.floor(elapsedTimeInSeconds / 60);
         const seconds = elapsedTimeInSeconds % 60;
-        timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}�E�E{toFullWidth(String(seconds).padStart(2, '0'))}`;
+        timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}�E�${toFullWidth(String(seconds).padStart(2, '0'))}`;
 
         // ベストレコードをチェチE���E�正解数が多い、また�E同じ正解数でタイムが早ぁE��E
         const currentRecord = getBestRecord(gameState.level);
@@ -1749,29 +1749,29 @@ function executeGrading() {
         }
     }
 
-    // 統計情報をリセチE���E�現在のレベルのみ�E�E
+    // 統計情報をリセット���E�現在のレベルのみ�E�E
     stats.totalAttempts = 0;
     stats.correctAnswers = 0;
     stats.streak = 0;
     stats.currentProblemIndex = 0;
     stats.shownSolutions.clear();
-    stats.answerHistory = {}; // 回答履歴もリセチE��
+    stats.answerHistory = {}; // 回答履歴もリセット��
 
-    // タイマ�EをリセチE��
+    // タイマ�Eをリセット��
     resetTimer();
 
     updateDisplay();
     generateNewNumbers();
 
-    // 正解玁E��応じたメチE��ージ
+    // 正解率 ��応じたメチE��ージ
     let resultMessage = '';
 
     // 鬼レベルの場合�E正解数に応じた専用メチE��ージ
     if (gameState.level === 3) {
         const messages = {
-            0: '👹 お前も鬼にならなぁE���E�E,
+            0: '👹 お前も鬼にならなぁE���E�',
             1: '💪 送E��ちめE��メだ　送E��ちめE��メだ\n送E��ちめE��メだ',
-            2: '🔥 自刁E��限界を決めなぁE,
+            2: '🔥 自刁E��限界を決めなぁ',
             3: '⚔︁E戦わなければ勝てなぁE�E・・',
             4: '✨ 悔いが残らなぁE��を�E刁E��選べ',
             5: '🏀 諦めたら、そこで試合終亁E��すよ',
@@ -1781,40 +1781,40 @@ function executeGrading() {
     } else if (gameState.level === 2) {
         // 難しいレベルの場合�E正解数に応じた専用メチE��ージ
         const messages = {
-            0: '💭 世�E中って\nオレより頭のぁE��人のほぁE��多いんだ、E,
-            1: '🛤�E�E「ゴールは遠ぁE��ぁ」と、\nがっかりするのも道のりです、E,
-            2: '📅 常に今日は明日の準備ですから�E、En今日めE��たことは忁E��明日に返ってくるんです、E,
-            3: '🪁E小さぁE��とを積み重�Eる�Eが、\nとんでもなぁE��ころへ行くただひとつの道だと思ってぁE��す、E,
-            4: '🚀 成功の反対は失敗ではなく\n「やらなぁE��と、E,
-            5: '🧠 自刁E��わかってぁE��ぁE��とが\nわかるとぁE��ことが一番賢ぁE��です、E,
+            0: '💭 世�E中って\nオレより頭のぁE��人のほぁE��多いんだ、',
+            1: '🛤�E�E「ゴールは遠ぁE��ぁ」と、\nがっかりするのも道のりです、',
+            2: '📅 常に今日は明日の準備ですから�E、En今日めE��たことは忁E��明日に返ってくるんです、',
+            3: '🪁E小さぁE��とを積み重�Eる�Eが、\nとんでもなぁE��ころへ行くただひとつの道だと思ってぁE��す、',
+            4: '🚀 成功の反対は失敗ではなく\n「やらなぁE��と、',
+            5: '🧠 自刁E��わかってぁE��ぁE��とが\nわかるとぁE��ことが一番賢ぁE��です、',
             6: '🏆 強ぁE��E��勝つのではなぁE��En勝った老E��強ぁE�Eだ、E
         };
         resultMessage = messages[correctAnswers] || messages[6];
     } else {
         // 通常レベル�E��EつぁE���EメチE��ージ
         if (accuracy === 100) {
-            resultMessage = '🎉 完璧です！素晴らしぁE��E;
+            resultMessage = '🎉 完璧です！素晴らしぁE��';
         } else if (accuracy >= 90) {
-            resultMessage = '🌟 すごぁE��ほぼ完璧です！E;
+            resultMessage = '🌟 すごぁE��ほぼ完璧です！';
         } else if (accuracy >= 80) {
-            resultMessage = '👏 素晴らしぁE�E績です！E;
+            resultMessage = '👏 素晴らしぁE�E績です！';
         } else if (accuracy >= 70) {
-            resultMessage = '�E よくできました�E�E;
+            resultMessage = '�E よくできました�E�';
         } else if (accuracy >= 60) {
-            resultMessage = '💪 もう少しです！E��張りましょぁE��E;
+            resultMessage = '💪 もう少しです！E��張りましょぁE��';
         } else if (accuracy >= 50) {
-            resultMessage = '📚 練習を続けましょぁE��E;
+            resultMessage = '📚 練習を続けましょぁE��';
         } else if (accuracy > 0) {
-            resultMessage = '🔥 次は忁E��できます！E;
+            resultMessage = '🔥 次は忁E��できます！';
         } else {
-            resultMessage = '🏁 ここからがスタートだ�E�E;
+            resultMessage = '🏁 ここからがスタートだ�E�';
         }
     }
 
     // 採点結果をダイアログで表示
     let recordMessage = isNewRecord ? '\n🏆 記録更新�E�E : '';
 
-    const message = `【採点結果　レベル�E�E{levelName}】\n正解数　${toFullWidth(correctAnswers)}問（�E${toFullWidth(totalProblems)}問）\n正解玁E��${toFullWidth(accuracy)}�E�Enタイム　${timeText}${recordMessage}\n\n${resultMessage}`;
+    const message = `【採点結果　レベル�E�${levelName}】\n正解数　${toFullWidth(correctAnswers)}問（�E${toFullWidth(totalProblems)}問）\n正解率 ��${toFullWidth(accuracy)}�E�Enタイム ${timeText}${recordMessage}\n\n${resultMessage}`;
 
     // ダイアログを表示
     const dialog = document.getElementById('gradingResultDialog');
@@ -1835,13 +1835,13 @@ function executeGrading() {
     // 閉じる�Eタンのイベントリスナ�E
     const handleClose = () => {
         dialog.classList.remove('show');
-        closeBtn.removeEventListener('click', handleClose);
+        closeBtn.removeEventListener('click', handleClos');
     };
 
-    closeBtn.addEventListener('click', handleClose);
+    closeBtn.addEventListener('click', handleClos');
 
     // 背景クリチE��で閉じめE
-    dialog.addEventListener('click', (e) => {
+    dialog.addEventListener('click', (') => {
         if (e.target === dialog) {
             handleClose();
         }
@@ -1854,7 +1854,7 @@ function showBestTimeDetails() {
     const detailsDiv = document.getElementById('bestTimeDetails');
     const closeBtn = document.getElementById('bestTimeClose');
 
-    const levelNames = { 1: 'ふつぁE, 2: '難しい', 3: '鬼' };
+    const levelNames = { 1: 'ふつぁ', 2: '難しい', 3: '鬼' };
 
 
 
@@ -1865,7 +1865,7 @@ function showBestTimeDetails() {
         const record = getBestRecord(level);
 
         html += `<div class="best-time-level">`;
-        html += `<h3>レベル ${toFullWidth(level)}�E�E{levelName}</h3>`;
+        html += `<h3>レベル ${toFullWidth(level)}�E�${levelName}</h3>`;
 
         if (record) {
             // スマ�E表示かどぁE��を判宁E
@@ -1873,26 +1873,26 @@ function showBestTimeDetails() {
 
             if (isMobile) {
                 // スマ�E表示�E�縦並び
-                html += `<p>✁E正解数�E�E{toFullWidth(record.correctAnswers)}啁E/ ${toFullWidth(record.totalProblems)}啁E/p>`;
+                html += `<p>✁E正解数�E�${toFullWidth(record.correctAnswers)}啁E/ ${toFullWidth(record.totalProblems)}啁E/p>`;
 
                 const minutes = Math.floor(record.time / 60);
                 const seconds = record.time % 60;
-                const timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}�E�E{toFullWidth(String(seconds).padStart(2, '0'))}`;
-                html += `<p>⏱�E�Eタイム�E�E{timeText}</p>`;
+                const timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}�E�${toFullWidth(String(seconds).padStart(2, '0'))}`;
+                html += `<p>⏱�E�Eタイム�E�${timeText}</p>`;
             } else {
                 // PC表示�E�横並び
-                html += `<p>✁E正解数�E�E{toFullWidth(record.correctAnswers)}啁E/ ${toFullWidth(record.totalProblems)}問　⏱�E�Eタイム�E�`;
+                html += `<p>✁E正解数�E�${toFullWidth(record.correctAnswers)}啁E/ ${toFullWidth(record.totalProblems)}問　⏱�E�Eタイム�E�`;
 
                 const minutes = Math.floor(record.time / 60);
                 const seconds = record.time % 60;
-                const timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}�E�E{toFullWidth(String(seconds).padStart(2, '0'))}`;
+                const timeText = `${toFullWidth(String(minutes).padStart(2, '0'))}�E�${toFullWidth(String(seconds).padStart(2, '0'))}`;
                 html += `${timeText}</p>`;
             }
 
             if (record.date) {
                 const date = new Date(record.date);
-                const dateText = `${toFullWidth(date.getFullYear())}年${toFullWidth(date.getMonth() + 1)}朁E{toFullWidth(date.getDate())}日`;
-                html += `<p>📅 達�E日�E�E{dateText}</p>`;
+                const dateText = `${toFullWidth(date.getFullYear())}年${toFullWidth(date.getMonth() + 1)}朁${toFullWidth(date.getDate())}日`;
+                html += `<p>📅 達�E日�E�${dateText}</p>`;
             }
         } else {
             html += `<p class="no-record">記録なぁE/p>`;
@@ -1907,13 +1907,13 @@ function showBestTimeDetails() {
     // 閉じる�Eタンのイベントリスナ�E
     const handleClose = () => {
         dialog.classList.remove('show');
-        closeBtn.removeEventListener('click', handleClose);
+        closeBtn.removeEventListener('click', handleClos');
     };
 
-    closeBtn.addEventListener('click', handleClose);
+    closeBtn.addEventListener('click', handleClos');
 
     // 背景クリチE��で閉じめE
-    dialog.addEventListener('click', (e) => {
+    dialog.addEventListener('click', (') => {
         if (e.target === dialog) {
             handleClose();
         }
@@ -1923,9 +1923,9 @@ function showBestTimeDetails() {
 // 問題をスキチE�E
 function skipProblem() {
     if (gameState.solutions.length > 0) {
-        showFeedback(`解答侁E ${gameState.solutions[0]}`, 'info');
+        showFeedback(`解答例:  ${gameState.solutions[0]}`, 'info');
     } else {
-        showFeedback('こ�E問題�E解く�Eが難しいため、新しい問題を生�EしまぁE, 'info');
+        showFeedback('こ�E問題�E解く�Eが難しいため、新しい問題を生�Eしまぁ', 'info');
     }
 
     gameState.streak = 0;
@@ -2421,7 +2421,7 @@ function findSolutions(numbers) {
     return filteredSolutions;
 }
 
-// ゲーム開姁E
+// ゲーム開始
 init();
 
 
@@ -2549,6 +2549,8 @@ function stopMascotWandering() {
         updateMascot('はぁ、疲れたわ... もう勘弁してや！', 'mascot-thinking');
     }, 1500); // 最後の移動が終わるのを待ってからクラスを削除
 }
+
+
 
 
 
