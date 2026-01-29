@@ -567,8 +567,20 @@ function handleMascotPoke(e) {
         const msgs = ['しつこいなあ！', 'わかった、わかったって！', 'ええ加減にせえ！', '堪忍袋の緒が切れるわ！'];
         message = msgs[Math.floor(Math.random() * msgs.length)];
         style = 'mascot-joy';
-    } else {
+    } else if (gameState.mascotPokeCount === 30) {
         const msgs = ['もう、怒るで！ホンマに！', 'ボチボチ堪忍してや！', '梟にも三分の理やで！', 'しつこすぎてアレやわ！'];
+        message = msgs[Math.floor(Math.random() * msgs.length)];
+        style = 'mascot-worried';
+    } else if (gameState.mascotPokeCount === 40) {
+        const msgs = ['まだやるんか！？', '執念深すぎやろ！', '指、疲れへんの？', 'もうええ加減に切り上げや！'];
+        message = msgs[Math.floor(Math.random() * msgs.length)];
+        style = 'mascot-worried';
+    } else if (gameState.mascotPokeCount === 50) {
+        const msgs = ['……（無言の圧力）', 'もう何も言わへんで。', '（スルー決定）', '……。'];
+        message = msgs[Math.floor(Math.random() * msgs.length)];
+        style = 'mascot-thinking';
+    } else {
+        const msgs = ['堪忍して！', 'もう、ええって！', '勘弁してえな！', 'しつこすぎるわ！'];
         message = msgs[Math.floor(Math.random() * msgs.length)];
         style = 'mascot-worried';
     }
