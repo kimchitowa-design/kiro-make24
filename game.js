@@ -498,7 +498,29 @@ function updateMascot(message, mood = '', duration = 3000) {
     }
 }
 
-// 居眠りタイマーをリセット（つつくのは操作とみなす）
+function resetInactivityTimer() {
+    if (gameState.inactivityTimer) {
+        clearTimeout(gameState.inactivityTimer);
+    }
+
+    // 寝ている場合は起きる
+    if (gameState.isSleeping) {
+        gameState.isSleeping = false;
+        const wakeMessages = ['ハッ、寝てへんで！', 'なんや、もう一回やるか？', 'シャキッとしたわ！', 'ちゃんと見てるからな！'];
+        updateMascot(wakeMessages[Math.floor(Math.random() * wakeMessages.length)], 'mascot-thinking');
+    }
+
+    // 30秒操作がないと寝る
+    gameState.inactivityTimer = setTimeout(startMascotSleep, 30000);
+}
+
+function handleMascotPoke(e) {
+    if (e) {
+        if (e.type === 'touchstart') e.preventDefault(); // touchstartの場合は伝播防止
+        e.stopPropagation();
+    }
+
+    // 居眠りタイマーをリセット（つつくのは操作とみなす）
     resetInactivityTimer();
 
     // 居眠り中につつかれた場合
@@ -2527,6 +2549,7 @@ function stopMascotWandering() {
         updateMascot('はぁ、疲れたわ... もう勘弁してや！', 'mascot-thinking');
     }, 1500); // 最後の移動が終わるのを待ってからクラスを削除
 }
+
 
 
 

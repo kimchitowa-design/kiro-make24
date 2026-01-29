@@ -1,11 +1,11 @@
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '郢晏・ﾎ帷ｹｧ・ｮ郢晄・・ｸ・ｸ郢ｧ・ｴ ProN', '郢晢ｽ｡郢ｧ・､郢晢ｽｪ郢ｧ・ｪ', Meiryo, '・ｽ・ｭ・ｽ・ｳ ・ｽ・ｰ郢ｧ・ｴ郢ｧ・ｷ郢晢ｿｽ縺・, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', ''游ゴシック体', YuGothic, '游ゴシック', 'Yu Gothic'', 'Meiryo', Meiryo, ''ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
@@ -15,7 +15,7 @@ body {
     position: relative;
 }
 
-/* 郢ｧ・ｿ郢ｧ・､郢晄ｧｭ・ｽ髯ｦ・ｨ驕会ｽｺ */
+/* タイマー表示 */
 .game-timer {
     position: absolute;
     right: 0;
@@ -161,7 +161,7 @@ h1 {
     cursor: pointer;
     padding: 8px;
     transition: all 0.2s;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '郢晏・ﾎ帷ｹｧ・ｮ郢晄・・ｸ・ｸ郢ｧ・ｴ ProN', '郢晢ｽ｡郢ｧ・､郢晢ｽｪ郢ｧ・ｪ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', ''游ゴシック体', YuGothic, '游ゴシック', 'Yu Gothic'', 'Meiryo', Meiryo, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -431,7 +431,7 @@ h1 {
     transition: all 0.2s;
     font-weight: 600;
     background: white;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '郢晏・ﾎ帷ｹｧ・ｮ郢晄・・ｸ・ｸ郢ｧ・ｴ ProN', '郢晢ｽ｡郢ｧ・､郢晢ｽｪ郢ｧ・ｪ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', ''游ゴシック体', YuGothic, '游ゴシック', 'Yu Gothic'', 'Meiryo', Meiryo, sans-serif;
 }
 
 .calc-btn:hover {
@@ -532,7 +532,7 @@ h1 {
     cursor: pointer;
     transition: all 0.3s;
     font-weight: 600;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '郢晏・ﾎ帷ｹｧ・ｮ郢晄・・ｸ・ｸ郢ｧ・ｴ ProN', '郢晢ｽ｡郢ｧ・､郢晢ｽｪ郢ｧ・ｪ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', ''游ゴシック体', YuGothic, '游ゴシック', 'Yu Gothic'', 'Meiryo', Meiryo, sans-serif;
 }
 
 .btn-primary {
@@ -793,7 +793,7 @@ h1 {
         font-size: 1.5em;
     }
 
-    /* 郢ｧ・ｹ郢晄ｧｭ・ｽ髯ｦ・ｨ驕会ｽｺ隴弱ｅ・らｹｧ・ｿ郢ｧ・､郢晄ｧｭ・ｽ邵ｺ・ｯ陷ｿ・ｳ陋幢ｽｴ邵ｺ・ｫ鬩溷調・ｽ・ｮ */
+    /* モバイル用表示 */
     .game-timer {
         position: absolute;
         right: 0;
@@ -978,7 +978,7 @@ h1 {
 
     .action-buttons .btn-secondary {
         font-size: 0.82em;
-        /* 隴・ｿｽ・ｭ蜉ｱ・定棔・ｧ邵ｺ髦ｪ・･ */
+        /* ボタンのアニメーション */
         padding: 10px 2px;
         white-space: nowrap;
         /* 隰ｾ・ｹ髯ｦ蠕鯉ｽ帝ｫｦ・ｲ邵ｺ・ｽ */
@@ -1098,7 +1098,7 @@ h1 {
     transition: all 0.3s;
     font-weight: 600;
     min-width: 100px;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '郢晏・ﾎ帷ｹｧ・ｮ郢晄・・ｸ・ｸ郢ｧ・ｴ ProN', '郢晢ｽ｡郢ｧ・､郢晢ｽｪ郢ｧ・ｪ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', ''游ゴシック体', YuGothic, '游ゴシック', 'Yu Gothic'', 'Meiryo', Meiryo, sans-serif;
 }
 
 .btn-confirm-yes {
@@ -1140,7 +1140,7 @@ h1 {
     margin-top: 25px;
 }
 
-/* 郢晏生縺帷ｹ晏現縺｡郢ｧ・､郢晢ｿｽ郢晄㈱縺｡郢晢ｽｳ */
+/* メインコンテンツ */
 .best-time-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -1168,7 +1168,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '郢晏・ﾎ帷ｹｧ・ｮ郢晄・・ｸ・ｸ郢ｧ・ｴ ProN', '郢晢ｽ｡郢ｧ・､郢晢ｽｪ郢ｧ・ｪ', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', ''游ゴシック体', YuGothic, '游ゴシック', 'Yu Gothic'', 'Meiryo', Meiryo, sans-serif;
 }
 
 .btn-best-time .label {
@@ -1367,7 +1367,7 @@ h1 {
     }
 }
 
-/* 諢滓ュ縺ｮ繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ */
+/* 表情のアニメーション */
 .mascot-joy {
     animation: mascot-jump 0.5s ease infinite !important;
 }
@@ -1420,7 +1420,7 @@ h1 {
     }
 }
 
-/* --- v0.7.3.1 繝｢繝舌う繝ｫ繝ｬ繧､繧｢繧ｦ繝域怙邨ゆｿｮ豁｣ --- */
+/* --- v0.7.3.1 モバイルレイアウト最終修正 --- */
 @media (max-width: 768px) {
     body {
         flex-direction: column !important;
@@ -1445,7 +1445,7 @@ h1 {
     }
 }
 
-/* 螻・悛繧翫い繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ */
+/* 居眠りアニメーション */
 .mascot-sleep {
     animation: mascot-sleep-anim 4s ease-in-out infinite !important;
 }
