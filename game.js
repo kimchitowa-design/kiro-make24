@@ -468,20 +468,20 @@ function init() {
 function updateMascot(message, mood = '', duration = 3000) {
     if (!mascotMessage || !mascotCharacter || !speechBubble) return;
 
-    mascotCharacter.textContent = '🦁E; // 🦉�E固宁E
+    mascotCharacter.textContent = '🦉';
     mascotMessage.textContent = message;
 
-    // 既存�E表惁E��ラスを削除
+    // 既存の表情クラスを削除
     mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking', 'mascot-sleep');
 
     speechBubble.classList.add('show');
 
-    // 新しい表惁E��ラスを追加
+    // 新しい表情クラスを追加
     if (mood) {
         mascotCharacter.classList.add(mood);
     }
 
-    // 一定時間後に吹き�Eしを消し、アニメーションも停止
+    // 一定時間後に吹き出しを消し、アニメーションも停止
     if (duration > 0) {
         if (gameState.mascotTimer) clearTimeout(gameState.mascotTimer);
         gameState.mascotTimer = setTimeout(() => {
@@ -491,70 +491,46 @@ function updateMascot(message, mood = '', duration = 3000) {
             }
         }, duration);
     } else if (duration === 0) {
-        // durationぁEの場合�E永続表示なのでタイマ�Eをクリア
+        // durationが0の場合は永続表示なのでタイマーをクリア
         if (gameState.mascotTimer) clearTimeout(gameState.mascotTimer);
-        // 強制皁E��表示状態を維持E
+        // 強制的に表示状態を維持
         speechBubble.classList.add('show');
     }
 }
 
-// 屁E��りタイマ�EのリセチE��
-function resetInactivityTimer() {
-    if (gameState.inactivityTimer) {
-        clearTimeout(gameState.inactivityTimer);
-    }
-
-    // 寝てぁE��場合�E起きる
-    if (gameState.isSleeping) {
-        gameState.isSleeping = false;
-        const wakeMessages = ['ハッ�E�寝てへんで�E�E, 'なんや、もぁE��回やるか�E�E, 'シャキチE��したわ！E, 'ちめE��と見てるからな�E�E];
-        updateMascot(wakeMessages[Math.floor(Math.random() * wakeMessages.length)], 'mascot-thinking');
-    }
-
-    // 30秒操作がなぁE��寝る
-    gameState.inactivityTimer = setTimeout(startMascotSleep, 30000);
-}
-
-// マスコチE��をつつく反忁E
-function handleMascotPoke(e) {
-    if (e) {
-        if (e.type === 'touchstart') e.preventDefault(); // touchstartの場合�E伝播防止
-        e.stopPropagation();
-    }
-
-    // 屁E��りタイマ�EをリセチE���E�つつく�Eは操作とみなす！E
+// 居眠りタイマーをリセット（つつくのは操作とみなす）
     resetInactivityTimer();
 
-    // 屁E��り中につつかれた場吁E
+    // 居眠り中につつかれた場合
     if (gameState.isSleeping) {
         gameState.isSleeping = false;
         const wakeUpMessages = [
-            'ハッ�E��EっくりしためE��か！E,
-            'なんや、今�E「アレ」か�E�E��E,
-            'ぁE��ぁっ�E��Eチ�Eチ起きるめE..',
-            '夢でタイガースが勝ってた�Eに...'
+            'ハッ、びっくりしたやんか！',
+            'なんや、今の「アレ」か！？',
+            'ふわぁ〜... ボチボチ起きるわ..',
+            '夢でタイガースが勝ってたのに...'
         ];
         updateMascot(wakeUpMessages[Math.floor(Math.random() * wakeUpMessages.length)], 'mascot-worried');
-        gameState.mascotPokeCount = 0; // カウンターリセチE��
+        gameState.mascotPokeCount = 0; // カウンターリセット
         return;
     }
 
-    // 連続タチE�Eの処琁E
+    // 連続タップの処理
     gameState.mascotPokeCount++;
     if (gameState.pokeResetTimer) clearTimeout(gameState.pokeResetTimer);
 
-    // 5秒間タチE�EがなぁE��機嫌が直めE
+    // 5秒間タップがないと機嫌が直る
     gameState.pokeResetTimer = setTimeout(() => {
         gameState.mascotPokeCount = 0;
     }, 5000);
 
-    // 10の倍数以外�E首を傾げるだけ（無言�E�E
     // 60回を超えたら即座に放浪演出を開始
     if (gameState.mascotPokeCount > 60) {
         startMascotWandering();
         return;
     }
 
+    // 10の倍数以外は首を傾げるだけ（無言）
     if (gameState.mascotPokeCount % 10 !== 0) {
         if (mascotCharacter) {
             mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking', 'mascot-sleep');
@@ -585,6 +561,7 @@ function handleMascotPoke(e) {
         const msgs = ['・・・・・・・', 'もう何も言わへんで。', '（スルー決定）', '……。'];
         message = msgs[Math.floor(Math.random() * msgs.length)];
         style = 'mascot-thinking';
+    } else {
         const msgs = ['堪忍して！', 'もう、ええって！', '勘弁してえな！', 'しつこすぎるわ！'];
         message = msgs[Math.floor(Math.random() * msgs.length)];
         style = 'mascot-worried';
@@ -593,11 +570,10 @@ function handleMascotPoke(e) {
     updateMascot(message, style);
 }
 
-// 屁E��り開姁E
 function startMascotSleep() {
     gameState.isSleeping = true;
-    const sleepTalk = ['💤... スースー...', '阪神タイガース優勝や�E�E, 'アレが決まったわ... 💤', 'たこ焼き、もぁE��べられへめE..', 'ムニャムニャ...'];
-    updateMascot(sleepTalk[Math.floor(Math.random() * sleepTalk.length)], 'mascot-sleep', 0); // 0は永綁E
+    const sleepTalk = ['💤... スースー...', '阪神タイガース優勝やぁ...', 'アレが決まったわ... 💤', 'たこ焼き、もう食べられへん..', 'ムニャムニャ...'];
+    updateMascot(sleepTalk[Math.floor(Math.random() * sleepTalk.length)], 'mascot-sleep', 0); // 0は永続
 }
 
 // タイマ�E機�E
@@ -2551,4 +2527,6 @@ function stopMascotWandering() {
         updateMascot('はぁ、疲れたわ... もう勘弁してや！', 'mascot-thinking');
     }, 1500); // 最後の移動が終わるのを待ってからクラスを削除
 }
+
+
 

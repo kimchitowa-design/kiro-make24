@@ -1311,6 +1311,7 @@ h1 {
         gap: 15px;
         width: 100%;
         box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
     }
 
     .mascot-character {
@@ -1318,6 +1319,7 @@ h1 {
         animation: float 3s ease-in-out infinite;
         filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
         flex-shrink: 0;
+        -webkit-tap-highlight-color: transparent;
     }
 
     .speech-bubble {
