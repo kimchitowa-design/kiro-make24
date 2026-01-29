@@ -548,8 +548,8 @@ function handleMascotPoke(e) {
         gameState.mascotPokeCount = 0;
     }, 5000);
 
-    // 20回未満は首を傾げるだけ（無言）
-    if (gameState.mascotPokeCount < 20) {
+    // 10の倍数以外は首を傾げるだけ（無言）
+    if (gameState.mascotPokeCount % 10 !== 0) {
         if (mascotCharacter) {
             mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking', 'mascot-sleep');
             mascotCharacter.classList.add('mascot-thinking');
@@ -560,10 +560,10 @@ function handleMascotPoke(e) {
     let message = '';
     let style = 'mascot-thinking';
 
-    if (gameState.mascotPokeCount <= 25) {
+    if (gameState.mascotPokeCount === 10) {
         const msgs = ['なんや？', 'くすぐったいわ！', 'つつきすぎやで！', 'びっくりするやんか'];
         message = msgs[Math.floor(Math.random() * msgs.length)];
-    } else if (gameState.mascotPokeCount <= 35) {
+    } else if (gameState.mascotPokeCount === 20) {
         const msgs = ['しつこいなあ！', 'わかった、わかったって！', 'ええ加減にせえ！', '堪忍袋の緒が切れるわ！'];
         message = msgs[Math.floor(Math.random() * msgs.length)];
         style = 'mascot-joy';
