@@ -4,8 +4,8 @@ let gameState = {
     level: 1,
     solutions: [],
     lastButtonType: null, // 最後に押したボタンの種類を記録
-    solutionShown: false, // 現在の問題で解答例を表示したかどぁE��
-    feedbackTimer: null, // フィードバチE��表示のタイマ�EID
+    solutionShown: false, // 現在の問題で解答例を表示したかどうか��
+    feedbackTimer: null, // フィードバック��表示のタイマ�EID
     inactivityTimer: null,
     isSleeping: false,
     mascotPokeCount: 0,
@@ -13,7 +13,7 @@ let gameState = {
     // タイマ�E関連
     startTime: null, // ゲーム開始時刻
     timerInterval: null, // タイマ�E更新用のインターバルID
-    timerPaused: true, // タイマ�Eが一時停止中かどぁE��
+    timerPaused: true, // タイマ�Eが一時停止中かどうか��
     // レベルごとの統計情報
     levelStats: {
         1: { totalAttempts: 0, correctAnswers: 0, streak: 0, currentProblemIndex: 0, shownSolutions: new Set(), answerHistory: {} },
@@ -22,7 +22,7 @@ let gameState = {
     }
 };
 
-// レベル別の数字生成設宁E
+// レベル別の数字生成設定
 const levelConfig = {
     1: { min: 1, max: 9, operators: ['+', '-', '*', '/', '(', ')'], requiresParentheses: false },
     2: { min: 1, max: 12, operators: ['+', '-', '*', '/', '(', ')'], requiresParentheses: true },
@@ -34,11 +34,11 @@ function toFullWidth(num) {
     return String(num).replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) + 0xFEE0));
 }
 
-// レベル別の問題リスチE
+// レベル別の問題リスト
 const levelProblems = {
-    1: [], // レベル1の問題（後で設定！E
-    2: [], // レベル2の問題（後で設定！E
-    3: []  // レベル3の問題（後で設定！E
+    1: [], // レベル1の問題（後で設定）
+    2: [], // レベル2の問題（後で設定）
+    3: []  // レベル3の問題（後で設定）
 };
 
 // 既知の解答パターン
@@ -78,17 +78,43 @@ const knownSolutions = [
     { numbers: [2, 3, 6, 9], solution: '(2 + 6) * 9 / 3' }
 ];
 
-// 問題リストを初期匁E
+// 問題リストを初期化
 function initializeProblemLists() {
     knownSolutions.forEach(problem => {
         const hasParentheses = problem.solution.includes('(') || problem.solution.includes(')');
         const hasDivision = problem.solution.includes('/');
         const hasMultiplication = problem.solution.includes('*');
 
-        // レベル1: 括弧なし�E問題 
+        // レベル1: 括弧なしの問題
         if (!hasParentheses) {
             levelProblems[1].push(problem);
         }
+        // レベル3: 括弧と÷を両方含む問題（レベル2より優先）
+        else if (hasParentheses && hasDivision) {
+            levelProblems[3].push(problem);
+        }
+        // レベル2: ×と括弧を含む問題（÷を含まない）
+        else if (hasMultiplication && hasParentheses) {
+            levelProblems[2].push(problem);
+        }
+    });
+
+    // 各レベルの問題を数字の昇順でソート
+    for (let level = 1; level <= 3; level++) {
+        levelProblems[level].sort((a, b) => {
+            const sortedA = [...a.numbers].sort((x, y) => x - y);
+            const sortedB = [...b.numbers].sort((x, y) => x - y);
+
+            // 数字を1つずつ比較
+            for (let i = 0; i < 4; i++) {
+                if (sortedA[i] !== sortedB[i]) {
+                    return sortedA[i] - sortedB[i];
+                }
+            }
+            return 0;
+        });
+    }
+}
         // レベル3: 括弧と÷を両方含む問題（レベル2より優先！E
         else if (hasParentheses && hasDivision) {
             levelProblems[3].push(problem);
@@ -99,13 +125,13 @@ function initializeProblemLists() {
         }
     });
 
-    // 吁E��ベルの問題を数字�E昁E��E��ソーチE
+    // 吁E��ベルの問題を数字�E昁E��E��ソート
     for (let level = 1; level <= 3; level++) {
         levelProblems[level].sort((a, b) => {
             const sortedA = [...a.numbers].sort((x, y) => x - y);
             const sortedB = [...b.numbers].sort((x, y) => x - y);
 
-            // 数字を1つずつ比輁E
+            // 数字を1つずつ比較
             for (let i = 0; i < 4; i++) {
                 if (sortedA[i] !== sortedB[i]) {
                     return sortedA[i] - sortedB[i];
@@ -116,9 +142,9 @@ function initializeProblemLists() {
     }
 }
 
-// 解答不可能な絁E��合わぁE
+// 解答不可能な絁E��合わせ
 const impossibleCombinations = [
-    // 1ぁEつ以上含まれる絁E��合わぁE
+    // 1ぁEつ以上含まれる絁E��合わせ
     [1, 1, 1, 1],
     [1, 1, 1, 2],
     [1, 1, 1, 3],
@@ -211,7 +237,7 @@ const impossibleCombinations = [
     [1, 1, 12, 13],
     [1, 1, 13, 13],
 
-    // 1ぁEつ含まれる主要な不可能パターン
+    // 1が1つ含まれる主要な不可能パターン
     [1, 2, 2, 2],
     [1, 2, 2, 3],
     [1, 2, 3, 3],
@@ -427,14 +453,14 @@ const mascotMessage = document.getElementById('mascotMessage');
 // チE��チE��用�E��EスコチE��要素の確認
 console.log('Mascot elements:', { mascotContainer, mascotCharacter, speechBubbl', mascotMessage });
 
-// 初期匁E
+// 初期化
 function init() {
-    initializeProblemLists(); // 問題リストを初期匁E
+    initializeProblemLists(); // 問題リストを初期化
     resetTimer(); // タイマ�Eを�E期化�E�一時停止状態！E
     loadBestTimes(); // ベストタイムを読み込み
     generateNewNumbers();
     attachEventListeners();
-    updatePlaceholder(); // 初期プレースホルダーを設宁E
+    updatePlaceholder(); // 初期プレースホルダーを設定
     resetInactivityTimer(); // 屁E��りタイマ�E開始
 
     // レベルカード�E体をクリチE��可能にする
@@ -444,7 +470,7 @@ function init() {
     if (levelCard && dropdownArrow) {
         // レベルカードをクリチE��したらセレクト�EチE��スを開ぁE
         levelCard.addEventListener('click', (') => {
-            // セレクト�EチE��ス自体�EクリチE��でなぁE��合�Eみ処琁E
+            // セレクト�EチE��ス自体�EクリチE��でなぁE��合�Eみ処理
             if (e.target !== levelSelect) {
                 levelSelect.focus();
                 // ブラウザによってはshowPicker()が使える
@@ -645,7 +671,7 @@ function resumeTimer() {
     }
 }
 
-// ベストタイム管琁E
+// ベストタイム管理
 function loadBestTimes() {
     const saved = localStorage.getItem('make24BestTimes');
     if (saved) {
@@ -888,7 +914,7 @@ function resetGame() {
         dialog.classList.remove('show');
         recordClearOption.style.display = 'none'; // チェチE��ボックスを非表示
 
-        // ベストタイムのクリアをチェチE��
+        // ベストタイムのクリアをチェック��
         if (clearRecordCheckbox.checked) {
             clearBestTime(gameState.level);
         }
@@ -922,7 +948,7 @@ function resetGame() {
             btn.classList.remove('disabled');
         });
 
-        // フィードバチE��をクリア
+        // フィードバック��をクリア
         feedbackDiv.textContent = '';
         feedbackDiv.className = 'feedback';
 
@@ -970,7 +996,7 @@ function skipToNextProblem() {
     generateNewNumbers();
 }
 
-// レベル変更時�E処琁E
+// レベル変更時�E処理
 function handleLevelChange() {
     const newLevel = parseInt(levelSelect.value);
     // レベルは1-3の篁E��に制陁E
@@ -1011,13 +1037,13 @@ function getLastInputType(inputValue) {
     return null;
 }
 
-// 計算機�Eタンの処琁E
+// 計算機�Eタンの処理
 function handleCalculatorButton(e) {
     const button = e.currentTarget; // e.target から e.currentTarget に変更
     const value = button.dataset.value;
     const stats = getCurrentStats();
 
-    // valueが未定義の場合�E処琁E��なぁE
+    // valueが未定義の場合�E処理��なぁE
     if (value === undefined) {
         return;
     }
@@ -1085,7 +1111,7 @@ function handleCalculatorButton(e) {
         feedbackDiv.textContent = '';
         feedbackDiv.className = 'feedback';
     } else if (value === 'backspace') {
-        // Backspace処琁E��カーソル位置の左の斁E��を削除
+        // Backspace処理��カーソル位置の左の斁E��を削除
         if (cursorPosition > 0) {
             const newValue = currentValue.slice(0, cursorPosition - 1) + currentValue.slice(cursorPosition);
             answerInput.value = newValue;
@@ -1102,12 +1128,12 @@ function handleCalculatorButton(e) {
                         btn.disabled = false;
                         btn.classList.remove('disabled');
                         enabled = true;
-                        break; // 1つだけ有効化したら終亁E
+                        break; // 1つだけ有効化したら終了
                     }
                 }
             }
 
-            // 削除後�E計算式�E最後�E斁E��に基づぁE��lastButtonTypeを設宁E
+            // 削除後�E計算式�E最後�E斁E��に基づぁE��lastButtonTypeを設定
             gameState.lastButtonType = getLastInputType(newValue);
             // エラーメチE��ージをクリア
             feedbackDiv.textContent = '';
@@ -1117,7 +1143,7 @@ function handleCalculatorButton(e) {
         // 数字�Eタンの場吁E
         if (gameState.lastButtonType === 'number') {
             // 前回も数字�Eタンだった場合、警告を表示
-            // 開きかっこ�E中かどぁE��をチェチE��
+            // 開きかっこ�E中かどうか��をチェチE��
             const openCount = (currentValue.match(/\(/g) || []).length;
             const closeCount = (currentValue.match(/\)/g) || []).length;
 
@@ -1156,7 +1182,7 @@ function handleCalculatorButton(e) {
             return;
         }
 
-        // 括弧の場吁E
+        // 括弧の場合
         if (value === '(' || value === ')') {
             // 開き括弧は最初また�E演算子�E後�Eみ許可
             if (value === '(') {
@@ -1167,7 +1193,7 @@ function handleCalculatorButton(e) {
                     return;
                 }
 
-                // 開き括弧の後に開き括弧は入力できなぁE
+                // 開き括弧の後に開き括弧は人力できないE
                 if (gameState.lastButtonType === 'openParen') {
                     showFeedback('数字を選択してください', 'error');
                     return;
@@ -1208,10 +1234,10 @@ function handleCalculatorButton(e) {
             answerInput.setSelectionRange(cursorPosition + value.length, cursorPosition + value.length);
             // 開き括弧の後�E数字�Eみ入力可能
             if (value === '(') {
-                gameState.lastButtonType = 'openParen'; // 開き括弧専用の状慁E
+                gameState.lastButtonType = 'openParen'; // 開き括弧専用の状態
             } else {
                 // 閉じ括弧の後�E演算子が忁E��E
-                gameState.lastButtonType = 'closeParen'; // 閉じ括弧専用の状慁E
+                gameState.lastButtonType = 'closeParen'; // 閉じ括弧専用の状態
             }
             // エラーメチE��ージをクリア
             const errorMsg = feedbackDiv.textContent;
@@ -1294,14 +1320,14 @@ function generateNewNumbers() {
 
     // 現在の問題を取得
     const currentProblem = problems[stats.currentProblemIndex];
-    // 数字を昁E��E��ソーチE
+    // 数字を昁E��E��ソート
     gameState.currentNumbers = [...currentProblem.numbers].sort((a, b) => a - b);
     gameState.solutions = [currentProblem.solution];
 
-    // こ�E問題が解答例を表示済みかどぁE��をチェチE��
+    // こ�E問題が解答例を表示済みかどうか��をチェチE��
     gameState.solutionShown = stats.shownSolutions.has(stats.currentProblemIndex);
 
-    // こ�E問題が回答済み かどぁE��をチェチE��
+    // こ�E問題が回答済み かどうか��をチェチE��
     const hasAnswered = stats.answerHistory.hasOwnProperty(stats.currentProblemIndex);
 
     // 問題番号を更新
@@ -1389,7 +1415,7 @@ function updateOperatorButtons() {
     });
 }
 
-// レベルに応じて使用可能な演算子かチェチE��
+// レベルに応じて使用可能な演算子かチェック��
 function isValidOperatorsForLevel(expression) {
     const config = levelConfig[gameState.level] || levelConfig[1];
     const allowedOperators = config.operators || ['+', '-', '*', '/', '(', ')'];
@@ -1522,7 +1548,7 @@ function checkAnswer() {
     }
 }
 
-// 正解時�E処琁E
+// 正解時�E処理
 function handleCorrectAnswer() {
     const stats = getCurrentStats();
     const userAnswer = answerInput.value.trim();
@@ -1544,7 +1570,7 @@ function handleCorrectAnswer() {
     updateDisplay();
 }
 
-// フィードバチE��表示
+// フィードバック��表示
 function showFeedback(message, type, noAnimation = false) {
     // 既存�Eタイマ�Eをクリア
     if (gameState.feedbackTimer) {
@@ -1599,7 +1625,7 @@ function getCurrentStats() {
 function updateDisplay() {
     const stats = getCurrentStats();
 
-    // 正解率 ��計箁E
+    // 正解率 ��計算
     const accuracy = stats.totalAttempts > 0
         ? Math.round((stats.correctAnswers / stats.totalAttempts) * 100)
         : 0;
@@ -1715,7 +1741,7 @@ function showGrading() {
     });
 }
 
-// 採点を実衁E
+// 採点を実行
 function executeGrading() {
     const stats = getCurrentStats();
     const problems = levelProblems[gameState.level];
@@ -1728,7 +1754,7 @@ function executeGrading() {
 
 
 
-    // 経過時間を計箁E
+    // 経過時間を計算
     let timeText = '�E�０：０！';
     let elapsedTimeInSeconds = 0;
     let isNewRecord = false;
@@ -1868,7 +1894,7 @@ function showBestTimeDetails() {
         html += `<h3>レベル ${toFullWidth(level)}�E�${levelName}</h3>`;
 
         if (record) {
-            // スマ�E表示かどぁE��を判宁E
+            // スマ�E表示かどうか��を判定
             const isMobile = window.innerWidth <= 768;
 
             if (isMobile) {
@@ -1895,7 +1921,7 @@ function showBestTimeDetails() {
                 html += `<p>📅 達�E日�E�${dateText}</p>`;
             }
         } else {
-            html += `<p class="no-record">記録なぁE/p>`;
+            html += `<p class="no-record">記録なし</p>`;
         }
 
         html += `</div>`;
@@ -2434,7 +2460,7 @@ function triggerConfetti() {
 
         // キャンバスのサイズを親要素に合わせる�E�念のため�E�E
         // CSSで100%に設定してぁE��が、描画解像度を合わせる忁E��があるかも知れなぁE
-        // canvas-confetti.createを使用すると、�E動的にリサイズ処琁E��どもしてくれる場合があるが、E
+        // canvas-confetti.createを使用すると、�E動的にリサイズ処理��どもしてくれる場合があるが、E
         // ここでは親要素のサイズを取得して設定すめE
         const rect = canvas.parentElement.getBoundingClientRect();
         canvas.width = rect.width;
@@ -2453,7 +2479,7 @@ function triggerConfetti() {
             origin: { y: 0.6 }
         });
 
-        // 左側からの発封E
+        // 左側からの発射
         setTimeout(() => {
             myConfetti({
                 particleCount: 50,
@@ -2463,7 +2489,7 @@ function triggerConfetti() {
             });
         }, 200);
 
-        // 右側からの発封E
+        // 右側からの発射
         setTimeout(() => {
             myConfetti({
                 particleCount: 50,
@@ -2549,6 +2575,14 @@ function stopMascotWandering() {
         updateMascot('はぁ、疲れたわ... もう勘弁してや！', 'mascot-thinking');
     }, 1500); // 最後の移動が終わるのを待ってからクラスを削除
 }
+
+
+
+
+
+
+
+
 
 
 
