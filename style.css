@@ -5,8 +5,8 @@
 }
 
 body {
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝�EΛ繧�E�繝�E�E��E�繧�E� ProN', '繝｡繧�E�繝ｪ繧�E�', Meiryo, '�E��E��E��E� �E��E�繧�E�繧�E�繝�ぁE, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '郢晏・ﾎ帷ｹｧ・ｮ郢晄・・ｸ・ｸ郢ｧ・ｴ ProN', '郢晢ｽ｡郢ｧ・､郢晢ｽｪ郢ｧ・ｪ', Meiryo, '・ｽ・ｭ・ｽ・ｳ ・ｽ・ｰ郢ｧ・ｴ郢ｧ・ｷ郢晢ｿｽ縺・, sans-serif;
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -15,7 +15,7 @@ body {
     position: relative;
 }
 
-/* 繧�E�繧�E�繝槭�E�陦�E�遉ｺ */
+/* 郢ｧ・ｿ郢ｧ・､郢晄ｧｭ・ｽ髯ｦ・ｨ驕会ｽｺ */
 .game-timer {
     position: absolute;
     right: 0;
@@ -161,7 +161,7 @@ h1 {
     cursor: pointer;
     padding: 8px;
     transition: all 0.2s;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝�EΛ繧�E�繝�E�E��E�繧�E� ProN', '繝｡繧�E�繝ｪ繧�E�', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '郢晏・ﾎ帷ｹｧ・ｮ郢晄・・ｸ・ｸ郢ｧ・ｴ ProN', '郢晢ｽ｡郢ｧ・､郢晢ｽｪ郢ｧ・ｪ', Meiryo, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -431,7 +431,7 @@ h1 {
     transition: all 0.2s;
     font-weight: 600;
     background: white;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝�EΛ繧�E�繝�E�E��E�繧�E� ProN', '繝｡繧�E�繝ｪ繧�E�', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '郢晏・ﾎ帷ｹｧ・ｮ郢晄・・ｸ・ｸ郢ｧ・ｴ ProN', '郢晢ｽ｡郢ｧ・､郢晢ｽｪ郢ｧ・ｪ', Meiryo, sans-serif;
 }
 
 .calc-btn:hover {
@@ -532,7 +532,7 @@ h1 {
     cursor: pointer;
     transition: all 0.3s;
     font-weight: 600;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝�EΛ繧�E�繝�E�E��E�繧�E� ProN', '繝｡繧�E�繝ｪ繧�E�', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '郢晏・ﾎ帷ｹｧ・ｮ郢晄・・ｸ・ｸ郢ｧ・ｴ ProN', '郢晢ｽ｡郢ｧ・､郢晢ｽｪ郢ｧ・ｪ', Meiryo, sans-serif;
 }
 
 .btn-primary {
@@ -793,7 +793,7 @@ h1 {
         font-size: 1.5em;
     }
 
-    /* 繧�E�繝槭�E�陦�E�遉ｺ譎ゅ�E�繧�E�繧�E�繝槭�E�縺�E�蜿�E�蛛ｴ縺�E�驟咲�E��E� */
+    /* 郢ｧ・ｹ郢晄ｧｭ・ｽ髯ｦ・ｨ驕会ｽｺ隴弱ｅ・らｹｧ・ｿ郢ｧ・､郢晄ｧｭ・ｽ邵ｺ・ｯ陷ｿ・ｳ陋幢ｽｴ邵ｺ・ｫ鬩溷調・ｽ・ｮ */
     .game-timer {
         position: absolute;
         right: 0;
@@ -978,19 +978,19 @@ h1 {
 
     .action-buttons .btn-secondary {
         font-size: 0.82em;
-        /* 譁E���E�励�E�螟�E�縺阪�E� */
+        /* 隴・ｿｽ・ｭ蜉ｱ・定棔・ｧ邵ｺ髦ｪ・･ */
         padding: 10px 2px;
         white-space: nowrap;
-        /* 謾�E�陦後ｒ髦�E�縺�E� */
+        /* 隰ｾ・ｹ髯ｦ蠕鯉ｽ帝ｫｦ・ｲ邵ｺ・ｽ */
         line-height: 1.2;
         min-height: 54px;
         display: flex;
         flex-direction: row;
-        /* 讓ｪ荳�E�縺�E�縺�E�螟画峩 */
+        /* 隶難ｽｪ闕ｳ・ｦ邵ｺ・ｳ邵ｺ・ｫ陞溽判蟲ｩ */
         align-items: center;
         justify-content: center;
         gap: 2px;
-        /* 繧�E�繧�E�繧�E�繝ｳ縺�E�譁E���E�励�E�髢薙�E蟁E���E�髫咎俣 */
+        /* 郢ｧ・｢郢ｧ・､郢ｧ・ｳ郢晢ｽｳ邵ｺ・ｨ隴・ｿｽ・ｭ蜉ｱ・ｽ鬮｢阮吮・陝・ｻ｣・�鬮ｫ蜥惹ｿ｣ */
     }
 
     .action-buttons .btn-icon {
@@ -1025,7 +1025,7 @@ h1 {
     }
 }
 
-/* 繧�E�繧�E�繧�E�繝�遒ｺ隱阪ム繧�E�繧�E�繝ｭ繧�E� */
+/* 郢ｧ・ｫ郢ｧ・ｹ郢ｧ・ｿ郢晢ｿｽ驕抵ｽｺ髫ｱ髦ｪ繝�郢ｧ・､郢ｧ・｢郢晢ｽｭ郢ｧ・ｰ */
 .custom-dialog {
     display: none;
     position: fixed;
@@ -1098,7 +1098,7 @@ h1 {
     transition: all 0.3s;
     font-weight: 600;
     min-width: 100px;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝�EΛ繧�E�繝�E�E��E�繧�E� ProN', '繝｡繧�E�繝ｪ繧�E�', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '郢晏・ﾎ帷ｹｧ・ｮ郢晄・・ｸ・ｸ郢ｧ・ｴ ProN', '郢晢ｽ｡郢ｧ・､郢晢ｽｪ郢ｧ・ｪ', Meiryo, sans-serif;
 }
 
 .btn-confirm-yes {
@@ -1122,7 +1122,7 @@ h1 {
     transform: translateY(-2px);
 }
 
-/* 謗｡轤�E�邨先棡繝繧�E�繧�E�繝ｭ繧�E� */
+/* 隰暦ｽ｡霓､・ｹ驍ｨ蜈域｣｡郢敖郢ｧ・､郢ｧ・｢郢晢ｽｭ郢ｧ・ｰ */
 .grading-result-content {
     min-width: 350px;
     max-width: 500px;
@@ -1140,7 +1140,7 @@ h1 {
     margin-top: 25px;
 }
 
-/* 繝吶せ繝医ち繧�E�繝�繝懊ち繝ｳ */
+/* 郢晏生縺帷ｹ晏現縺｡郢ｧ・､郢晢ｿｽ郢晄㈱縺｡郢晢ｽｳ */
 .best-time-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -1168,7 +1168,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '繝�EΛ繧�E�繝�E�E��E�繧�E� ProN', '繝｡繧�E�繝ｪ繧�E�', Meiryo, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Hiragino Maru Gothic ProN', '郢晏・ﾎ帷ｹｧ・ｮ郢晄・・ｸ・ｸ郢ｧ・ｴ ProN', '郢晢ｽ｡郢ｧ・､郢晢ｽｪ郢ｧ・ｪ', Meiryo, sans-serif;
 }
 
 .btn-best-time .label {
@@ -1185,7 +1185,7 @@ h1 {
     font-weight: bold;
 }
 
-/* 繝吶せ繝医ち繧�E�繝�隧�E�邏ｰ繝繧�E�繧�E�繝ｭ繧�E� */
+/* 郢晏生縺帷ｹ晏現縺｡郢ｧ・､郢晢ｿｽ髫ｧ・ｳ驍擾ｽｰ郢敖郢ｧ・､郢ｧ・｢郢晢ｽｭ郢ｧ・ｰ */
 .best-time-content {
     min-width: 400px;
     max-width: 500px;
@@ -1234,7 +1234,7 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* 繧�E�繝槭�E�陦�E�遉ｺ逕ｨ縺�E�繝吶せ繝医ち繧�E�繝�繝繧�E�繧�E�繝ｭ繧�E�隱�E�謨�E� */
+/* 郢ｧ・ｹ郢晄ｧｭ・ｽ髯ｦ・ｨ驕会ｽｺ騾包ｽｨ邵ｺ・ｮ郢晏生縺帷ｹ晏現縺｡郢ｧ・､郢晢ｿｽ郢敖郢ｧ・､郢ｧ・｢郢晢ｽｭ郢ｧ・ｰ髫ｱ・ｿ隰ｨ・ｴ */
 @media (max-width: 768px) {
     .best-time-content {
         min-width: 300px;
@@ -1250,11 +1250,11 @@ h1 {
     }
 }
 
-/* 邏吝聖髮�E�逕ｨ繧�E�繝｣繝ｳ繝�EぁE*/
+/* 驍丞雀閨夜ｫｮ・ｪ騾包ｽｨ郢ｧ・ｭ郢晢ｽ｣郢晢ｽｳ郢晁・縺・*/
 .grading-result-content {
     position: relative;
     overflow: hidden;
-    /* 繧�E�繝ｳ繝�Φ繝�°繧峨�E�縺�E�蜁E��縺輔�E縺�E��E�縺�E�ↁE*/
+    /* 郢ｧ・ｳ郢晢ｽｳ郢晢ｿｽﾎｦ郢晢ｿｽﾂｰ郢ｧ蟲ｨ・ｽ邵ｺ・ｿ陷・ｽｺ邵ｺ霈披・邵ｺ・ｽ・育ｸｺ・ｽ竊・*/
 }
 
 .confetti-canvas {
@@ -1264,19 +1264,19 @@ h1 {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    /* 繧�E�繝ｪ繝�け繧�E�繝吶Φ繝医�E�騾城℃ */
+    /* 郢ｧ・ｯ郢晢ｽｪ郢晢ｿｽ縺醍ｹｧ・､郢晏生ﾎｦ郢晏現・帝ｨｾ蝓寂с */
     z-index: 1;
-    /* 閭梧勹繧医�E�荳翫√�繧�E�繝ｳ繧医�E�荳�E� */
+    /* 髢ｭ譴ｧ蜍ｹ郢ｧ蛹ｻ・願叉鄙ｫﾂ竏夲ｿｽ郢ｧ・ｿ郢晢ｽｳ郢ｧ蛹ｻ・願叉・ｽ */
 }
 
 .custom-dialog-content p,
 .custom-dialog-buttons {
     position: relative;
     z-index: 2;
-    /* 繧�E�繝｣繝ｳ繝�Eせ繧医�E�荳翫↓陦�E�遉ｺ */
+    /* 郢ｧ・ｭ郢晢ｽ｣郢晢ｽｳ郢晁・縺帷ｹｧ蛹ｻ・願叉鄙ｫ竊馴勗・ｨ驕会ｽｺ */
 }
 
-/* 繝�E�E�繧�E�繝ｧ繝ｳ諠�E��E��E� */
+/* 郢晁・・ｽ郢ｧ・ｸ郢晢ｽｧ郢晢ｽｳ隲�・ｽ・ｽ・ｱ */
 .version-info {
     position: fixed;
     bottom: 10px;
@@ -1288,23 +1288,23 @@ h1 {
     z-index: 100;
 }
 
-/* 繝槭せ繧�E�繝�ヨ繧�E�繝｣繝ｩ繧�E�繧�E�繝ｼ�E�磯壼�E��E�縺�E�髱櫁E���E�遉ｺ縲√せ繝槭�E�縺�E�縺�E�陦�E�遉ｺ�E��E� */
+/* 郢晄ｧｭ縺帷ｹｧ・ｳ郢晢ｿｽ繝ｨ郢ｧ・ｭ郢晢ｽ｣郢晢ｽｩ郢ｧ・ｯ郢ｧ・ｿ郢晢ｽｼ・ｽ逎ｯﾂ螢ｼ・ｸ・ｸ邵ｺ・ｯ鬮ｱ讚・ｽ｡・ｨ驕会ｽｺ邵ｲ竏壹○郢晄ｧｭ・ｽ邵ｺ・ｮ邵ｺ・ｿ髯ｦ・ｨ驕会ｽｺ・ｽ・ｽ */
 .mascot-container {
     display: none;
-    /* PC縺�E�縺�E�髱櫁E���E�遉ｺ */
+    /* PC邵ｺ・ｧ邵ｺ・ｯ鬮ｱ讚・ｽ｡・ｨ驕会ｽｺ */
 }
 
 @media (max-width: 768px) {
     .mascot-container {
         display: flex;
-        /* 繧�E�繝槭�E�縺�E�縺�E�陦�E�遉ｺ */
+        /* 郢ｧ・ｹ郢晄ｧｭ・ｽ邵ｺ・ｧ邵ｺ・ｯ髯ｦ・ｨ驕会ｽｺ */
         flex-direction: row;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         margin-top: auto;
         flex-grow: 1;
         min-height: 120px;
-        padding: 10px 15px 30px 15px;
+        padding: 10px 15px 30px 25px;
         pointer-events: auto;
         cursor: pointer;
         transition: opacity 0.3s ease;
@@ -1365,7 +1365,7 @@ h1 {
     }
 }
 
-/* 感情のアニメーション */
+/* 諢滓ュ縺ｮ繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ */
 .mascot-joy {
     animation: mascot-jump 0.5s ease infinite !important;
 }
@@ -1418,7 +1418,7 @@ h1 {
     }
 }
 
-/* --- v0.7.3.1 モバイルレイアウト最終修正 --- */
+/* --- v0.7.3.1 繝｢繝舌う繝ｫ繝ｬ繧､繧｢繧ｦ繝域怙邨ゆｿｮ豁｣ --- */
 @media (max-width: 768px) {
     body {
         flex-direction: column !important;
@@ -1443,7 +1443,7 @@ h1 {
     }
 }
 
-/* 屁E��りアニメーション */
+/* 螻・悛繧翫い繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ */
 .mascot-sleep {
     animation: mascot-sleep-anim 4s ease-in-out infinite !important;
 }
@@ -1467,21 +1467,42 @@ h1 {
     opacity: 1 !important;
     visibility: visible !important;
 }
-.mascot-container { pointer-events: none !important; }
-.mascot-character { pointer-events: auto !important; cursor: pointer !important; z-index: 10000 !important; }
-.speech-bubble { pointer-events: none !important; }
 
-/* --- v0.7.7 �^�b�v�͈͂̌��i�� --- */
-#mascotContainer { pointer-events: none !important; }
-#mascotCharacter { pointer-events: auto !important; cursor: pointer !important; z-index: 10000 !important; }
-#speechBubble { pointer-events: none !important; }
+.mascot-container {
+    pointer-events: none !important;
+}
+
+.mascot-character {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    z-index: 10000 !important;
+}
+
+.speech-bubble {
+    pointer-events: none !important;
+}
+
+/* --- v0.7.7 タップ範囲の厳格化 --- */
+#mascotContainer {
+    pointer-events: none !important;
+}
+
+#mascotCharacter {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    z-index: 10000 !important;
+}
+
+#speechBubble {
+    pointer-events: none !important;
+}
 
 
-/* �ӂ�ӂ퓮����鉉�o�p�̃X�^�C�� */
+/* ふわふわ動き回る演出用のスタイル */
 .mascot-character.wandering {
     position: fixed !important;
     z-index: 10001 !important;
     transition: all 1.5s ease-in-out !important;
-    pointer-events: none !important; /* ��������Ă���Ԃ̓^�b�v�s�� */
+    pointer-events: none !important;
+    /* 動き回っている間はタップ不可 */
 }
-

@@ -549,6 +549,12 @@ function handleMascotPoke(e) {
     }, 5000);
 
     // 10の倍数以外�E首を傾げるだけ（無言�E�E
+    // 60回を超えたら即座に放浪演出を開始
+    if (gameState.mascotPokeCount > 60) {
+        startMascotWandering();
+        return;
+    }
+
     if (gameState.mascotPokeCount % 10 !== 0) {
         if (mascotCharacter) {
             mascotCharacter.classList.remove('mascot-joy', 'mascot-worried', 'mascot-thinking', 'mascot-sleep');
@@ -579,10 +585,6 @@ function handleMascotPoke(e) {
         const msgs = ['・・・・・・・', 'もう何も言わへんで。', '（スルー決定）', '……。'];
         message = msgs[Math.floor(Math.random() * msgs.length)];
         style = 'mascot-thinking';
-    } else if (gameState.mascotPokeCount > 60) {
-        startMascotWandering();
-        return;
-    } else {
         const msgs = ['堪忍して！', 'もう、ええって！', '勘弁してえな！', 'しつこすぎるわ！'];
         message = msgs[Math.floor(Math.random() * msgs.length)];
         style = 'mascot-worried';
@@ -2549,3 +2551,4 @@ function stopMascotWandering() {
         updateMascot('はぁ、疲れたわ... もう勘弁してや！', 'mascot-thinking');
     }, 1500); // 最後の移動が終わるのを待ってからクラスを削除
 }
+
